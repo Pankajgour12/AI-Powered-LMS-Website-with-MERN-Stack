@@ -1,2 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Quando&display=swap');
+
+
 @import "tailwindcss";
 
+:root{
+    --font-Lobster: "Lobster", sans-serif;
+    --font-Quando: "Quando", serif;
+}
+
+*{
+    font-family: var(--font-Quando);
+}
