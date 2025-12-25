@@ -1,16 +1,19 @@
 import React from 'react'
 import logo from '../assets/logo.png'
+import { useNavigate } from 'react-router-dom'
 const SignUp = () => {
+   const navigate = useNavigate()
+
   return (
     <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
-      <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex'>
+      <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex '>
    
 
    {/* left div */}
-          <div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-4'>
+          <div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-3'>
 
   {/* Heading */}
-  <div className="text-center">
+  <div className="text-center ">
     <h1 className='font-semibold text-rose-800 text-2xl'>
       Let's get started
     </h1>
@@ -147,6 +150,18 @@ const SignUp = () => {
       Sign up with Google
     </span>
   </button>
+
+  {/* Already have account */}
+<p className="text-sm text-gray-600">
+  Already have an account?{" "}
+  <span
+    onClick={() => navigate("/login")}
+    className="text-rose-600 font-medium cursor-pointer hover:underline"
+  >
+    Login
+  </span>
+</p>
+
 
 </div>
 

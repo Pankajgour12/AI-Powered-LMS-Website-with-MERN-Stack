@@ -1,6 +1,8 @@
 import React from 'react'
  import logo from '../assets/logo.png'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
+  const navigate = useNavigate()
   return (
     
     <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
@@ -8,11 +10,11 @@ const Login = () => {
        
     
         {/* left div */}
-<div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-5 bg-white rounded-l-2xl'>
+<div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-5 rounded-l-2xl'>
 
   {/* Heading */}
   <div className="text-center">
-    <h1 className='font-semibold text-rose-800 text-2xl'>
+    <h1 className='font-semibold text-rose-800 text-3xl'>
       Welcome back 👋🏻
     </h1>
     <h2 className='text-gray-600 pt-1 text-sm'>
@@ -67,6 +69,20 @@ const Login = () => {
     <span className="text-xs text-gray-500">
       Password must be at least 6 characters
     </span>
+
+    <div className="w-full text-right">
+  <span
+    onClick={() => navigate("/forgot-password")}
+    className="text-xs text-rose-600 cursor-pointer hover:underline"
+  >
+    Forgot your password?
+  </span>
+</div>
+
+
+
+
+
   </div>
 
   {/* Login Button */}
@@ -98,6 +114,17 @@ const Login = () => {
       Continue with Google
     </span>
   </button>
+  {/* Don’t have account */}
+<p className="text-sm text-gray-600">
+  Don’t have an account?{" "}
+  <span
+    onClick={() => navigate("/signup")}
+    className="text-rose-600 font-medium cursor-pointer hover:underline"
+  >
+    Sign up
+  </span>
+</p>
+
 
 </div>
 
