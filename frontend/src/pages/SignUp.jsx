@@ -1,12 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { serverUrl } from '../App';
+import { toast } from 'react-toastify';
+import { ClipLoader } from "react-spinners";
+
+
 const SignUp = () => {
    const navigate = useNavigate()
+    
+   const [name,setName] = useState('')
+   const [email,setEmail] = useState('')
+   const [password,setPassword] = useState('')
+   const [role,setRole] = useState('student');
+   
+   const [loading,setLoading] = useState(false)
+
+
+   const handleSigup = async ()=>{
+    setLoading(true)
+
+   try {
+    const result = await axios.post(serverUrl + '/api/auth/signup',{name,password,email,role},{withCredentials:true} ) 
+    
+    
+    console.log(result.data)
+    setLoading(false)
+    toast.success('Signup Successfully✅')
+    navigate('/')
+
+    
+   } catch (error) {
+    console.log(error)
+    setLoading(false)
+    toast.error(error.response.data.message)
+    
+   }
+
+
+   }
+
+
 
   return (
     <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
-      <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex '>
+      <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex '
+      onSubmit={(e)=>e.preventDefault()}
+      >
    
 
    {/* left div */}
@@ -33,6 +74,7 @@ const SignUp = () => {
       placeholder='Full Name'
       required
       className='w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400'
+      onChange={(e)=>setName(e.target.value)} value={name}
     />
   </div>
 
@@ -47,6 +89,7 @@ const SignUp = () => {
       placeholder='Enter Email'
       required
       className='w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400'
+      onChange={(e)=>setEmail(e.target.value)} value={email}
     />
   </div>
 
@@ -64,6 +107,7 @@ const SignUp = () => {
       required
       minLength={6}
       className='w-full p-2 pr-10 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400'
+      onChange={(e)=>setPassword(e.target.value)} value={password}
     />
 
     {/* Eye Button */}
@@ -100,6 +144,7 @@ const SignUp = () => {
           value="student"
           required
           className="hidden peer"
+          onChange={()=>setRole('student')} 
         />
         <div className="p-2 text-center rounded-md border border-gray-400 peer-checked:border-rose-500 peer-checked:bg-rose-50">
           Student
@@ -110,12 +155,13 @@ const SignUp = () => {
         <input
           type="radio"
           name="role"
-          value="teacher"
+          value="educator"
           required
           className="hidden peer"
+          onChange={()=>setRole('educator')}
         />
         <div className="p-2 text-center rounded-md border border-gray-400 peer-checked:border-rose-500 peer-checked:bg-rose-50">
-          Teacher
+          Educator
         </div>
       </label>
     </div>
@@ -125,8 +171,10 @@ const SignUp = () => {
   <button
     type="submit"
     className="w-[80%] p-2 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition"
+   onClick={handleSigup}
+    disabled={loading}
   >
-    Create Account
+    {loading ? <ClipLoader size={30} color="#e11d48" />: "Create Account" }
   </button>
 
   {/* Divider */}

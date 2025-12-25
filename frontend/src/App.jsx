@@ -3,11 +3,20 @@ import { Route, Routes} from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+
+
+export const serverUrl ='http://localhost:8000'
 
 const App = () => {
+ 
+
   return (
+
     <>
+    <ToastContainer />
    <Routes>
   <Route path='/' element={<Home />} />
     <Route path='/login' element={<Login />} />

@@ -1,12 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
  import logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
+import { ClipLoader } from 'react-spinners'
+import axios from 'axios'
+import { serverUrl } from '../App'
+import { toast } from 'react-toastify'
 const Login = () => {
   const navigate = useNavigate()
+
+
+    const [email,setEmail] = useState('')
+     const [password,setPassword] = useState('')
+    const [loading,setLoading] = useState(false)
+    
+
+    const handleLogin = async () => {
+      setLoading(true)
+
+      try {
+        const result = await axios.post(serverUrl + '/api/auth/login',{email,password},{withCredentials:true} )
+        
+         console.log(result.data)
+         setLoading(false)
+         toast.success('Login Successfully ')
+         navigate('/')
+      } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+        setLoading(false)
+        
+      }
+
+    }
+      
+   
+
+    
   return (
     
     <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
-          <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex'>
+          <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex'
+          onSubmit={(e)=>e.preventDefault()}
+          >
        
     
         {/* left div */}
@@ -32,6 +67,7 @@ const Login = () => {
       id="email"
       placeholder='you@example.com'
       required
+      onChange={(e)=>setEmail(e.target.value)} value={email}
       className='w-full p-2.5 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400'
     />
   </div>
@@ -49,6 +85,7 @@ const Login = () => {
         placeholder='Minimum 6 characters'
         required
         minLength={6}
+        onChange={(e)=>setPassword(e.target.value)} value={password}
         className='w-full p-2.5 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400'
       />
 
@@ -89,8 +126,10 @@ const Login = () => {
   <button
     type="submit"
     className="w-[80%] p-2.5 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition"
+    disabled={loading}
+    onClick={handleLogin}
   >
-    Login
+    {loading ? <ClipLoader size={30} color='white'/> : "Login"}
   </button>
 
   {/* Divider */}
