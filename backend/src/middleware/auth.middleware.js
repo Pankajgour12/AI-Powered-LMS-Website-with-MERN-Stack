@@ -13,7 +13,7 @@ const authUser = async (req, res, next) => {
       return res.status(401).json({ message: 'Unauthorized User Invalid Token' });
   }
   
-    req.userID = verifyedToken.userID;
+  req.userID = verifyedToken.userID;
 
 
 
