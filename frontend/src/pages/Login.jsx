@@ -25,12 +25,14 @@ const Login = () => {
       try {
         const result = await axios.post(serverUrl + '/api/auth/login',{email,password},{withCredentials:true} )
 
-        //  dispatch(setUserData(result.data)) 
           dispatch(setUserData(result.data.user))
+       
 
          setLoading(false)
          toast.success('Login Successfully ')
-         navigate('/')
+         console.log("DISPATCH USER =>", result.data.user);
+
+         navigate("/", { replace: true });
       } catch (error) {
         console.log(error)
         toast.error(error.response.data.message)
@@ -125,7 +127,7 @@ const Login = () => {
 
     <div className="w-full text-right">
       <span
-        onClick={() => navigate("/forgot-password")}
+        onClick={() => navigate('/forgot')}
         className="text-xs text-rose-600 cursor-pointer hover:underline"
       >
         Forgot your password?

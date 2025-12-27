@@ -34,7 +34,7 @@ const SignUp = () => {
    
     setLoading(false)
     toast.success('Signup Successfully✅')
-    navigate('/')
+   navigate("/", { replace: true });
 
     
    } catch (error) {

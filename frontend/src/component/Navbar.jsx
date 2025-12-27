@@ -25,6 +25,9 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
 
+const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+
   const handleLogout = async () => {
     try {
       await axios.get(serverUrl + "/api/auth/logout", {
@@ -108,19 +111,55 @@ const Navbar = () => {
                   </button>
                 )}
 
-                <div
-                  onClick={() => navigate("/profile")}
-                  className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
-                >
-                  {userData.name?.charAt(0).toUpperCase()}
-                </div>
+               
+                 <div className="relative">
 
-                <button
-                  onClick={handleLogout}
-                  className="text-sm text-gray-600 hover:text-rose-600 transition cursor-pointer"
-                >
-                  Logout
-                </button>
+          {/* Avatar */}
+             <div
+    onClick={() => setUserMenuOpen(prev => !prev)}
+    className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
+        >
+    {userData.name?.charAt(0).toUpperCase()}
+         </div>
+
+  {/* Dropdown */}
+          {userMenuOpen && (
+    <div
+      className="
+        absolute right-0 mt-2 w-36
+        bg-white border border-gray-200
+        rounded-md shadow-lg
+        overflow-hidden
+        z-50
+      "
+    >
+      <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          navigate("/profile");
+        }}
+        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+      >
+        Profile
+      </button>
+
+      <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          handleLogout();
+        }}
+        className="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-gray-100"
+      >
+        Logout
+      </button>
+    </div>
+  )}
+                 </div>
+
+
+
+
+
               </>
             )}
           </div>
@@ -174,12 +213,56 @@ const Navbar = () => {
                   <FiGrid /> Dashboard
                 </button>
               )}
-              <button onClick={() => navigate("/profile")} className="mobile-modern">
+             {/*  <button onClick={() => navigate("/profile")} className="mobile-modern">
                 Profile
               </button>
               <button onClick={handleLogout} className="mobile-modern nav-signup text-rose-600">
                 Logout
-              </button>
+              </button> */}
+                    <div className="relative">
+
+          {/* Avatar */}
+             <div
+    onClick={() => setUserMenuOpen(prev => !prev)}
+    className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
+        >
+    {userData.name?.charAt(0).toUpperCase()}
+         </div>
+
+  {/* Dropdown */}
+          {userMenuOpen && (
+    <div
+      className="
+        absolute left-0 mt-2 w-36
+        bg-white border border-gray-200
+        rounded-md shadow-lg
+        overflow-hidden
+        z-50
+      "
+    >
+      <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          navigate("/profile");
+        }}
+        className=" text-left px-4 py-2 text-sm hover:bg-gray-100"
+      >
+        Profile
+      </button>
+
+      <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          handleLogout();
+        }}
+        className="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-gray-100"
+      >
+        Logout
+      </button>
+    </div>
+  )}
+                 </div>
+
             </>
           )}
         </div>

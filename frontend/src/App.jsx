@@ -1,11 +1,14 @@
 import React from 'react'
-import { Route, Routes} from 'react-router-dom'
+import { Navigate, Route, Routes} from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import getCurrentUser from './customHooks/getCurrentUser'
+import useCurrentUser from './customHooks/getCurrentUser.js'
+import { useSelector } from 'react-redux'
+import Profile from './pages/Profile'
+import ForgetPassword from './pages/ForgetPassword'
 
 
 
@@ -14,15 +17,42 @@ export const serverUrl ='http://localhost:8000'
 const App = () => {
  
 
-  getCurrentUser()
+ useCurrentUser(); 
+
+
+const { userData } = useSelector(state => state.user);
+console.log(userData)
+
+
+
+
+
+  
   return (
 
     <>
     <ToastContainer />
    <Routes>
+
   <Route path='/' element={<Home />} />
+
+
+    <Route
+  path="/signup"
+  element={userData ? <Navigate to="/" replace /> : <SignUp />}
+/>
+
+
+
     <Route path='/login' element={<Login />} />
-    <Route path='/signup' element={<SignUp />} />
+
+    <Route path='/profile' element={ userData ?  <Profile /> :
+    <Navigate to={'/signup'} />
+     } />
+
+      <Route path='/forgot' element={ <ForgetPassword />} />
+     
+
    </Routes>
 
      
