@@ -22,7 +22,7 @@ const getCurrentUser = () => {
     console.log("Get Current User:",error.message);
             dispatch(setUserData(null))
   }
-  fetchUser()
+  fetchUser();
 
 
 

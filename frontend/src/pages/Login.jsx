@@ -24,8 +24,10 @@ const Login = () => {
 
       try {
         const result = await axios.post(serverUrl + '/api/auth/login',{email,password},{withCredentials:true} )
-         
-         dispatch(setUserData(result.data)) 
+
+        //  dispatch(setUserData(result.data)) 
+          dispatch(setUserData(result.data.user))
+
          setLoading(false)
          toast.success('Login Successfully ')
          navigate('/')
@@ -49,37 +51,44 @@ const Login = () => {
           >
        
     
-        {/* left div */}
-<div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-5 rounded-l-2xl'>
+         {/* left div */}
 
-  {/* Heading */}
+         <div className="md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-6 rounded-l-2xl">
+
+  
   <div className="text-center">
-    <h1 className='font-semibold text-rose-800 text-3xl'>
+    <h1 className="font-semibold text-rose-800 text-3xl">
       Welcome back 👋🏻
     </h1>
-    <h2 className='text-gray-600 pt-1 text-sm'>
+    <h2 className="text-gray-600 pt-1 text-sm">
       Login to your LearnFlow account
     </h2>
   </div>
 
-  {/* Email */}
-  <div className='flex flex-col gap-1 w-[80%] items-start'>
-    <label htmlFor="email" className='font-medium text-sm text-gray-700'>
+  
+  <div className="flex flex-col gap-1 w-[80%] items-start">
+    <label htmlFor="email" className="font-medium text-sm text-gray-700">
       Email
     </label>
     <input
       type="email"
       id="email"
-      placeholder='you@example.com'
-      required
-      onChange={(e)=>setEmail(e.target.value)} value={email}
-      className='w-full p-2.5 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400'
+      placeholder="you@example.com"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          document.getElementById("password")?.focus();
+        }
+      }}
+      className="w-full p-2.5 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400"
     />
   </div>
 
-  {/* Password */}
-  <div className='flex flex-col gap-1 w-[80%] items-start'>
-    <label htmlFor="password" className='font-medium text-sm text-gray-700'>
+  
+  <div className="flex flex-col gap-1 w-[80%] items-start">
+    <label htmlFor="password" className="font-medium text-sm text-gray-700">
       Password
     </label>
 
@@ -87,64 +96,69 @@ const Login = () => {
       <input
         type="password"
         id="password"
-        placeholder='Minimum 6 characters'
-        required
+        placeholder="Minimum 6 characters"
+        value={password}
         minLength={6}
-        onChange={(e)=>setPassword(e.target.value)} value={password}
-        className='w-full p-2.5 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400'
+        onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("login-btn")?.focus();
+          }
+        }}
+        className="w-full p-2.5 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400"
       />
 
-      {/* Eye Button */}
+     
       <button
         type="button"
         onClick={() => {
           const input = document.getElementById("password");
-          input.type = input.type === "password" ? "text" : "password";
+          input.type =
+            input.type === "password" ? "text" : "password";
         }}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-rose-600 transition cursor-pointer"
-        title="Show / Hide Password"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-rose-600 transition"
       >
         👁
       </button>
     </div>
 
-    <span className="text-xs text-gray-500">
-      Password must be at least 6 characters
-    </span>
-
     <div className="w-full text-right">
-  <span
-    onClick={() => navigate("/forgot-password")}
-    className="text-xs text-rose-600 cursor-pointer hover:underline"
-  >
-    Forgot your password?
-  </span>
-</div>
-
-
-
-
-
+      <span
+        onClick={() => navigate("/forgot-password")}
+        className="text-xs text-rose-600 cursor-pointer hover:underline"
+      >
+        Forgot your password?
+      </span>
+    </div>
   </div>
 
-  {/* Login Button */}
+  
   <button
-    type="submit"
-    className="w-[80%] p-2.5 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition"
-    disabled={loading}
+    id="login-btn"
+    type="button"
+    disabled={loading || !email || !password}
     onClick={handleLogin}
+    className="
+      w-[80%] p-2.5 rounded-md
+      bg-rose-600 text-white font-medium
+      hover:bg-rose-700 transition
+      cursor-pointer
+
+      disabled:opacity-60 disabled:cursor-not-allowed
+    "
   >
-    {loading ? <ClipLoader size={30} color='white'/> : "Login"}
+    {loading ? <ClipLoader size={26} color="white" /> : "Login"}
   </button>
 
-  {/* Divider */}
+  
   <div className="w-[80%] flex items-center gap-3">
-    <div className="flex-1 h-px bg-gray-300"></div>
+    <div className="flex-1 h-px bg-gray-300" />
     <span className="text-xs text-gray-500">OR</span>
-    <div className="flex-1 h-px bg-gray-300"></div>
+    <div className="flex-1 h-px bg-gray-300" />
   </div>
 
-  {/* Google Login */}
+  
   <button
     type="button"
     className="w-[80%] flex items-center justify-center gap-3 p-2.5 rounded-md border border-gray-300 hover:bg-gray-100 transition"
@@ -158,19 +172,21 @@ const Login = () => {
       Continue with Google
     </span>
   </button>
-  {/* Don’t have account */}
-<p className="text-sm text-gray-600">
-  Don’t have an account?{" "}
-  <span
-    onClick={() => navigate("/signup")}
-    className="text-rose-600 font-medium cursor-pointer hover:underline"
-  >
-    Sign up
-  </span>
-</p>
 
-
+ 
+  <p className="text-sm text-gray-600">
+    Don’t have an account?{" "}
+    <span
+      onClick={() => navigate("/signup")}
+      className="text-rose-600 font-medium cursor-pointer hover:underline"
+    >
+      Sign up
+    </span>
+  </p>
 </div>
+
+
+
 
 
 {/* right div */}
@@ -185,14 +201,11 @@ const Login = () => {
     from-[#fbc2eb] via-[#a6c1ee] to-[#c2e9fb]
   "
 >
-  {/* soft overlay for depth */}
   <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
 
-  {/* subtle glow shapes */}
   <div className="absolute -top-24 -left-24 w-80 h-80 bg-white/40 rounded-full blur-[100px]" />
   <div className="absolute bottom-[-120px] right-[-120px] w-96 h-96 bg-white/30 rounded-full blur-[120px]" />
 
-  {/* content */}
   <div className="relative z-10 flex flex-col items-center text-center gap-5 px-10">
     <img
       src={logo}

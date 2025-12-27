@@ -28,7 +28,9 @@ const SignUp = () => {
    try {
     const result = await axios.post(serverUrl + '/api/auth/signup',{name,password,email,role},{withCredentials:true} ) 
     
-     dispatch(setUserData(result.data)) 
+   
+     dispatch(setUserData(result.data.user))
+
    
     setLoading(false)
     toast.success('Signup Successfully✅')
@@ -51,13 +53,15 @@ const SignUp = () => {
     <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
       <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex '
       onSubmit={(e)=>e.preventDefault()}
+
+      
       >
    
 
    {/* left div */}
           <div className='md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-3'>
 
-  {/* Heading */}
+ 
   <div className="text-center ">
     <h1 className='font-semibold text-rose-800 text-2xl'>
       Let's get started
@@ -67,7 +71,7 @@ const SignUp = () => {
     </h2>
   </div>
 
-  {/* Name */}
+  
   <div className='flex flex-col gap-1 w-[80%] items-start px-3'>
     <label htmlFor="name" className='font-semibold text-sm'>
       Name
@@ -82,7 +86,7 @@ const SignUp = () => {
     />
   </div>
 
-  {/* Email */}
+ 
   <div className='flex flex-col gap-1 w-[80%] items-start px-3'>
     <label htmlFor="email" className='font-semibold text-sm'>
       Email
@@ -97,7 +101,7 @@ const SignUp = () => {
     />
   </div>
 
-  {/* Password */}
+  
 <div className='flex flex-col gap-1 w-[80%] items-start px-3'>
   <label htmlFor="password" className='font-semibold text-sm'>
     Password
@@ -114,7 +118,7 @@ const SignUp = () => {
       onChange={(e)=>setPassword(e.target.value)} value={password}
     />
 
-    {/* Eye Button */}
+     
     <button
       type="button"
       onClick={() => {
@@ -171,17 +175,17 @@ const SignUp = () => {
     </div>
   </div>
 
-  {/* Normal Signup Button */}
+  
   <button
     type="submit"
-    className="w-[80%] p-2 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition"
+    className="w-[80%] p-2 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition cursor-pointer "
    onClick={handleSigup}
     disabled={loading}
   >
     {loading ? <ClipLoader size={30} color="#e11d48" />: "Create Account" }
   </button>
 
-  {/* Divider */}
+  
   <div className="w-[80%] flex items-center gap-3">
     <div className="flex-1 h-px bg-gray-300"></div>
     <span className="text-xs text-gray-500">OR</span>
@@ -203,7 +207,7 @@ const SignUp = () => {
     </span>
   </button>
 
-  {/* Already have account */}
+  
 <p className="text-sm text-gray-600">
   Already have an account?{" "}
   <span

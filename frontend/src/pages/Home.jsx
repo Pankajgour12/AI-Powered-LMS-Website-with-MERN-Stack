@@ -1,9 +1,13 @@
 import React from 'react'
+import Navbar from '../component/Navbar.jsx'
 
 const Home = () => {
   return (
-    <div>
-       <h1 className='text-4xl text-center underline '>Home page </h1> 
+    <div className='w-[100%] overflow-hidden'>
+      <div className='w-[100%] lg:h-[140vh] h-[70vh] relative'>
+        <Navbar/>
+      </div>
+
     </div>
   )
 }

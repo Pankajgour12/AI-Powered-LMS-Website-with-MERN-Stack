@@ -14,3 +14,81 @@
 p{
   font-family: var(--font-Lobster);
 }
+
+
+/* navbar */
+.nav-modern {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: #374151;
+  position: relative;
+}
+
+.nav-modern::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+
+  background: #e11d48;
+  transition: width 0.3s;
+}
+
+.nav-modern:hover::after {
+  width: 100%;
+}
+
+.nav-login {
+  font-weight: 500;
+  color: #374151;
+}
+
+.nav-signup {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fb7185, #e11d48);
+  color: white;
+  font-weight: 500;
+}
+
+.icon-glass {
+  padding: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+}
+
+
+
+.mobile-modern {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: #374151;
+}
+
+
+
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.50s ease-out;
+}
