@@ -15,6 +15,7 @@
     "axios": "^1.13.2",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.562.0",
+    "nodemailer": "^7.0.12",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",

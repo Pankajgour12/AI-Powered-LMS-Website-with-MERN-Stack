@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import genToken from "../config/token.js";
+import sendMail from "../config/sentMail.js";
 
 
 export const signUp = async (req, res) => {
@@ -136,3 +137,92 @@ export const logout = async (req, res) => {
         res.status(500).json({ message: `Server Error: ${error.message}` });
     }
 };
+
+
+
+
+export const sendOTP = async (req, res) => {
+ try {
+
+    const { email } = req.body;
+
+    let user = await User.findOne({ email });
+    if(!user){
+        return res.status(400).json({ message: "User with this email does not exist" });
+    }
+
+    // Generate OTP
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+    // Set OTP expiry time (5 minutes from now)
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+    user.resetOtp = otp;
+    user.otpExpiry = otpExpiry;
+    user.isOtpVerified = false;
+
+
+
+    await user.save();
+
+
+    await sendMail(email, otp)
+    return res.status(200).json({ message: "OTP sent to your email" });
+
+
+    
+ } catch (error) {
+    return res.status(500).json({ message: `Sent OTP Error: ${error.message}` });
+    
+ }
+
+
+}
+
+export const verifyOTP = async (req, res) => {
+ try {
+
+    const { email, otp } = req.body;
+    const user = await User.findOne({
+        email,
+        resetOtp: otp,
+        otpExpiry: { $gt: new Date() },
+    });
+    if(!user){
+        return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+    user.isOtpVerified = true;
+    await user.save();
+    return res.status(200).json({ message: "OTP verified successfully" });
+    
+    } catch (error) {
+    return res.status(500).json({ message: `Verify OTP Error: ${error.message}` });
+    
+ }
+}
+
+
+
+export const resetPassword = async (req, res) => {
+ try {  
+    const { email, password } = req.body;
+
+    let user = await User.findOne({ email });
+    if(!user){
+        return res.status(400).json({ message: "User with this email does not exist" });
+    }   
+    if(!user.isOtpVerified){
+        return res.status(400).json({ message: "OTP not verified" });
+    }       
+       
+    let hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetOtp = undefined;
+    user.otpExpiry = undefined;
+    user.isOtpVerified = false;
+    await user.save();
+    return res.status(200).json({ message: "Password reset successfully" });
+    } catch (error) {
+    return res.status(500).json({ message: `Reset Password Error: ${error.message}` });
+    
+ }
+}
