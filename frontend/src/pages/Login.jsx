@@ -7,6 +7,8 @@ import { serverUrl } from '../App'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
+import { signInWithPopup } from 'firebase/auth'
+import { auth, provider } from '../utils/firebase'
 const Login = () => {
   const navigate = useNavigate()
 
@@ -41,6 +43,34 @@ const Login = () => {
       }
 
     }
+
+      const googleLogin = async () => {
+  try {
+    const response = await signInWithPopup(auth, provider);
+    const user = response.user;
+
+    const result = await axios.post(
+      serverUrl + "/api/auth/googleauth",
+      {
+        name: user.displayName,
+        email: user.email,
+       
+      },
+      { withCredentials: true }
+    );
+
+    dispatch(setUserData(result.data.user));
+    toast.success("Google login successful ✅");
+    navigate("/");
+
+  } catch (error) {
+    console.error(error);
+    toast.error(
+      error?.response?.data?.message || "Google login failed"
+    );
+  }
+};
+
       
    
 
@@ -164,6 +194,7 @@ const Login = () => {
   <button
     type="button"
     className="w-[80%] flex items-center justify-center gap-3 p-2.5 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+    onClick={googleLogin}
   >
     <img
       src="https://www.svgrepo.com/show/475656/google-color.svg"

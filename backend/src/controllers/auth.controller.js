@@ -34,7 +34,7 @@ try {
     });
 
     let token = await genToken (newUser._id);
-    console.log(token);
+    
 
     res.cookie("token", token, {
         httpOnly: true,
@@ -226,3 +226,48 @@ export const resetPassword = async (req, res) => {
     
  }
 }
+
+
+
+export const googleAuth = async (req, res) => {
+  try {
+    const { name, email, role } = req.body;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        role,
+      });
+    }
+
+    const token = await genToken(user._id);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    
+    return res.status(200).json({
+      message: "Google auth successful",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+
+  } catch (error) {
+    console.error("Google Auth Error:", error.message);
+    return res.status(500).json({
+      message: "Google authentication failed",
+    });
+  }
+};
+
