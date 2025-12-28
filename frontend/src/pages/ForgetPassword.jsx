@@ -1,336 +1,277 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { serverUrl } from '../App'
-import { toast } from 'react-toastify'
-import { ClipLoader } from 'react-spinners'
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../App";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const ForgetPassword = () => {
-const [step,setStep] = useState(1)
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-const [email, setEmail] = useState('')
-const [otp, setOtp]    = useState('')
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState("");
 
-const [loading,setLoading] = useState(false)
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
+  const isMatch =
+    newPassword.length >= 6 &&
+    confirmPassword.length >= 6 &&
+    newPassword === confirmPassword;
 
-
-
-
-const [newPassword, setNewPassword] = useState("");
-const [confirmPassword, setConfirmPassword] = useState("");
-const [showConfirm, setShowConfirm] = useState(false);
-
-const isMatch =
-  newPassword.length >= 6 &&
-  confirmPassword.length >= 6 &&
-  newPassword === confirmPassword;
-
-
-  //for step 1
-
-  const sendOtp = async () =>{
-    setLoading(true)
-
+  // STEP 1 
+  const sendOtp = async () => {
+    setLoading(true);
     try {
-  const result = await axios.post(serverUrl + "/api/auth/sendotp" , {email},{withCredentials:true})
- console.log(result.data)
- setLoading(false)
- setStep(2)
- toast.success(result.data.message)
-      
-    } catch (error) {
-      console.log(error)  
-      toast.error(error.response.data.message)
-      setLoading(false)
+      const res = await axios.post(
+        serverUrl + "/api/auth/sendotp",
+        { email },
+        { withCredentials: true }
+      );
+      toast.success(res.data.message);
+      setStep(2);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Unable to send OTP");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // STEP 2 
+  const verifyOTP = async () => {
+    setLoading(true);
+    setOtpError("");
+    try {
+      const res = await axios.post(
+        serverUrl + "/api/auth/verifyotp",
+        { email, otp },
+        { withCredentials: true }
+      );
+      toast.success(res.data.message);
+      setStep(3);
+    } catch {
+      setOtp("");
+      setOtpError("Invalid code. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* STEP 3 */
+  const resetPassword = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        serverUrl + "/api/auth/resetpassword",
+        { email, password: newPassword },
+        { withCredentials: true }
+      );
+      toast.success(res.data.message);
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Reset failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br
+    from-[#fbc2eb] via-[#a6c1ee] to-[#c2e9fb]  flex items-center justify-center px-4">
+
+      <div className="w-full max-w-lg rounded-2xl bg-[#111827] border border-white/10 shadow-[0_40px_120px_rgba(0,0,0,0.6)]">
 
 
-  }
+        <div className="px-8 pt-8 pb-6 border-b border-white/10">
+          <h1 className="text-2xl font-semibold text-white">
+            Forgot Your Password
+          </h1>
+          <p className="mt-1 text-sm text-gray-400">
+            Follow the steps below to reset your password
+          </p>
 
 
-  //for step 2
-const verifyOTP = async ()=>{
-setLoading(true)
-
-try {
-      const result = await axios.post(serverUrl + "/api/auth/verifyotp",{email, otp}, {withCredentials:true})
-      console.log(result.data)
-      setLoading(false)
-      setStep(3)
-      toast.success(result.data.message)
-  
-} catch (error) {
-     console.log(error)
-     toast.error(error.respose.data.message)
-     setLoading(false)
-
-}
-
-
-}
-
-
-// for step 3 
-
-const resetpassword = async () =>{
-  setLoading(true)
-
-  try {
-
-
-
-    const result = await axios.post(serverUrl + "/api/auth/resetpassword",{email , password:newPassword},{withCredentials:true})
-       console.log(result.data)
-       setLoading(false)
-       navigate('/login')
-        toast.success(result.data.message)
-
-
-    
-  } catch (error) {
-    console.log(error)
-
-    toast.error(error.response.data.message)
-    setLoading(false)
-
-
-    
-  }
-}
-
-
-
-
-  
-
-
-
-return (
-<div className="
-  min-h-screen flex items-center justify-center px-4
-  bg-gradient-to-br
-  from-[#91e8be] via-[#fdf2f8] to-[#eff6ff]
-  relative overflow-hidden
-">
-
-
-
-{/* STEP 1 */}
-{step === 1 && (
-  <div className="w-full max-w-md bg-white rounded-xl shadow-lg px-7 py-8 animate-slide-up">
-    
-    <div className="mb-6 text-center">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Forgot your password?
-      </h2>
-      <p className="text-sm text-gray-500 mt-1">
-        Enter your email to receive a verification code
-      </p>
-    </div>
-
-    <form className="space-y-5" onSubmit={(e)=>e.preventDefault()} >
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Email address
-        </label>
-        <input
-          type="email"
-          required
-          placeholder="you@example.com"
-          className="w-full rounded-md border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-          onChange={(e)=>setEmail(e.target.value)} value={email}
-
-        />
-      </div>
-
-      <button className="w-full rounded-md bg-rose-600 text-white py-2.5 text-sm font-medium hover:bg-rose-700 transition cursor-pointer"
-      disabled={loading}
-      onClick={sendOtp}
-      >
-        { loading? <ClipLoader size={30} color='white'/> : "Send OTP" }
-      </button>
-    </form>
-
-    <div
-      onClick={() => navigate("/login")}
-      className="mt-6 text-sm text-center text-gray-600 hover:text-rose-600 cursor-pointer"
-    >
-      ← Back to login
-    </div>
-  </div>
-)}
-
-{/* STEP 2 */}
-{step === 2 && (
-  <div className="w-full max-w-md bg-white rounded-xl shadow-lg px-7 py-8 animate-slide-up">
-    
-    <div className="mb-6">
-      <h2 className="text-xl font-semibold text-gray-800">
-        Verify OTP
-      </h2>
-      <p className="text-sm text-gray-500 mt-1">
-        Enter the 4-digit code sent to your email
-      </p>
-    </div>
-
-    <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          OTP Code
-        </label>
-        <input
-          type="number"
-          required
-          maxLength={4}
-          placeholder="••••"
-          className="tracking-widest text-center w-full rounded-md border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-rose-400 focus:outline-none"
-          onChange={(e)=>setOtp(e.target.value)} value={otp}
-
-        />
-      </div>
-
-      <button className="w-full rounded-md bg-rose-600 text-white py-2.5 text-sm font-medium hover:bg-rose-700 transition"
-      disabled={loading}
-      onClick={verifyOTP}
-      >
-       { loading? <ClipLoader size={30} color='red'/> :"Verify OTP"}
-      </button>
-    </form>
-
-    <div
-      onClick={() => navigate("/login")}
-      className="mt-6 text-sm text-center text-gray-600 hover:text-rose-600 cursor-pointer"
-    >
-      ← Back to login
-    </div>
-  </div>
-)}
-
-
-
-{/* STEP 3 */}
-{step === 3 && (
-  <div className="w-full max-w-md bg-white rounded-xl shadow-lg px-7 py-8 animate-slide-up">
-    
-    {/* Header */}
-    <div className="mb-6">
-      <h2 className="text-xl font-semibold text-rose-600">
-        Reset password
-      </h2>
-      <p className="text-sm text-gray-500 mt-1">
-        Enter and confirm your new password
-      </p>
-    </div>
-
-    <form className="space-y-4" 
-    onSubmit={(e)=>e.preventDefault()}>
-      
-      {/* New password */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          New password
-        </label>
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder="Minimum 6 characters"
-          className="
-            w-full rounded-md border border-gray-300
-            px-4 py-2.5 text-sm
-            focus:outline-none focus:ring-2 focus:ring-rose-400
-          "
-        />
-      </div>
-
-      {/* Confirm password */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Confirm password
-        </label>
-
-        <div className="relative">
-          <input
-            type={showConfirm ? "text" : "password"}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Re-enter password"
-            className="
-              w-full rounded-md border border-gray-300
-              px-4 py-2.5 pr-10 text-sm
-              focus:outline-none focus:ring-2 focus:ring-rose-400
-            "
-          />
-
-          {/* Eye toggle */}
-          <button
-            type="button"
-            onClick={() => setShowConfirm(!showConfirm)}
-            className="
-              absolute right-3 top-1/2 -translate-y-1/2
-              text-gray-500 hover:text-rose-600 transition
-            "
-            title="Show / Hide password"
-          >
-            👁
-          </button>
+          <div className="mt-6 flex gap-3 text-xs">
+            {["Email", "Verify", "Reset"].map((label, i) => (
+              <div key={label} className="flex items-center gap-2">
+                <span
+                  className={`h-6 w-6 rounded-full flex items-center justify-center
+                  ${step > i
+                      ? "bg-emerald-500 text-black"
+                      : step === i + 1
+                        ? "bg-white text-black"
+                        : "bg-white/10 text-white/40"
+                    }`}
+                >
+                  {i + 1}
+                </span>
+                <span
+                  className={`${step === i + 1
+                      ? "text-white"
+                      : "text-white/40"
+                    }`}
+                >
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Error message */}
-        {confirmPassword.length > 0 && newPassword !== confirmPassword && (
-          <p className="text-xs text-red-500 mt-1">
-            Passwords do not match
-          </p>
-        )}
+
+        <div className="px-8 py-8">
+
+          {/* STEP 1 */}
+          {step === 1 && (
+            <>
+              <label className="block text-sm text-gray-300 mb-1">
+                Email address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full rounded-lg bg-[#0b0f19] border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30"
+              />
+
+              <button
+                onClick={sendOtp}
+                disabled={!email || loading}
+                className="mt-6 w-full rounded-lg bg-white text-black py-3 text-sm font-medium hover:bg-gray-300 transition disabled:opacity-50 cursor-pointer"
+              >
+                {loading ? <ClipLoader size={18} /> : "Send verification code"}
+              </button>
+            </>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <>
+              <label className="block text-sm text-gray-300 mb-1">
+                Verification code
+              </label>
+              <input
+                value={otp}
+                onChange={(e) =>
+                  setOtp(e.target.value.replace(/\D/g, "").slice(0, 4))
+                }
+                placeholder="4 digit code"
+                className={`w-full text-center tracking-[0.4em] rounded-lg bg-[#0b0f19] border px-4 py-3 text-sm text-white focus:outline-none ${otpError ? "border-red-500" : "border-white/10"
+                  }`}
+              />
+
+              {otpError && (
+                <p className="mt-2 text-xs text-red-400">{otpError}</p>
+              )}
+
+              <button
+                onClick={verifyOTP}
+                disabled={otp.length !== 4 || loading}
+                className="mt-6 w-full rounded-lg bg-white text-black py-3 text-sm font-medium hover:bg-gray-200 transition disabled:opacity-50 cursor-pointer"
+              >
+                {loading ? <ClipLoader size={18} /> : "Verify code"}
+              </button>
+
+              <button
+                onClick={sendOtp}
+                className="mt-4 text-xs text-gray-400 hover:text-white cursor-pointer"
+              >
+                Resend code
+              </button>
+            </>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <>
+          
+              <label className="block text-sm text-gray-300 mb-1">
+                New password
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Minimum 6 characters"
+                className="w-full rounded-lg bg-[#0b0f19] border border-white/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30"
+              />
+
+              
+              {newPassword.length > 0 && newPassword.length < 6 && (
+                <p className="mt-2 text-xs text-rose-600">
+                  Password must be at least 6 characters
+                </p>
+              )}
+
+            
+              <div className="mt-5">
+                <label className="block text-sm text-gray-300 mb-1">
+                  Confirm password
+                </label>
+
+                <div className="relative">
+                  <input
+                    type={showConfirm ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter password"
+                    className="w-full rounded-lg bg-[#0b0f19] border border-white/10 px-4 py-3 pr-10 text-sm text-white focus:outline-none"
+                  />
+
+                  
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition"
+                  >
+                    👁
+                  </button>
+                </div>
+
+                
+                {confirmPassword.length > 0 &&
+                  newPassword.length >= 6 &&
+                  newPassword !== confirmPassword && (
+                    <p className="mt-2 text-xs text-red-400">
+                      Passwords do not match
+                    </p>
+                  )}
+              </div>
+
+              
+              <button
+                onClick={resetPassword}
+                disabled={!isMatch || loading}
+                className="mt-7 w-full rounded-lg bg-emerald-500 text-black py-3 text-sm font-medium hover:bg-emerald-400 transition disabled:opacity-50 cursor-pointer"
+              >
+                {loading ? <ClipLoader size={18} /> : "Save new password"}
+              </button>
+            </>
+          )}
+
+
+
+
+        </div>
+
+        {/* footer */}
+        <div className="px-8 pb-6 text-center">
+          <button
+            onClick={() => navigate("/login")}
+            className="text-xs text-rose-500 hover:text-white cursor-pointer"
+          >
+            ← Back to login
+          </button>
+        </div>
       </div>
-
-      {/* Submit */}
-      <button
-        disabled={!isMatch}
-        className="
-          w-full rounded-md py-2.5 text-sm font-medium
-          text-white transition
-          bg-rose-600 hover:bg-rose-700
-          disabled:opacity-50 disabled:cursor-not-allowed
-        "
-       
-        onClick={resetpassword}
-      >
-        {loading? <ClipLoader size={30} color='white'/>  : "Save new password"}
-      </button>
-    </form>
-
-    {/* Back */}
-    <div
-      onClick={() => navigate("/login")}
-      className="
-        mt-6 text-sm text-center
-        text-gray-600 hover:text-rose-600 cursor-pointer
-      "
-    >
-      ← Back to login
     </div>
-  </div>
-)}
+  );
+};
 
-
-
-
-
-
-
-
-    </div>
-    
-  
-  )
-
-
-  
-
-}
-
-export default ForgetPassword
+export default ForgetPassword;
