@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IoPersonCircle } from "react-icons/io5";
+import { IoMdPerson } from "react-icons/io";
+import { IoBookSharp } from "react-icons/io5";
 import {
   FiHome,
   FiBook,
@@ -131,6 +132,8 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
         rounded-md shadow-lg
         overflow-hidden
         z-50
+        flex flex-col gap-2
+       
       "
     >
       <button
@@ -138,17 +141,32 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
           setUserMenuOpen(false);
           navigate("/profile");
         }}
-        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-      >
-        Profile
+        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+        >
+        
+        <IoMdPerson/>My Profile
       </button>
+
+        <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          navigate("/mycourses");
+        }}
+        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+        >
+        
+        <IoBookSharp />My Courses
+      </button>
+
+
+
 
       <button
         onClick={() => {
           setUserMenuOpen(false);
           handleLogout();
         }}
-        className="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-gray-100"
+        className="w-full text-left px-4 py-2  text-sm text-rose-600 hover:bg-sky-100 cursor-pointer "
       >
         Logout
       </button>
@@ -213,6 +231,8 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
                   <FiGrid /> Dashboard
                 </button>
               )}
+
+
              {/*  <button onClick={() => navigate("/profile")} className="mobile-modern">
                 Profile
               </button>
@@ -222,6 +242,7 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
                     <div className="relative">
 
           {/* Avatar */}
+
              <div
     onClick={() => setUserMenuOpen(prev => !prev)}
     className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
@@ -231,13 +252,15 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   {/* Dropdown */}
           {userMenuOpen && (
-    <div
+     <div
       className="
-        absolute left-0 mt-2 w-36
+        absolute left-2 mt-2 w-36
         bg-white border border-gray-200
         rounded-md shadow-lg
         overflow-hidden
         z-50
+        flex flex-col gap-2
+       
       "
     >
       <button
@@ -245,17 +268,32 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
           setUserMenuOpen(false);
           navigate("/profile");
         }}
-        className=" text-left px-4 py-2 text-sm hover:bg-gray-100"
-      >
-        Profile
+        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+        >
+        
+        <IoMdPerson/>My Profile
       </button>
+
+        <button
+        onClick={() => {
+          setUserMenuOpen(false);
+          navigate("/mycourses");
+        }}
+        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+        >
+        
+        <IoBookSharp />My Courses
+      </button>
+
+
+
 
       <button
         onClick={() => {
           setUserMenuOpen(false);
           handleLogout();
         }}
-        className="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-gray-100"
+        className="w-full text-left px-4 py-2  text-sm text-rose-600 hover:bg-sky-100 cursor-pointer "
       >
         Logout
       </button>

@@ -2,18 +2,18 @@ import jwt from 'jsonwebtoken';
 
 const authUser = async (req, res, next) => {
   try {
-       let token = req.cookies;
-  if (!token) {
+       let token = req.cookies && req.cookies.token;
+    if (!token) {
       return res.status(401).json({ message: `Unauthorized User Does't have token` });
-  }
+    }
 
-  let verifyedToken = await jwt.verify(token, process.env.JWT_SECRET);
+    const verifiedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-  if (!verifyedToken) {
+    if (!verifiedToken) {
       return res.status(401).json({ message: 'Unauthorized User Invalid Token' });
-  }
+    }
   
-  req.userID = verifyedToken.userID;
+    req.userId = verifiedToken.userID;
 
 
 

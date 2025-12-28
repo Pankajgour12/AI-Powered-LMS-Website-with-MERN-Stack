@@ -18,10 +18,11 @@ const App = () => {
  
 
  useCurrentUser(); 
+ 
 
 
 const { userData } = useSelector(state => state.user);
-console.log(userData)
+
 
 
 
@@ -40,17 +41,20 @@ console.log(userData)
     <Route
   path="/signup"
   element={userData ? <Navigate to="/" replace /> : <SignUp />}
-/>
+  />
+ 
+  <Route path='/login' element={<Login />} />
 
 
-
-    <Route path='/login' element={<Login />} />
 
     <Route path='/profile' element={ userData ?  <Profile /> :
     <Navigate to={'/signup'} />
      } />
 
-      <Route path='/forgot' element={ <ForgetPassword />} />
+      <Route path="/forgot" element={userData ? <ForgetPassword />:
+      <Navigate to={'/signup'} />
+    } />
+
      
 
    </Routes>
