@@ -10,11 +10,11 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white relative overflow-hidden">
 
-      {/* background grid */}
+     
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:22px_22px]" />
 
       {/* HEADER */}
-      <header className="sticky top-0 z-30 bg-[#0b0f19]/80 backdrop-blur border-b border-white/10">
+      <header className="fixed w-full top-0 z-30 bg-[#0b0f19]/80 backdrop-blur border-b border-white/10">
         <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-4">
           <button
             onClick={() => navigate("/")}
@@ -28,14 +28,14 @@ const Profile = () => {
         </div>
       </header>
 
-      {/* MAIN */}
-      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 grid lg:grid-cols-2 gap-12">
+    
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-2 gap-12">
 
         {/* LEFT */}
         <section className="space-y-8">
 
-          {/* Identity Card */}
-          <div className="relative rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-8 overflow-hidden">
+        
+          <div className="relative rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-10 overflow-hidden">
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 blur-3xl rounded-full" />
 
             <div className="relative flex items-center gap-5">
@@ -69,7 +69,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* About */}
+        
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-3">
               About
@@ -96,7 +96,7 @@ const Profile = () => {
         {/* RIGHT */}
         <aside className="space-y-8">
 
-          {/* Account Overview */}
+         
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-5">
               Account Overview
@@ -127,7 +127,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Stats */}
+          
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
             <span className="block text-[10px] uppercase tracking-widest text-white/40 mb-5">
               Learning Stats
@@ -149,10 +149,9 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Footer note */}
+          {/* Footer  */}
           <div className="text-xs text-white/40 leading-relaxed max-w-sm">
-            You’re part of the LearnFlow ecosystem — designed for builders who
-            care about depth, not shortcuts.
+            You’re part of the LearnFlow ecosystem 
           </div>
 
         </aside>

@@ -48,8 +48,8 @@ const EditProfile = () => {
     <div className="min-h-screen bg-[#0b0f19] text-white relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:22px_22px]" />
 
-      {/* HEADER */}
-      <header className="sticky top-0 z-30 bg-[#0b0f19]/80 backdrop-blur border-b border-white/10">
+     
+      <header className="fixed w-full top-0 z-30 bg-[#0b0f19]/80 backdrop-blur border-b border-white/10 ">
         <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-4">
           <button
             onClick={() => navigate("/profile")}
@@ -63,12 +63,12 @@ const EditProfile = () => {
         </div>
       </header>
 
-      {/* CONTENT */}
+     
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16 grid lg:grid-cols-[320px_1fr] gap-12"
+        className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-[320px_1fr] gap-12"
       >
-        {/* LEFT — LIVE PREVIEW */}
+       {/* left */}
         <aside className="lg:sticky lg:top-28 self-start">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 space-y-6">
             <div className="flex items-center gap-4">
@@ -114,7 +114,7 @@ const EditProfile = () => {
           </div>
         </aside>
 
-        {/* RIGHT — EDIT CONTROLS */}
+        {/* RIGHT  */}
         <section className="space-y-10">
           <div>
             <label className="block text-xs uppercase tracking-widest text-white/40 mb-2">
@@ -150,7 +150,7 @@ const EditProfile = () => {
             />
           </div>
 
-          {/* ACTIONS */}
+        
           <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4">
             <button
               type="button"
