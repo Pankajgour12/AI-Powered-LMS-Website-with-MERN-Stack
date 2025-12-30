@@ -13,7 +13,7 @@ const Profile = () => {
      
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:22px_22px]" />
 
-      {/* HEADER */}
+      
       <header className="fixed w-full top-0 z-30 bg-[#0b0f19]/80 backdrop-blur border-b border-white/10">
         <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-4">
           <button

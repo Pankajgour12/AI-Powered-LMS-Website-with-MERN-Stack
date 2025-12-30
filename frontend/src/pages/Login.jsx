@@ -90,7 +90,7 @@ const Login = () => {
   
   <div className="text-center">
     <h1 className="font-semibold text-rose-800 text-3xl">
-      Welcome back 👋🏻
+      Welcome back 
     </h1>
     <h2 className="text-gray-600 pt-1 text-sm">
       Login to your LearnFlow account

@@ -2,14 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdPerson } from "react-icons/io";
 import { IoBookSharp } from "react-icons/io5";
-import {
-  FiHome,
-  FiBook,
-  FiCompass,
-  FiStar,
-  FiGrid,
-  FiMenu,
-  FiX,
+import { FiHome, FiBook,FiCompass,FiStar,FiGrid,FiMenu, FiX,
 } from "react-icons/fi";
 import logo from "../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -115,15 +108,48 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
                
                  <div className="relative">
 
-          {/* Avatar */}
-             <div
-    onClick={() => setUserMenuOpen(prev => !prev)}
-    className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
-        >
-    {userData.name?.charAt(0).toUpperCase()}
-         </div>
+          
+           
+            {/* ImageIcone */}
+<div
+  onClick={() => setUserMenuOpen(prev => !prev)}
+  className="
+    w-12 h-12
+    rounded-full
+    overflow-hidden
+    flex items-center justify-center
+    cursor-pointer
+    transition
+    hover:scale-105
+    border border-white/20
+    bg-rose-400
+  "
+>
+  {userData?.photoUrl ? (
+    <img
+      src={userData.photoUrl}
+      alt={userData?.name || "User"}
+      className="w-full h-full object-cover"
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
+    />
+  ) : (
+    <span className="text-sm font-semibold text-white">
+      {userData?.name
+        ? userData.name.charAt(0).toUpperCase()
+        : "U"}
+    </span>
+  )}
+</div>
 
-  {/* Dropdown */}
+
+
+
+
+
+
+ 
           {userMenuOpen && (
     <div
       className="
@@ -233,37 +259,45 @@ const [userMenuOpen, setUserMenuOpen] = useState(false);
               )}
 
 
-             {/*  <button onClick={() => navigate("/profile")} className="mobile-modern">
-                Profile
-              </button>
-              <button onClick={handleLogout} className="mobile-modern nav-signup text-rose-600">
-                Logout
-              </button> */}
+           
                     <div className="relative">
 
-          {/* Avatar */}
+          {/* ImageIcon */}
 
-             <div
-    onClick={() => setUserMenuOpen(prev => !prev)}
-    className="w-11 h-11 rounded-full bg-rose-200 text-rose-800 flex items-center justify-center font-bold cursor-pointer hover:scale-105 transition"
-        >
-    {userData.name?.charAt(0).toUpperCase()}
-         </div>
+          <div className="flex items-center gap-2">
+          <div
+  onClick={() => setUserMenuOpen(prev => !prev)}
+  className=" w-12 h-12 rounded-full overflow-hidden flex items-center justify-center
+    cursor-pointer transition hover:scale-105 border border-white/20 bg-rose-400"
+>
+  {userData?.photoUrl ? (
+    <img
+      src={userData.photoUrl}
+      alt={userData?.name || "User"}
+      className="w-full h-full object-cover"
+      onError={(e) => {
+        e.currentTarget.style.display = "none";
+      }}
+    />
+  ) : (
+    <span className="text-sm font-semibold text-white">
+      {userData?.name
+        ? userData.name.charAt(0).toUpperCase()
+        : "U"}
+    </span>
+  )}
+</div>
+
+<h3  >{userData.name}</h3>
+
+     </div>       
 
   {/* Dropdown */}
           {userMenuOpen && (
      <div
-      className="
-        absolute left-2 mt-2 w-36
-        bg-white border border-gray-200
-        rounded-md shadow-lg
-        overflow-hidden
-        z-50
-        flex flex-col gap-2
-       
-      "
-    >
-      <button
+      className="absolute left-2 mt-2 w-36 bg-white border border-gray-200 rounded-md shadow-lg
+        overflow-hidden z-50 flex flex-col gap-2 "
+    ><button
         onClick={() => {
           setUserMenuOpen(false);
           navigate("/profile");
