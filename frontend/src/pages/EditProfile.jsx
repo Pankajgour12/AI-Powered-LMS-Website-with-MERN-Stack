@@ -71,26 +71,36 @@ const EditProfile = () => {
        {/* left */}
         <aside className="lg:sticky lg:top-28 self-start">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 space-y-6">
-            <div className="flex items-center gap-4">
-              <img
-                src={
-                  photo
-                    ? URL.createObjectURL(photo)
-                    : userData?.photoUrl
-                }
-                alt="avatar"
-                className="w-16 h-16 rounded-full object-cover border border-white/30"
-              />
+            
+<div className="flex items-center gap-4">
 
-              <div className="min-w-0">
-                <div className="text-base font-medium truncate">
-                  {name || "Your name"}
-                </div>
-                <div className="text-xs uppercase tracking-widest text-white/40 mt-1">
-                  {userData?.role}
-                </div>
-              </div>
-            </div>
+  {/* Avatar */}
+  <div className="w-16 h-16 rounded-full border border-white/30 overflow-hidden flex items-center justify-center bg-white/10 shrink-0">
+    {photo || userData?.photoUrl ? (
+      <img
+        src={photo ? URL.createObjectURL(photo) : userData.photoUrl}
+        alt="avatar"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <span className="text-lg font-semibold text-white">
+        {(name || userData?.name || "U").charAt(0).toUpperCase()}
+      </span>
+    )}
+  </div>
+
+  <div className="min-w-0">
+    <div className="text-base font-medium truncate">
+      {name || "Your name"}
+    </div>
+    <div className="text-xs uppercase tracking-widest text-white/40 mt-1">
+      {userData?.role}
+    </div>
+  </div>
+
+</div>
+
+
 
             <div className="text-sm text-white/60 leading-relaxed">
               {description?.trim()

@@ -1,8 +1,4 @@
-import {
-  MdOutlineCastForEducation,
-  MdContactSupport,
-  MdOutlineSupportAgent,
-} from "react-icons/md";
+import { MdOutlineCastForEducation, MdContactSupport, MdOutlineSupportAgent,} from "react-icons/md";
 import { IoAccessibilityOutline } from "react-icons/io5";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 
@@ -44,7 +40,7 @@ const Logos = () => {
             <div
               key={index}
               className="
-                group relative w-[240px] h-[90px] rounded-2xl bg-white/70 backdrop-blur-xl                border border-white/40                shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex items-center gap-4 px-5 cursor-pointer
+                group relative w-[200px] h-[80px] rounded-2xl bg-white/70 backdrop-blur-xl                border border-white/40                shadow-[0_10px_30px_rgba(0,0,0,0.08)] flex items-center gap-4 px-5 cursor-pointer
                 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.15)]
               "
             >
@@ -64,7 +60,7 @@ const Logos = () => {
                 shadow-inner
                 `}
               >
-                <Icon className="w-6 h-6 text-white" />
+                <Icon className="w-5 h-5 text-white" />
               </div>
 
               
