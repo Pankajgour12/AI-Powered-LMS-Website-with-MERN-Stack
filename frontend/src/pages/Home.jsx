@@ -12,6 +12,8 @@ const Home = () => {
   return (
     <div className="w-full min-h-screen bg-[#f9fafb] overflow-hidden">
       <Navbar />
+      
+
 
       {/* ===== HERO ===== */}
       <section className="relative h-screen flex items-center">
@@ -138,8 +140,8 @@ const Home = () => {
       
       </section>
 
-{/*  card */ }
-<section>
+           {/*  card */ }
+    <section>
   <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -149,7 +151,7 @@ const Home = () => {
           <Logos/>
 
           </motion.div>
-</section>
+    </section>
     
 
 
@@ -192,7 +194,11 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
     </div>
+
+   
+
   );
 };
 
