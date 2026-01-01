@@ -8,9 +8,12 @@ import Navbar from "../component/Navbar.jsx";
 import devIllustration from "../assets/BannerImage2.png";
 import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 
+
+  const navigate = useNavigate()
 
 
 
@@ -85,12 +88,11 @@ const Home = () => {
           px-7 py-3.5
           rounded-full
           border border-gray-300
-          text-gray-700
-          text-sm sm:text-base
-          hover:border-gray-500
-          transition
-          cursor-pointer
-        ">
+          text-gray-700 text-sm sm:text-base
+          hover:border-gray-500 transition cursor-pointer
+        "
+        onClick={()=>navigate('/courses')}
+        >
           View All Courses
         </button>
       </div>
