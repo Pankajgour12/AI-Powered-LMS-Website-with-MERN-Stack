@@ -22,4 +22,4 @@ courseRouter.get('/getcourse/:courseId',authUser,getCourseById)
 courseRouter.delete('/remove/:courseId',authUser,removeCourse)
 
 
-
+export default courseRouter;

@@ -9,13 +9,15 @@ export const createCourse = async (req, res) => {
         if (!title || !category) {
             return res.status(400).json({ message: "Title and Category are required" });
         }
+       
 
         const course = await Course.create({
             title,
             category,
-            creator: req.userId
+             creator: req.userId
 
         })
+          
         return res.status(201).json({ message: "Course created successfully", course });
       
     } catch (error) {

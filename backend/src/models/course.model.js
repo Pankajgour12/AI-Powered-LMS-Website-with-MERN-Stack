@@ -13,7 +13,7 @@ subTitle:{
 
 description:{
     type:String,
-    required:true,
+    
 },
 
 category:{
@@ -33,7 +33,7 @@ price:{
 
 thumbnail:{
     type:String,
-    required:true,
+   
 },
 
 enrolledStudents:[

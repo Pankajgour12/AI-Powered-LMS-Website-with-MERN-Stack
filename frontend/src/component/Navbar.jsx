@@ -114,7 +114,7 @@ const Navbar = () => {
                   {/* ImageIcone */}
                   <div
                     onClick={() => setUserMenuOpen((prev) => !prev)}
-                    className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center cursor-pointer transition hover:scale-105 border border-white/20  bg-white
+                    className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center cursor-pointer transition hover:scale-105 border border-white/20  bg-rose-300
   "
                   >
                     {userData?.photoUrl ? (
