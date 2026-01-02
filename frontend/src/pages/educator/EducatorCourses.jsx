@@ -160,7 +160,9 @@ const Courses = () => {
                         { course.isPublised? "Published": "Draft"}</span>
 
 
-             <FaEdit size={15} className='hover:text-blue-600 cursor-pointer'/>
+             <FaEdit size={15}
+              onClick={()=>navigate(`/editcourses/${course?._id}`)}
+             className='hover:text-blue-600 cursor-pointer'/>
 
             </div>
         

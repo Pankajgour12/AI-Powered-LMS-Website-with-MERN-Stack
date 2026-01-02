@@ -2,14 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdPerson } from "react-icons/io";
 import { IoBookSharp } from "react-icons/io5";
-import {
-  FiHome,
-  FiBook,
-  FiCompass,
-  FiStar,
-  FiGrid,
-  FiMenu,
-  FiX,
+import { motion, AnimatePresence } from "framer-motion";
+
+import { FiHome, FiBook, FiCompass, FiStar, FiGrid, FiMenu, FiX,
 } from "react-icons/fi";
 import logo from "../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +35,28 @@ const Navbar = () => {
       toast.error("Logout failed");
     }
   };
+
+const menuWrap = {
+  hidden: { y: "-100%", opacity: 0 },
+  show: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+  exit: { y: "-100%", opacity: 0, transition: { duration: 0.3 } },
+};
+
+const menuItem = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0 },
+};
+
+
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
@@ -195,143 +212,187 @@ const Navbar = () => {
       </div>
 
       {/* MOBILE MENU */}
+
+      <AnimatePresence>
       {mobileOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-xl shadow-lg px-6 py-6 space-y-5 animate-slide-down">
-          <Link
-            to="/"
-            onClick={() => setMobileOpen(false)}
-            className="mobile-modern"
-          >
-            <FiHome /> Home
-          </Link>
-          <Link
-            to="/courses"
-            onClick={() => setMobileOpen(false)}
-            className="mobile-modern"
-          >
-            <FiBook /> Courses
-          </Link>
-          <Link
-            to="/explore"
-            onClick={() => setMobileOpen(false)}
-            className="mobile-modern"
-          >
-            <FiCompass /> Explore
-          </Link>
-          <Link
-            to="/educator"
-            onClick={() => setMobileOpen(false)}
-            className="mobile-modern"
-          >
-            <FiStar /> Educators
-          </Link>
+    <motion.div
+      variants={menuWrap}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      className="
+        fixed inset-0 z-50 md:hidden
+        bg-white/95 backdrop-blur-xl
+        flex flex-col
+      "
+    >
+      
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <span className="text-base font-semibold tracking-tight text-gray-900">
+          LearnFlow
+        </span>
 
-          <div className="h-px bg-gray-200  " />
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="
+            p-2 rounded-full
+            hover:bg-gray-100
+            transition
+          "
+        >
+          <FiX size={22} />
+        </button>
+      </div>
 
-          {!userData && (
-            <>
-              <div className="flex flex-col items-start  gap-2">
-                <button
-                  onClick={() => navigate("/login")}
-                  className="nav-signup"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => navigate("/signup")}
-                  className="nav-signup text-rose-600"
-                >
-                  Sign up
-                </button>
-              </div>
-            </>
-          )}
+      
+      <div className="flex flex-col px-6 py-6 gap-3 flex-1">
+        {[
+          { to: "/", icon: FiHome, label: "Home" },
+          { to: "/courses", icon: FiBook, label: "Courses" },
+          { to: "/explore", icon: FiCompass, label: "Explore" },
+          { to: "/educator", icon: FiStar, label: "Educators" },
+        ].map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <motion.div key={i} variants={menuItem}>
+              <Link
+                to={item.to}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-4 px-4 py-3 rounded-xl  text-gray-800  hover:bg-gray-100  transition"
+              >
+                <Icon className="text-lg text-gray-500" />
+                <span className="text-sm font-medium">{item.label}</span>
+              </Link>
+            </motion.div>
+          );
+        })}
 
-          {userData && (
-            <>
-              {userData.role === "educator" && (
-                <button
-                  onClick={() => navigate("/dashboard")}
-                  className="mobile-modern"
-                >
-                  <FiGrid /> Dashboard
-                </button>
-              )}
+      
+        {userData?.role === "educator" && (
+          <motion.div variants={menuItem}>
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                navigate("/dashboard");
+              }}
+              className="w-full flex items-center gap-4px-4 py-3rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition"
+            >
+              <FiGrid className="text-lg" />
+              <span className="text-sm font-medium">Dashboard</span>
+            </button>
+          </motion.div>
+        )}
+      </div>
 
-              <div className="relative">
-                {/* ImageIcon */}
+     
+      <div className="border-t border-gray-400 px-6 py-10">
+        {!userData && (
+        <div className="flex items-center gap-3">
+  <button
+    onClick={() => navigate("/login")}
+    className="text-sm font-medium text-gray-800 hover:text-black transition"
+  >
+    Login
+  </button>
 
-                <div className="flex items-center gap-2">
-                  <div
-                    onClick={() => setUserMenuOpen((prev) => !prev)}
-                    className=" w-11 h-11 rounded-full overflow-hidden flex items-center justify-center
-                     cursor-pointer transition hover:scale-105 border border-white/20 bg-rose-400"
-                  >
-                    {userData?.photoUrl ? (
-                      <img
-                        src={userData.photoUrl}
-                        alt={userData?.name || "User"}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <span className="text-sm font-semibold text-white">
-                        {userData?.name
-                          ? userData.name.charAt(0).toUpperCase()
-                          : "U"}
-                      </span>
-                    )}
-                  </div>
+  <button
+    onClick={() => navigate("/signup")}
+    className="px-6 py-2.5 rounded-full border border-rose-500  text-rose-600 font-medium  hover:bg-rose-50 transition
+    "
+  >
+    Get started
+  </button>
+</div>
 
-                  <h3>{userData.name}</h3>
-                </div>
 
-                {/* Dropdown */}
-                {userMenuOpen && (
-                  <div
-                    className="absolute left-2 mt-2 w-36 bg-white border border-gray-200 rounded-md shadow-lg
-                     overflow-hidden z-50 flex flex-col gap-2 "
-                  >
-                    <button
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        navigate("/profile");
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
-                    >
-                      <IoMdPerson />
-                      My Profile
-                    </button>
 
-                    <button
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        navigate("/mycourses");
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
-                    >
-                      <IoBookSharp />
-                      My Courses
-                    </button>
 
-                    <button
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        handleLogout();
-                      }}
-                      className="w-full text-left px-4 py-2  text-sm text-rose-600 hover:bg-sky-100 cursor-pointer "
-                    >
-                      Logout
-                    </button>
-                  </div>
+
+        )}
+
+        {userData && (
+          <div className="space-y-4">
+            {/* PROFILE CARD */}
+            <div className="
+              flex items-center gap-4
+              px-4 py-3
+              rounded-2xl
+              bg-gray-100
+            ">
+              <div
+                className="
+                  w-12 h-12
+                  rounded-full
+                  bg-rose-500 text-white
+                  flex items-center justify-center
+                  font-semibold
+                  overflow-hidden
+                "
+              >
+                {userData.photoUrl ? (
+                  <img
+                    src={userData.photoUrl}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  userData.name?.charAt(0).toUpperCase()
                 )}
               </div>
-            </>
-          )}
-        </div>
-      )}
+
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {userData.name}
+                </p>
+                <p className="text-xs text-gray-500 capitalize">
+                  {userData.role}
+                </p>
+              </div>
+
+              <button
+                onClick={() => navigate("/profile")}
+                className="text-xs text-rose-600 hover:underline"
+              >
+                View
+              </button>
+            </div>
+
+            {/* USER ACTIONS */}
+            <div className="flex justify-between items-center">
+              <button
+                onClick={() => navigate("/mycourses")}
+                className="
+                  text-sm text-gray-700
+                  hover:text-black
+                  transition
+                "
+              >
+                My Courses
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="
+                  text-sm text-rose-600
+                  hover:text-rose-700
+                  transition
+                "
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+     
+
+      
+      
+
+      
     </nav>
   );
 };
