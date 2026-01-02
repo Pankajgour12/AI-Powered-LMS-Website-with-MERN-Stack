@@ -15,6 +15,7 @@ import EducatorCourses from "./pages/educator/EducatorCourses.jsx";
 import CreateCourses from "./pages/educator/CreateCourses.jsx";
 import getCreatorCourse from "./customHooks/getCreatorCourse.js";
 import EditCourses     from "./pages/educator/EditCourses.jsx"
+import getPublishedCourse from "./customHooks/getPublishedCourse.js";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -22,6 +23,8 @@ const App = () => {
   useCurrentUser();
 
   getCreatorCourse();
+
+  getPublishedCourse();
 
 
   const { userData } = useSelector((state) => state.user);

@@ -11,7 +11,7 @@ const Courses = () => {
     const navigate = useNavigate()
 
     const {creatorCourseData} = useSelector(state=>state.course)
-   
+
     
 
 
@@ -81,7 +81,7 @@ const Courses = () => {
 
             <tr key={index} className='border-b hover:bg-gray-50 transition duration-200'>
                 <td className='py-3 px-4 flex items-center gap-4'>
-                    {course?.thumnail ? <img src={course?.thumnail} alt=" EmptyImage"
+                    {course?.thumbnail ?  <img src={course?.thumbnail } alt=" EmptyImage"
                     className='w-32 h-16 object-cover rounded-md'
                     />:<img src={emptyImg} alt=" EmptyImage"
                     className='w-32 h-16 object-cover rounded-md'
@@ -94,9 +94,19 @@ const Courses = () => {
             <td className='px-4 py-3'>₹  NA</td> }
 
                 <td className='px-4 py-3'>
-                    <span className={`px-3 py-1 rounded-full text-xs ${course.isPublised ? "bg-green-100 text-green-600"  : " bg-red-100 text-red-600"} `}> 
-                        
-                        { course.isPublised? "Published": "Draft"}</span> </td>
+  <span
+    className={`px-3 py-1 rounded-full text-xs ${
+      course.isPublished
+        ? "bg-green-100 text-green-600"
+        : "bg-red-100 text-red-600"
+    }`}
+  >
+    {course.isPublished ? "Published" : "Draft"}
+  </span>
+</td>
+
+           
+
 
                 <td className='px-4 py-3'>
 
@@ -155,9 +165,15 @@ const Courses = () => {
 
            </div >
 
-             <span className={` w-fit px-3 py-1 rounded-full text-xs ${course.isPublised ? "bg-green-100 text-green-600"  : " bg-red-100 text-red-600"} `}> 
-                        
-                        { course.isPublised? "Published": "Draft"}</span>
+             <span
+    className={`px-3 py-1 rounded-full text-xs ${
+      course.isPublished
+        ? "bg-green-100 text-green-600"
+        : "bg-red-100 text-red-600"
+    }`}
+  >
+    {course.isPublished ? "Published" : "Draft"}
+  </span>
 
 
              <FaEdit size={15}

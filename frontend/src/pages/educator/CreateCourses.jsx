@@ -1,109 +1,194 @@
-import axios from 'axios';
-import React, { useState } from 'react'
+import axios from "axios";
+import React, { useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
- import { useNavigate } from 'react-router-dom';
-import { serverUrl } from '../../App';
-import { toast } from 'react-toastify';
-import { ClipLoader } from 'react-spinners';
+import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../../App";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const CreateCourses = () => {
+  const navigate = useNavigate();
 
- const navigate = useNavigate()
+  const [title, setTitle] = useState();
+  const [category, setCateory] = useState();
+  const [loading, setLoading] = useState();
 
- const [title, setTitle] = useState()
- const [category, setCateory] = useState()
- const [loading, setLoading] = useState()
-
- const handleCreateCourse = async () =>{
-    setLoading(true)
+  const handleCreateCourse = async () => {
+    setLoading(true);
     try {
-        const result = await axios.post(serverUrl + '/api/course/create',
-            {title, category},{withCredentials:true})
-            console.log(result)
-            console.log(result.data)
+      const result = await axios.post(
+        serverUrl + "/api/course/create",
+        { title, category },
+        { withCredentials: true }
+      );
+      console.log(result);
+      console.log(result.data);
 
-            navigate('/courses')
-            setLoading(false)
-            toast.success("Course Created")
-        
+      navigate("/edu-courses");
+      setLoading(false);
+      toast.success("Course Created");
     } catch (error) {
-        console.log(error)
-         setLoading(false)
-        toast.error(error.response.data.message)
-        
+      console.log(error);
+      setLoading(false);
+      toast.error(error.response.data.message);
     }
-
-
-
-
- }
-
-
-
+  };
 
   return (
-    <div className='min-h-screen flex items-center justify-center
-    bg-gray-950 px-4 py-10 text-amber-50 '>
+    <div className="min-h-screen bg-[#07090d] flex items-center justify-center px-4 py-16 text-white">
+      <div className="relative w-full max-w-5xl grid lg:grid-cols-2 rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent backdrop-blur-xl shadow-[0_50px_120px_rgba(0,0,0,0.7)] overflow-hidden">
+        {/* LEFT —  CONTEXT */}
+        <div className="relative p-10 flex flex-col justify-between">
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-indigo-500/20 blur-[160px]" />
+          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-emerald-400/20 blur-[160px]" />
 
-        <div className='max-w-xl w-[600px] bg-gray-800 mx-auto p-6 shadow-md rounded-md mt-10 relative'> 
-            
-            <FaArrowLeftLong size={24} 
-            onClick={()=>navigate('/edu-courses')}
-            className='top-[8%] absolute left-[5%] cursor-pointer '/>
+          <button
+            onClick={() => navigate("/edu-courses")}
+            className="relative z-10 text-white/60 hover:text-white transition w-fit"
+          >
+            <FaArrowLeftLong size={20} />
+          </button>
 
-            <h2 className='text-xl font-semibold mb-6 text-center'> Create Course</h2>
+          <div className="relative z-10 space-y-6 mt-10">
+            <span className="text-xs uppercase tracking-[0.35em] text-white/40">
+              LearnFlow
+            </span>
 
-            <form className='space-y-5'
-            onSubmit={(e)=>e.preventDefault()}
-            >
-             <div>
-                <label htmlFor="title" 
-                className='block text-sm font-medium text-blue-100 mb-2'>Course Title</label>
-                <input type="text" id='title' placeholder='Enter Course Title'
-                className='w-full border border-gray-400 rounded-md px-4 py-2 
-                focus:outline-none focus:ring-1 focus:ring-[white]'
-                onChange={(e)=>setTitle(e.target.value)} value={title}
-                />
-             </div>
-             <div>
-                 <label htmlFor="cate" 
-                className='block text-sm font-medium text-blue-100 mb-2'>Course Category</label>
-                <select  id="cate" 
-                className='w-full border border-gray-400 rounded-md px-4 py-2 
-                focus:outline-none focus:ring-1 focus:ring-[white] bg-gray-800'
-                onChange={(e)=>setCateory(e.target.value)}
-               
-                >
-                    <option value="">Select Category</option>
-                    <option value="Web Devlopment">Web Devlopment</option>
-                    <option value="UI/UX">UI/UX </option>
-                    <option value="App Devlopment">App Devlopment </option>
-                    <option value="Ethical Hacking ">Ethical Hacking</option>
-                    <option value="AI/ML">AI/ML</option>
-                    <option value="Data Science">Data Science</option>
-                    <option value="Other ">Other Options</option>
+            <h1 className="text-3xl sm:text-4xl font-semibold leading-tight">
+              Create a new
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">
+                learning experience
+              </span>
+            </h1>
 
+            <p className="text-white/60 text-sm leading-relaxed max-w-sm">
+              Start with a title and category. You’ll add lessons, pricing, and
+              structure after publishing.
+            </p>
+          </div>
 
-
-                </select>
-             </div>
-             <button className='w-full bg-black text-white py-2 px-4 rounded-md active:bg-gray-600 transition'
-              disabled={loading}
-              onClick={handleCreateCourse}
-
-             >
-                {loading? <ClipLoader size={28} color='white'/>: "Create" }
-             </button>
-
-            </form>
-
+          <div className="relative z-10 text-xs text-white/30 mt-12">
+            Draft • Editable anytime • Private by default
+          </div>
         </div>
+
+        {/* RIGHT — FORM */}
+        <div className="relative p-10 bg-black/40 backdrop-blur-xl">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+            {/* Title */}
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-widest text-white/50">
+                Course title
+              </label>
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Course Title"
+                className="w-full bg-transparent border-b border-white/20 px-1 py-3 text-lg placeholder:text-white/30 focus:outline-none  focus:border-white transition"
+              />
+            </div>
+
+         {/* CATEGORY — WORLD CLASS */}
+<div className="space-y-2">
+  <label className="text-xs uppercase tracking-widest text-white/50">
+    Category
+  </label>
+
+  <div className="relative group">
+    {/* FAKE UI (visible) */}
+    <div
+      className="
+        h-14
+        w-full
+        rounded-2xl
+        bg-gradient-to-br from-white/10 to-white/5
+        backdrop-blur-xl
+        border border-white/15
+        px-5
+        flex items-center justify-between
+        text-sm
+        text-black
+        cursor-pointer
+        group-hover:border-white/30
+        transition
        
+      "
+    >
+      <span className={category ? "text-white " : "text-white/40"}>
+        {category || "Select a course category"}
+      </span>
 
+      <span className="text-white/40 group-hover:text-white transition">
+        ⌄
+      </span>
     </div>
-    
-  )
-}
 
-export default CreateCourses
+    {/* REAL SELECT (invisible but functional) */}
+    <select
+      value={category}
+      onChange={(e) => setCateory(e.target.value)}
+      className="
+        absolute inset-0
+        h-full
+        w-full
+        
+        
+        opacity-0
+        cursor-pointer
+        bg-gray-600
+      "
+    >
+      <option value="">Select category</option>
+      <option value="Web Devlopment">Web Development</option>
+      <option value="UI/UX">UI / UX Design</option>
+      <option value="App Devlopment">App Development</option>
+      <option value="Ethical Hacking">Ethical Hacking</option>
+      <option value="AI/ML">AI / ML</option>
+      <option value="Data Science">Data Science</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+</div>
+
+
+
+            {/* CTA */}
+            <div className="pt-6">
+              <button
+                disabled={loading}
+                onClick={handleCreateCourse}
+                className="
+                w-full
+                py-4
+                rounded-full
+                bg-white
+                text-black
+                font-medium
+                hover:scale-[1.03]
+                hover:shadow-[0_15px_50px_rgba(255,255,255,0.25)]
+                disabled:opacity-60
+                transition
+                flex items-center justify-center
+              "
+              >
+                {loading ? (
+                  <ClipLoader size={22} color="black" />
+                ) : (
+                  "Create draft course"
+                )}
+              </button>
+
+              <p className="text-center text-xs text-white/40 mt-4">
+                You can edit everything before publishing
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateCourses;
