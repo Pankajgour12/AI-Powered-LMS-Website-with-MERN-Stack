@@ -275,7 +275,7 @@ const menuItem = {
                 setMobileOpen(false);
                 navigate("/dashboard");
               }}
-              className="w-full flex items-center gap-4px-4 py-3rounded-xl bg-gray-900 text-white hover:bg-gray-800 transition"
+              className="w-full flex items-center gap-4 px-4 py-3 rounded-xl bg-gray-800 text-white hover:bg-gray-600 transition"
             >
               <FiGrid className="text-lg" />
               <span className="text-sm font-medium">Dashboard</span>
