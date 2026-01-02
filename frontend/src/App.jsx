@@ -11,9 +11,10 @@ import Profile from "./pages/Profile";
 import ForgetPassword from "./pages/ForgetPassword";
 import EditProfile from "./pages/EditProfile.jsx";
 import Dashboard from "./pages/educator/Dashboard.jsx";
-import Courses from "./pages/educator/Courses.jsx";
+import EducatorCourses from "./pages/educator/EducatorCourses.jsx";
 import CreateCourses from "./pages/educator/CreateCourses.jsx";
 import getCreatorCourse from "./customHooks/getCreatorCourse.js";
+import EditCourses     from "./pages/educator/EditCourses.jsx"
 
 export const serverUrl = "http://localhost:8000";
 
@@ -59,14 +60,19 @@ const App = () => {
         />
 
          <Route
-          path="/courses"
-          element={userData?.role ==='educator' ? <Courses/> : <Navigate to={"/signup"} />}
+          path="/edu-courses"
+          element={userData?.role ==='educator' ? <EducatorCourses/> : <Navigate to={"/signup"} />}
         />
 
 
         <Route
           path="/create-courses"
           element={userData?.role ==='educator' ? <CreateCourses/> : <Navigate to={"/signup"} />}
+        />
+
+         <Route
+          path="/editcourses/:courseId"
+          element={userData?.role ==='educator' ? <EditCourses/> : <Navigate to={"/signup"} />}
         />
 
 

@@ -96,7 +96,7 @@ const Dashboard = () => {
           {/* Action */}
           <div>
             <button
-              onClick={() => navigate("/create-courses")}
+              onClick={() => navigate("/edu-courses")}
               className="inline-flex text-amber-50 items-center justify-center px-8 py-3 rounded-full border border-white/20 hover:border-white/40 transition text-sm"
             >
               Create Courses

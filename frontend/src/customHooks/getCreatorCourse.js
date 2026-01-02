@@ -6,7 +6,7 @@ import { setCreatorCourseData } from '../redux/courseSlice'
 
 const getCreatorCourse = () => {
   const dispatch = useDispatch()
-  const {userData} =useSelector((state)=>state.user)
+  const {userData} = useSelector((state)=>state.user)
 
   return (
 
@@ -16,7 +16,6 @@ const getCreatorCourse = () => {
             try {
                  const result = await axios.get(serverUrl + '/api/course/getcreator',{withCredentials:true})
              
-                 console.log(result.data)
 
              dispatch(setCreatorCourseData(result.data))
 

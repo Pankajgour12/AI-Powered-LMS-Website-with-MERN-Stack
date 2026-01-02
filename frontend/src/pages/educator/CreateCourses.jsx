@@ -49,7 +49,7 @@ const CreateCourses = () => {
         <div className='max-w-xl w-[600px] bg-gray-800 mx-auto p-6 shadow-md rounded-md mt-10 relative'> 
             
             <FaArrowLeftLong size={24} 
-            onClick={()=>navigate('/courses')}
+            onClick={()=>navigate('/edu-courses')}
             className='top-[8%] absolute left-[5%] cursor-pointer '/>
 
             <h2 className='text-xl font-semibold mb-6 text-center'> Create Course</h2>
