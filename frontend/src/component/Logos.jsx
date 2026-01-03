@@ -32,7 +32,10 @@ const data = [
 
 const Logos = () => {
   return (
-    <section className="w-full py-16 px-4">
+    <section className="w-full py-20 px-4">
+     
+ 
+ 
       <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-6">
         {data.map((item, index) => {
           const Icon = item.icon;

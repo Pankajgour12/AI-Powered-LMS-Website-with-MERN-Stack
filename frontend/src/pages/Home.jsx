@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "../component/Navbar.jsx";
- import hero2 from "../assets/hero2.jpg";
+ import hero2 from "../assets/hero.png";
 // import home from "../assets/home.png";
 
 
@@ -10,6 +10,7 @@ import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
+import { all } from "axios";
 
 const Home = () => {
 
@@ -37,171 +38,276 @@ const Home = () => {
     <div className="w-full min-h-screen bg-[#f9fafb] overflow-hidden">
 
       <Navbar />
-      <section className="relative min-h-screen bg-[#f6f7fb] overflow-hidden">
+      
+     <section className="relative min-h-screen bg-[#05070c] text-white overflow-hidden">
 
-  {/* Navbar spacer */}
-  <div className="h-20" />
+  
+  <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] [background-size:42px_42px]" />
+  <div className="absolute inset-0 bg-[radial-gradient(#ffffff12_1px,transparent_1px)] [background-size:120px_120px] opacity-40" />
 
-  {/* Subtle canvas */}
-  <div className="absolute inset-0 bg-[radial-gradient(#00000008_1px,transparent_1px)] [background-size:32px_32px]" />
+ 
+  <div className="absolute -top-1/3 -left-1/4 w-[800px] h-[800px] bg-indigo-500/30 blur-[220px]" />
+  <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-emerald-300/40 blur-[220px]" />
 
-  {/* Atmosphere */}
-  <div className="absolute -top-48 -left-48 w-[520px] h-[520px] bg-indigo-200/40 blur-[160px]" />
-  <div className="absolute top-1/3 -right-48 w-[520px] h-[520px] bg-emerald-200/40 blur-[160px]" />
+  <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-28 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center">
 
-  <div className="relative z-10 max-w-[1440px] mx-auto px-6 py-24 grid lg:grid-cols-[1fr_1.2fr] gap-20 items-center">
+    {/* LEFT — COMMAND */}
+    <div className="space-y-10">
 
-    {/* LEFT — CONTENT */}
-    <div className="space-y-10 ">
-      <span className="text-xs tracking-[0.4em] uppercase text-gray-400">
-        LearnFlow System
+      <span className="text-[11px] tracking-[0.5em] uppercase text-white/50">
+        LearnFlow Core
       </span>
 
-      <h1 className="text-[clamp(2.6rem,5vw,4.6rem)] font-semibold leading-[1.05] text-gray-900">
-        Learning that
+      <h1 className="text-[clamp(2.8rem,5vw,4.8rem)] font-semibold leading-[1.02]">
+        Education is no longer
         <br />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-emerald-600">
-          adapts to you
+        <span className="relative inline-block">
+          linear
+          <span className="absolute left-0 bottom-1 w-full h-[14px] bg-indigo-500/30 blur-lg -z-10" />
         </span>
       </h1>
 
-      <p className="max-w-lg text-gray-600 text-lg leading-relaxed">
-        LearnFlow is a structured learning environment —  
-        designed for clarity, progress and long-term mastery.
+      <p className="max-w-xl text-white/60 text-lg leading-relaxed">
+        LearnFlow reorganizes knowledge into adaptive systems 
+        designed to respond to how <b>You</b> grow, not how content is sold.
       </p>
 
-      {/* Buttons — grounded */}
-      <div className="flex flex-wrap gap-4 pt-4">
+      {/*  BUTTONS */}
+      <div className="flex flex-wrap gap-6 pt-6">
+
+        {/* AI SEARCH */}
         <button className="
-          px-7 py-3.5
+          group relative
+          px-8 py-4
           rounded-full
-          bg-gray-900
+          bg-white/10
+          backdrop-blur
+          border border-white/20
           text-white
-          text-sm sm:text-base
           font-medium
-          hover:scale-[1.04]
+          overflow-hidden
+          hover:scale-[1.06]
           transition
         ">
-          Enter LearnFlow
+          <span className="relative z-10 flex items-center gap-2">
+            ⚡ Search with AI
+          </span>
+          <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-emerald-500 opacity-0 group-hover:opacity-30 transition" />
         </button>
 
-        <button className="
-          px-7 py-3.5
-          rounded-full
-          border border-gray-300
-          text-gray-700 text-sm sm:text-base
-          hover:border-gray-500 transition cursor-pointer
-        "
-        onClick={()=>navigate('/courses')}
+        {/* VIEW COURSES */}
+        <button
+          onClick={() => navigate("/courses")}
+          className="
+            relative
+            px-8 py-4
+            rounded-full
+            border border-white/30
+            text-white/80
+            font-medium
+            hover:text-white
+            hover:border-white
+            transition
+          "
         >
-          View All Courses
+          View all Courses →
         </button>
       </div>
     </div>
 
-    {/* RIGHT — SYSTEM */}
-    <div className="relative flex justify-center">
+    {/* RIGHT  */}
+    <div className="relative flex justify-center items-center">
 
-      {/* Orbit ring */}
-      <div className="absolute w-[520px] h-[520px] rounded-full border border-gray-300/40" />
+     
+      <div className="absolute w-[520px] h-[520px] rounded-full border border-white/15 animate-[spin_60s_linear_infinite]" />
+      <div className="absolute w-[420px] h-[420px] rounded-full border border-gray-400 animate-[spin_40s_linear_reverse_infinite]" />
 
-      {/* Image Core */}
+      
       <div className="
         relative
         w-[340px] h-[340px]
         sm:w-[380px] sm:h-[380px]
-        rounded-full
-        bg-white
-        shadow-[0_70px_160px_rgba(0,0,0,0.18)]
+        rounded-[38%_62%_55%_45%]
+        bg-gradient-to-br from-white/20 to-white/5
+        backdrop-blur-xl
+        shadow-[0_100px_240px_rgba(0,0,0,0.9)]
         flex items-center justify-center
       ">
         <img
           src={hero2}
-          alt="Learner"
-          className="w-[78%] object-contain"
+          alt="Learning Core"
+          className="w-[85%] object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.9)]"
         />
       </div>
 
-      {/* === FLOATING SIGNALS (NO OVERLAP) === */}
 
-      {/* Top */}
-      <motion.div
-        animate={{ y: [-6, 6] }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-        className="
-          absolute
-          top-0
-          left-3
-          bg-white
-          px-5 py-3
-          rounded-xl
-          shadow-md
-        "
-      >
-        <div className="text-[10px] uppercase tracking-widest text-gray-400">
-          Courses
-        </div>
-        <div className="text-xl font-semibold text-gray-900">120+</div>
-      </motion.div>
-
-      {/* Right */}
-      <motion.div
-        animate={{ x: [6, -6] }}
-        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        className="
-          absolute
-          right-[-2.5rem]
-          top-1/2 -translate-y-1/2
-          bg-white
-          px-5 py-3
-          rounded-xl
-          shadow-md
-        "
-      >
-        <div className="text-[10px] uppercase tracking-widest text-gray-400">
-          Rating
-        </div>
-        <div className="text-xl font-semibold text-gray-900">4.9 ★</div>
-      </motion.div>
-
-      {/* Bottom */}
-      <motion.div
-        animate={{ y: [6, -6] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="
-          absolute
-          -bottom-6
-          left-12
-          bg-white
-          px-5 py-3
-          rounded-xl
-          shadow-md
-        "
-      >
-        <div className="text-[10px] uppercase tracking-widest text-gray-400">
-          Learners
-        </div>
-        <div className="text-xl font-semibold text-gray-900">20k+</div>
-      </motion.div>
+ <motion.div
+  animate={{ y: [-6, 6] }}
+  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+  className="
+  absolute
+  top-[-1.8rem]
+  left-1/4 -translate-x-1/3
+  
+    z-0
+  "
+>
+  <div
+    className="
+      px-4 py-2
+      rounded-xl
+      bg-white/10
+      backdrop-blur-lg
+      border border-white/20
+      shadow-[0_10px_40px_rgba(0,0,0,0.25)]
+      text-center
+      lg:block
+      sm:hidden
+    
+      
+    "
+  >
+    <div className="text-lg sm:text-2xl font-semibold text-white">
+      120+
+    </div>
+    <div className="text-[9px] tracking-[0.35em] text-white/50">
+      COURSES
     </div>
   </div>
+</motion.div>
 
-  {/* MOBILE — CLEAN STACK */}
-  <div className="lg:hidden px-6 pb-20 space-y-4">
-    <div className="grid grid-cols-3 gap-3">
-      {[
-        ["Courses", "120+"],
-        ["Rating", "4.9"],
-        ["Learners", "20k+"],
-      ].map(([t, v]) => (
-        <div key={t} className="rounded-xl bg-white shadow p-3 text-center">
-          <div className="text-[10px] text-gray-400 uppercase">{t}</div>
-          <div className="text-base font-semibold">{v}</div>
-        </div>
-      ))}
+
+  <motion.div
+  animate={{ x: [6, -6] }}
+  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+  className="
+    absolute
+    right-[-1.8rem]
+    sm:right-[-3.2rem]
+    top-1/2 -translate-y-1/2
+    z-0
+  "
+>
+  <div
+    className="
+      px-4 py-2
+      rounded-xl
+      bg-white/10
+      backdrop-blur-lg
+      border border-white/20
+      shadow-[0_10px_40px_rgba(0,0,0,0.25)]
+      text-center
+    "
+  >
+    <div className="text-lg sm:text-2xl font-semibold text-amber-400">
+      4.9 ★
+    </div>
+    <div className="text-[9px] tracking-[0.35em] text-white/50">
+      RATING
     </div>
   </div>
+</motion.div>
+
+
+ <motion.div
+  animate={{ y: [6, -6] }}
+  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+  className="
+    absolute
+    bottom-[-2.2rem]
+    left-[18%]
+    sm:bottom-[-3.6rem]
+    z-0
+  "
+>
+  <div
+    className="
+      px-4 py-2
+      rounded-xl
+      bg-white/10
+      backdrop-blur-lg
+      border border-white/20
+      shadow-[0_10px_40px_rgba(0,0,0,0.25)]
+      text-center
+    "
+  >
+    <div className="text-lg sm:text-2xl font-semibold text-white">
+      20K+
+    </div>
+    <div className="text-[9px] tracking-[0.35em] text-white/50">
+      LEARNERS
+    </div>
+  </div>
+</motion.div>
+
+
+     
+
+
+
+
+
+
+    
+  </div>
+ 
+ 
+  
+
+  
+
+
+
+
+  
+
+
+
+
+
+  {/* MOBILE — METRIC STRIP */}
+<div className="lg:hidden mt-12 px-6  ">
+  <div className="flex justify-between text-center">
+    {[
+      ["120+", "Courses"],
+      ["4.9", "Rating"],
+      ["20k+", "Learners"],
+    ].map(([v, l]) => (
+      <div key={l}>
+        <div className="text-xl font-semibold">{v}</div>
+        <div className="text-[9px] uppercase tracking-[0.35em] text-white/50 mt-1">
+          {l}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+  
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ </div>
+
+  
 </section>
+
 
 
     
@@ -233,7 +339,8 @@ const Home = () => {
       
 
 
-   
+  
+
 
      
 
