@@ -10,7 +10,9 @@ function CardPage()  {
 
    useEffect(() => {
   if (courseData?.courses) {
-    setPopularCourses(courseData.courses)
+    setPopularCourses(courseData.courses.slice(0, 6))
+  } else {
+    setPopularCourses([])
   }
 }, [courseData])
 
