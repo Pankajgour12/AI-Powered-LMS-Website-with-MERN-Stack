@@ -8,6 +8,8 @@ import axios from "axios";
 import { serverUrl } from "../../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { setCourseData, setCreatorCourseData } from "../../redux/courseSlice";
 
 const EditCourses = () => {
   const navigate = useNavigate();
@@ -27,7 +29,10 @@ const EditCourses = () => {
     const [backendImage, setBackendImage] = useState(null)
     const [loading , setLoading] = useState(false)
     const [loading1 , setLoading1] = useState(false)
-     
+    const dispatch = useDispatch() 
+
+    const {courseData, creatorCourseData} = useSelector(state=>state.course)
+
 
 
     const handleThumnail = (e) =>{
@@ -88,6 +93,34 @@ const EditCourses = () => {
     try {
         const result = await axios.post(serverUrl + `/api/course/editcourse/${courseId}`,formData, {withCredentials:true})
         console.log(result.data);
+        const updatedData = result.data.course;
+        console.log(updatedData);
+        const existing = creatorCourseData?.courses ?? []
+        if(updatedData.isPublished){
+          const updatedCourse = existing.map(c => c._id === courseId ? updatedData : c)
+
+          if(!existing.some(c=> c._id === courseId)){
+            updatedCourse.push(updatedData)
+          }
+          dispatch(setCreatorCourseData({ ...creatorCourseData, courses: updatedCourse }))
+
+          //  update  courses list
+          const pubExisting = courseData?.courses ?? []
+          const updatedPub = pubExisting.map(c => c._id === courseId ? updatedData : c)
+          if(!pubExisting.some(c => c._id === courseId)) updatedPub.push(updatedData)
+          dispatch(setCourseData({ ...courseData, courses: updatedPub }))
+
+        } else {
+          const updatedCreator = existing.map(c => c._id === courseId ? updatedData : c)
+          if(!existing.some(c => c._id === courseId)) updatedCreator.push(updatedData)
+          dispatch(setCreatorCourseData({ ...creatorCourseData, courses: updatedCreator }))
+
+          // remove from published 
+          const pubExisting = courseData?.courses ?? []
+          const filteredPub = pubExisting.filter(c => c._id !== courseId)
+          dispatch(setCourseData({ ...courseData, courses: filteredPub }))
+        }
+
         setLoading(false)
         navigate('/edu-courses')
         toast.success("Course Updated")
@@ -105,7 +138,16 @@ const EditCourses = () => {
  setLoading1(true)
  try {
   const result = await axios.delete(serverUrl + `/api/course/remove/${courseId}`,{withCredentials:true})
- 
+  console.log(result.data);
+
+  const existing = creatorCourseData?.courses ?? []
+  const filterCourse = existing.filter(c => c._id !== courseId)
+   console.log(filterCourse);
+  dispatch(setCreatorCourseData({ ...creatorCourseData, courses: filterCourse }))
+  
+  const pubExisting = courseData?.courses ?? []
+  const filteredPub = pubExisting.filter(c => c._id !== courseId)
+  dispatch(setCourseData({ ...courseData, courses: filteredPub }))
   setLoading1(false)
   navigate('/edu-courses')
   toast.success("Course Removed")

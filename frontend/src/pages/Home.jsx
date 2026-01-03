@@ -9,6 +9,7 @@ import devIllustration from "../assets/BannerImage2.png";
 import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
+import CardPage from "../component/CardPage.jsx";
 
 const Home = () => {
 
@@ -251,6 +252,7 @@ const Home = () => {
 
 
             <ExploreCourse/>
+            <CardPage/>
     
 
 

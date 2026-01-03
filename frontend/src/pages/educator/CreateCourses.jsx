@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { setCreatorCourseData, setCourseData } from '../../redux/courseSlice'
 import { serverUrl } from "../../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
@@ -14,6 +16,9 @@ const CreateCourses = () => {
   const [category, setCateory] = useState();
   const [loading, setLoading] = useState();
 
+  const dispatch = useDispatch()
+  const {creatorCourseData, courseData} = useSelector(state=>state.course)
+
   const handleCreateCourse = async () => {
     setLoading(true);
     try {
@@ -22,8 +27,14 @@ const CreateCourses = () => {
         { title, category },
         { withCredentials: true }
       );
-      console.log(result);
-      console.log(result.data);
+      const created = result.data.course
+     
+      const existing = creatorCourseData?.courses ?? []
+      dispatch(setCreatorCourseData({ ...creatorCourseData, courses: [...existing, created] }))
+      if(created?.isPublished){
+        const pubExisting = courseData?.courses ?? []
+        dispatch(setCourseData({ ...courseData, courses: [...pubExisting, created] }))
+      }
 
       navigate("/edu-courses");
       setLoading(false);
@@ -74,10 +85,10 @@ const CreateCourses = () => {
           </div>
         </div>
 
-        {/* RIGHT — FORM */}
+        {/*   FORM */}
         <div className="relative p-10 bg-black/40 backdrop-blur-xl">
           <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-            {/* Title */}
+          
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-widest text-white/50">
                 Course title
@@ -90,14 +101,14 @@ const CreateCourses = () => {
               />
             </div>
 
-         {/* CATEGORY — WORLD CLASS */}
+         {/* CATEGORY  */}
 <div className="space-y-2">
   <label className="text-xs uppercase tracking-widest text-white/50">
     Category
   </label>
 
   <div className="relative group">
-    {/* FAKE UI (visible) */}
+  
     <div
       className="
         h-14
@@ -154,7 +165,7 @@ const CreateCourses = () => {
 
 
 
-            {/* CTA */}
+           
             <div className="pt-6">
               <button
                 disabled={loading}
@@ -170,6 +181,7 @@ const CreateCourses = () => {
                 hover:shadow-[0_15px_50px_rgba(255,255,255,0.25)]
                 disabled:opacity-60
                 transition
+                cursor-pointer
                 flex items-center justify-center
               "
               >
