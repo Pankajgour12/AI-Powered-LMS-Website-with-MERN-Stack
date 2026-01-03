@@ -8,17 +8,20 @@ import {
   FiCpu,
   FiBarChart2,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const skills = [
-  { label: "Web Dev", icon: FiCode, x: "-20%", y: "10%" },
+  { label: "Web Development", icon: FiCode, x: "-20%", y: "10%" },
   { label: "UI / UX", icon: FiLayout, x: "25%", y: "-5%" },
-  { label: "App Dev", icon: FiSmartphone, x: "55%", y: "18%" },
+  { label: "App Development", icon: FiSmartphone, x: "55%", y: "18%" },
   { label: "Ethical Hacking", icon: FiShield, x: "10%", y: "55%" },
   { label: "AI / ML", icon: FiCpu, x: "45%", y: "65%" },
   { label: "Data Science", icon: FiBarChart2, x: "75%", y: "40%" },
 ];
 
 const ExploreCourses = () => {
+
+  const navigate = useNavigate();
   return (
     <section className="relative w-full bg-[#0b0f19] text-white overflow-hidden">
      
@@ -59,6 +62,8 @@ const ExploreCourses = () => {
       hover:shadow-[0_14px_50px_rgba(255,255,255,0.28)]
       transition
     "
+          onClick={() => navigate("/allcourses")}
+
           >
             Explore all courses
           </button>

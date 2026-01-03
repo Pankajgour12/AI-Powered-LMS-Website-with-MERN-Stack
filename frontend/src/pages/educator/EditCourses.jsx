@@ -294,14 +294,14 @@ const EditCourses = () => {
                 onChange={(e)=>setCategory(e.target.value)} value={category}
                 
               >
-                <option value="">Select Category</option>
-                <option value="Web Devlopment">Web Devlopment</option>
-                <option value="UI/UX">UI/UX </option>
-                <option value="App Devlopment">App Devlopment </option>
-                <option value="Ethical Hacking ">Ethical Hacking</option>
-                <option value="AI/ML">AI/ML</option>
-                <option value="Data Science">Data Science</option>
-                <option value="Other ">Other Options</option>
+                <option value="">Select category</option>
+      <option value="Web Development">Web Development</option>
+      <option value="UI/UX">UI / UX Design</option>
+      <option value="App Development">App Development</option>
+      <option value="Ethical Hacking">Ethical Hacking</option>
+      <option value="AI/ML">AI / ML</option>
+      <option value="Data Science">Data Science</option>
+      <option value="Other">Other</option>
               </select>
             </div>
 

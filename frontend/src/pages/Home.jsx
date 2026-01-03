@@ -10,7 +10,6 @@ import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
-import { all } from "axios";
 
 const Home = () => {
 
@@ -97,7 +96,7 @@ const Home = () => {
 
         {/* VIEW COURSES */}
         <button
-          onClick={() => navigate("/courses")}
+          onClick={() => navigate("/allcourses")}
           className="
             relative
             px-8 py-4

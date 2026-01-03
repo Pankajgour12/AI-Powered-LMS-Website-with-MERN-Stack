@@ -152,9 +152,9 @@ const CreateCourses = () => {
       "
     >
       <option value="">Select category</option>
-      <option value="Web Devlopment">Web Development</option>
+      <option value="Web Development">Web Development</option>
       <option value="UI/UX">UI / UX Design</option>
-      <option value="App Devlopment">App Development</option>
+      <option value="App Development">App Development</option>
       <option value="Ethical Hacking">Ethical Hacking</option>
       <option value="AI/ML">AI / ML</option>
       <option value="Data Science">Data Science</option>
