@@ -48,28 +48,30 @@ const Home = () => {
   <div className="absolute -top-1/3 -left-1/4 w-[800px] h-[800px] bg-indigo-500/30 blur-[220px]" />
   <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-emerald-300/40 blur-[220px]" />
 
-  <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-28 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center">
+  <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-40 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center ">
 
     {/* LEFT — COMMAND */}
-    <div className="space-y-10">
+    <div className="space-y-12">
 
-      <span className="text-[11px] tracking-[0.5em] uppercase text-white/50">
-        LearnFlow Core
+       <span className="text-xs tracking-[0.4em] uppercase text-white/50">
+        LearnFlow Platform
       </span>
 
-      <h1 className="text-[clamp(2.8rem,5vw,4.8rem)] font-semibold leading-[1.02]">
-        Education is no longer
+      <h1 className="text-[clamp(2.8rem,5vw,4.2rem)] font-semibold leading-[1.05]">
+        Learn skills that
         <br />
-        <span className="relative inline-block">
-          linear
-          <span className="absolute left-0 bottom-1 w-full h-[14px] bg-indigo-500/30 blur-lg -z-10" />
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">
+          actually matter
         </span>
       </h1>
 
-      <p className="max-w-xl text-white/60 text-lg leading-relaxed">
-        LearnFlow reorganizes knowledge into adaptive systems 
-        designed to respond to how <b>You</b> grow, not how content is sold.
+      <p className="max-w-xl text-lg text-white/70 leading-relaxed">
+        Structured courses, real projects, and industry-ready learning 
+        designed for people who want results, not certificates.
       </p>
+
+
+      
 
       {/*  BUTTONS */}
       <div className="flex flex-wrap gap-6 pt-6">
@@ -359,6 +361,9 @@ const Home = () => {
 
             <ExploreCourse/>
             <CardPage/>
+
+          
+
     
 
 

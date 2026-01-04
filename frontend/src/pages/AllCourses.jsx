@@ -52,7 +52,7 @@ const AllCourses = () => {
      {/* sidebar */}
 
      <aside
-      className="w-[260px] h-screen pt-20  bg-black/10 overflow-y-auto backdrop-blur-md top-0 left-0  p-6 border-r border-gray-200
+      className="w-[260px] overflow-y-auto h-screen pt-20  bg-black/10  backdrop-blur-md top-0 left-0  p-6 border-r border-gray-200
       shadow-md transition-transform duration-300 z-5
       " 
      >
@@ -144,12 +144,13 @@ const AllCourses = () => {
 
      </aside>
 
-     <main className='w-full transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-center
+     <main className='w-full transition-all duration-300 py-[130px] md:pl-[300px] flex items-start justify-around
      md:justify-start flex-wrap gap-6 px-[10px] '>
       {
         filterCourse?.map((course,index)=>(
           
              <Card
+             
     key={index}
     thumbnail={course.thumbnail}
     title={course.title}

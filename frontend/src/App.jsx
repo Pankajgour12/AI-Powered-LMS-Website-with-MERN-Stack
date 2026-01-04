@@ -17,6 +17,7 @@ import getCreatorCourse from "./customHooks/getCreatorCourse.js";
 import EditCourses     from "./pages/educator/EditCourses.jsx"
 import getPublishedCourse from "./customHooks/getPublishedCourse.js";
 import AllCourses from "./pages/AllCourses.jsx";
+import CardPage from "./component/CardPage.jsx";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -35,6 +36,8 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
+       
+
 
         <Route
           path="/signup"

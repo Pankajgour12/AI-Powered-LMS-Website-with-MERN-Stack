@@ -32,7 +32,9 @@ const data = [
 
 const Logos = () => {
   return (
-    <section className="w-full py-20 px-4">
+    <section className="w-full py-20 px-4 bg-emerald-500/15">
+
+      
      
  
  
