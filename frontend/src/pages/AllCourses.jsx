@@ -9,11 +9,15 @@ const AllCourses = () => {
 
   const navigate = useNavigate()
   const {courseData} = useSelector(state=>state.course)
-  console.log(courseData);
+  
 
   const [category, setCategory] = useState([])
   const [filterCourse, setFilterCourse] = useState([])
+  const [isSidebarVisible, setIsSidebarVisible] = useState()
 
+
+
+  
   const toggleCategory = (e)=>{
     if(category.includes(e.target.value)){
       setCategory(prev => prev.filter(c => c !== e.target.value))
@@ -49,14 +53,29 @@ const AllCourses = () => {
   return (
     <div className='flex min-h-screen  bg-black/20'>
      <Navbar/>
+    
+     <button className='fixed top-20 left-4 z-50  bg-white text-black px-3 py-1 rounded-md md:hidden border-2
+     border-black'
+     onClick={()=>setIsSidebarVisible(prev=>!prev)}
+     >
+      {isSidebarVisible ? 'Hide' : 'Show'} Filters
+
+     </button>
+
+
      {/* sidebar */}
 
+
+
      <aside
-      className="w-[260px] overflow-y-auto h-screen pt-20  bg-black/10  backdrop-blur-md top-0 left-0  p-6 border-r border-gray-200
-      shadow-md transition-transform duration-300 z-5
-      " 
+      className={`w-[260px]  h-screen overflow-y-auto pt-30  bg-black/50  backdrop-blur-md top-0 left-0  p-6 border-r border-gray-200
+      shadow-md fixed transition-transform duration-300 z-5 
+      ${isSidebarVisible ? "translate-x-0" : "-translate-x-full" }
+      md:block md:translate-x-0
+
+      `}
      >
-      <h2 className="text-xl font-bold flex items-center justify-center gap-2 mb-6 text-black"
+      <h2 className="text-xl font-bold flex items-center justify-center gap-2 mb-6 text-white md:text-black"
       >
         <FaArrowLeftLong className=' text-gray-800'
         onClick={()=>navigate('/')}
