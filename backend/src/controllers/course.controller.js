@@ -212,7 +212,7 @@ export const editLecture = async (req,res)=>{
 
         await lecture.save()
         return res.status(200).json({message:"Lecture updated successfully",lecture})   
-        
+
         
 
         
@@ -221,4 +221,40 @@ export const editLecture = async (req,res)=>{
         res.status(500).json({ message: "Edit Lecture error", error: error.message });       
     }   
 }
+
+
+
+export const removeLecture = async (req,res)=>{ 
+    try {
+        const {lectureId} = req.params
+        const lecture = await Lecture.findByIdAndDelete(lectureId)
+        if(!lecture){
+            return res.status(404).json({message:"Lecture not found"})
+        }
+
+        await Course.updateOne(
+            {lectures:lectureId},
+            {$pull:{lectures:lectureId}}
+        )
+        return res.status(200).json({message:"Lecture deleted successfully"})
+
+
+          
+        
+
+        
+    } catch (error) {
+        res.status(500).json({ message: "Remove Lecture error", error: error.message });
+        
+    }
+
+
+
+
+
+
+
+
+}
+   
 
