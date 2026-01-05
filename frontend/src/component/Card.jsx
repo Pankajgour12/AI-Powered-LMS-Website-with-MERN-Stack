@@ -1,7 +1,11 @@
 import React from "react";
 import { FaStar } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({ thumbnail, title, category, price }) => {
+const Card = ({ thumbnail, title, category, price, id }) => {
+
+  const navigate = useNavigate()
+
   return (
     <div
       className="
@@ -14,6 +18,7 @@ const Card = ({ thumbnail, title, category, price }) => {
         transition-all duration-500
         hover:-translate-y-2
       "
+      onClick={() => navigate(`/viewcourse/${id}`)}
     >
       {/* IMAGE — FULL VIEW */}
       <div className="relative w-full h-[210px] bg-black flex items-center justify-center">
