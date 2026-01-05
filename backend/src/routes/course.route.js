@@ -22,7 +22,7 @@ courseRouter.delete('/remove/:courseId',authUser,removeCourse)
  
 courseRouter.post('/createlecture/:courseId',authUser,createLecture)
 
-courseRouter.get('courselecture/:courseId',authUser, getCourseLecture)
+courseRouter.get('/courselecture/:courseId',authUser, getCourseLecture)
 
 courseRouter.post('/editlecture/:lectureId',authUser,upload.single('videoUrl'),editLecture)
 

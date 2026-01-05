@@ -51,6 +51,13 @@ const Home = () => {
   <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-40 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center ">
 
     {/* LEFT — COMMAND */}
+<motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+
     <div className="space-y-12">
 
        <span className="text-xs tracking-[0.4em] uppercase text-white/50">
@@ -115,8 +122,17 @@ const Home = () => {
         </button>
       </div>
     </div>
+    </motion.div>
 
     {/* RIGHT  */}
+
+    <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col gap-6"
+          >
     <div className="relative flex justify-center items-center">
 
      
@@ -251,6 +267,8 @@ const Home = () => {
 
     
   </div>
+
+  </motion.div>
  
  
   
@@ -359,7 +377,22 @@ const Home = () => {
     </section>
 
 
-            <ExploreCourse/>
+            <section >
+           <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            >
+          <ExploreCourse/>
+
+          </motion.div>
+    </section>
+
+           
+
+
+
             <CardPage/>
 
           

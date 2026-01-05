@@ -78,9 +78,10 @@ const menuItem = {
             <Link to="/courses" className="nav-modern">
               <FiBook /> Courses
             </Link>
-            <Link to="/explore" className="nav-modern">
+            <Link to="explore" className="nav-modern">
               <FiCompass /> Explore
             </Link>
+           
             <Link to="/educator" className="nav-modern">
               <FiStar /> Educators
             </Link>

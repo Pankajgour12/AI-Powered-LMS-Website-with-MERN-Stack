@@ -136,7 +136,7 @@ export const createLecture = async (req, res) =>{
     try {
         const {lectureTitle} = req.body
         const {courseId} = req.params
-    if(lectureTitle || courseId){
+    if(!lectureTitle || !courseId){
         return res.status(400).json({message:"Lecture Title is required"})
 
     }
@@ -150,7 +150,7 @@ if(course){
 }
  await course.populate('lectures')
 await course.save()
-    return res.status(201).json({message:"Lecture created successfully", lectur, course})
+    return res.status(201).json({message:"Lecture created successfully", lecture, course})
 
 
     } catch (error) {

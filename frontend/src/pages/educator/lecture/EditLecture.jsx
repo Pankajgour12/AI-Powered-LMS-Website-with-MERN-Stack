@@ -1,0 +1,158 @@
+import axios from 'axios'
+import React from 'react'
+import { useState } from 'react'
+import { FaArrowLeftLong } from 'react-icons/fa6'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { serverUrl } from '../../../App'
+import { toast } from 'react-toastify'
+import { setLectureData } from '../../../redux/lectureSlice'
+
+const EditLecture = () => {
+   const {courseId, lectureId} = useParams()
+
+   const {lectureData} = useSelector(state=>state.lecture)
+
+
+   const selectedLecture = lectureData.find(lecture => lecture._id === lectureId)
+
+   const navigate = useNavigate()
+
+   const [lectureTitle, setLectureTitle] = useState(selectedLecture.lectureTitle)
+   const [videoUrl, setVideoUrl] = useState("")
+    const [isPreviewFree, setIsPreviewFree] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [loading1, setLoading1] = useState(false)
+    const dispatch = useDispatch()
+
+
+    const formdata = new FormData()
+    formdata.append("lectureTitle", lectureTitle)
+    formdata.append("videoUrl", videoUrl)
+    formdata.append("isPreviewFree", isPreviewFree)
+
+    const handleEditLecture = async () =>{
+        setLoading(true)    
+        try {
+            const result = await axios.post(serverUrl + `/api/course/editlecture/${lectureId}`, formdata ,{withCredentials:true})
+            console.log(result.data);
+            dispatch(setLectureData([...lectureData , result]))
+            setLoading(false)
+            toast.success("Lecture Updated ")
+            navigate('/courses')
+
+        } catch (error) {
+            console.log("Error while updating lecture:", error);
+            setLoading(false)
+            toast.error("Failed to update lecture",error.response.data.message)
+
+            
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+  return (
+    <div 
+    className='min-h-screen bg-gray-100 flex items-center justify-center p-4'
+    >
+        <div className='w-full max-w-xl bg-white rounded-xl shadow-lg p-6 space-y-6'>
+
+             {/* header  */}
+             <div className='flex items-center  gap-4 mb-2'>
+             <FaArrowLeftLong 
+                className='text-gray-600 hover:text-gray-800 cursor-pointer'
+             onClick={()=>navigate(`/createlecture/${courseId}`)}
+             />
+
+        <h2 className='text-2xl font-semibold text-gray-800'>
+           Update Course Lecture
+        </h2>
+             </div>
+
+              <button className='mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition-all text-sm'>
+                Remove Lecture
+              </button>
+
+              <div className='space-y-4'>
+                <div>
+                    <label 
+                    className='block text-sm font-medium text-gray-700 mb-1'>
+                        Lecture Title  *
+                    </label>
+                    <input 
+                    type="text" 
+                    className='w-full border border-gray-300 rounded-md p-3 text-sm focus:ring-2 focus:ring-black 
+                    focus:outline-none'
+                    required
+                    
+                    onChange={(e)=>setLectureTitle(e.target.value)}
+                    value={lectureTitle}
+                    />
+                </div>
+
+                <div>
+                    <label 
+                    className='block text-sm font-medium text-gray-700 mb-1'>
+                        Video  *
+                    </label>
+                    <input 
+                    type="file" 
+                    className='
+                    w-full border border-gray-300 rounded-md p-2 file:mr-4
+                    file:py-2 file:px-4 file:rounded-md 
+                    file:border-0 file:text-sm file:bg-gray-700
+                    file:text-white hover:file:bg-gray-500
+
+
+                    '
+                    required
+                    accept='video/*'
+                    onChange={(e)=>setVideoUrl(e.target.files[0])}
+                    
+                    />
+                </div>
+
+                <div className='flex items-center gap-3'>
+                    <input type="checkbox"
+                    className='accent-black h-4 w-4' id='isFree'
+                    onChange={()=>setIsPreviewFree(
+                        prev=>!prev
+                    )}
+                    
+                    
+                    />
+                    <label id='isFree' className='ml-2 text-sm text-gray-800'>
+                        Mark as free preview ?
+                    </label>
+                </div>
+
+              </div>
+
+              <div className='pt-4'>
+                <button className='w-full px-5 py-2 rounded-md bg-black text-white hover:bg-gray-600
+                    transition-all text-sm font-medium shadow  '
+                    onClick={handleEditLecture}
+                    >
+                    Update Lecture
+                </button>
+              </div>
+
+
+        </div>
+     
+
+
+
+    </div>
+  )
+}
+
+export default EditLecture
