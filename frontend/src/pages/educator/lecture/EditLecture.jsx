@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { serverUrl } from '../../../App'
 import { toast } from 'react-toastify'
 import { setLectureData } from '../../../redux/lectureSlice'
+import { ClipLoader } from 'react-spinners'
 
 const EditLecture = () => {
    const {courseId, lectureId} = useParams()
@@ -39,7 +40,7 @@ const EditLecture = () => {
             dispatch(setLectureData([...lectureData , result]))
             setLoading(false)
             toast.success("Lecture Updated ")
-            navigate('/courses')
+            navigate('/edu-courses')
 
         } catch (error) {
             console.log("Error while updating lecture:", error);
@@ -56,6 +57,25 @@ const EditLecture = () => {
 
 
     }
+
+
+    const removeLecture = async () =>{
+    setLoading1(true)
+    
+    try {
+        const result = await axios.delete(serverUrl + `/api/course/removelecture/${lectureId}`, {withCredentials:true})
+        console.log(result.data);
+        setLoading1(false)
+        navigate(`/createlecture/${courseId}`)
+        toast.success("Lecture Removed ")
+    } catch (error) {
+        console.log("Error while removing lecture:", error);
+        setLoading1(false)
+        toast.error("Failed to remove lecture",error.response.data.message)
+        
+    }
+
+  }
 
 
 
@@ -77,8 +97,11 @@ const EditLecture = () => {
         </h2>
              </div>
 
-              <button className='mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition-all text-sm'>
-                Remove Lecture
+              <button className='mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition-all text-sm'
+              disabled={loading1}
+              onClick={removeLecture}
+              >
+                {loading1? <ClipLoader size={30} color='white'/> :"Remove Lecture"}
               </button>
 
               <div className='space-y-4'>
@@ -134,14 +157,18 @@ const EditLecture = () => {
                     </label>
                 </div>
 
+                {loading ? <p>Uploading video... Please wait.</p>:
+                 ""}
+
               </div>
 
               <div className='pt-4'>
                 <button className='w-full px-5 py-2 rounded-md bg-black text-white hover:bg-gray-600
                     transition-all text-sm font-medium shadow  '
+                   disabled={loading}
                     onClick={handleEditLecture}
                     >
-                    Update Lecture
+                    {loading ? <ClipLoader size={30} color='white'/>: "Update Lecture"}
                 </button>
               </div>
 
