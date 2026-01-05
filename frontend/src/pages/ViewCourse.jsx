@@ -47,7 +47,7 @@ useEffect(()=>{
    <div className='max-w-6xl mx-auto bg-amber-50 shadow-md rounded-xl p-6 space-y-6 relative'>
 
       {/* top section  */}
-       <div className='flex flex-col md:flex-row gap-6'>
+       <div className='flex flex-col md:flex-row gap-10 justify-around'>
 
              {/* thumbnail */}
 
@@ -133,6 +133,24 @@ useEffect(()=>{
             <li>Learn {selectedCourse?.category} from Beginning </li>
 
         </ul>
+       </div>
+
+       <div>
+        <h2 className='text-xl font-semibold mb-2'>
+            Who This Course is For
+        </h2>
+        <p className=' text-gray-700'>
+            Beginners, apiring developers, and professsionals looking to upgrade skills.
+
+        </p>
+       </div>
+
+
+       {/* lectures Area  */}
+
+       <div className='flex flex-col md:flex-row gap-6'>
+
+
        </div>
 
 
