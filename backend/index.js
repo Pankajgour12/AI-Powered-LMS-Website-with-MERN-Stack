@@ -7,6 +7,7 @@ import router from './src/routes/auth.route.js';
 import cors from 'cors';
 import userRouter from './src/routes/user.route.js';
 import courseRouter from './src/routes/course.route.js';
+import paymentRouter from './src/routes/payment.route.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use(cors({
 app.use('/api/auth',router)
 app.use('/api/user',userRouter)
 app.use('/api/course',courseRouter)
+app.use('/api/order',paymentRouter)
 
 
 
