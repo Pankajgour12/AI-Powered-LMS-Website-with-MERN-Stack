@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import {FaArrowLeftLong, FaStar} from 'react-icons/fa6' 
+import React, { useEffect, useState } from 'react'
+import {FaArrowLeftLong, FaCirclePlay, FaLock, FaStar} from 'react-icons/fa6' 
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedCourse } from '../redux/courseSlice';
@@ -10,7 +10,7 @@ const navigate = useNavigate()
 const {courseId} = useParams()
 const {courseData} = useSelector(state=>state.course)
 const {selectedCourse} = useSelector(state=>state.course)
- 
+const [selectedLecture, setSelectedLecture] = useState(null)
 console.log(courseData);
 console.log(courseId);
 
@@ -149,6 +149,106 @@ useEffect(()=>{
        {/* lectures Area  */}
 
        <div className='flex flex-col md:flex-row gap-6'>
+
+     <div className='bg-white w-full md:w-2/5  p-6 rounded-2xl shadow-lg border bordgra200 '>
+
+<h2 className='text-xl font-bold mb-1 text-gray-800'>Course Curriculum</h2>
+<p className='text-sm text-gray-500 mb-4'>
+{selectedCourse?.lectures?.length} Lectures
+
+</p>
+
+<div className='flex flex-col gap-3'>
+    {selectedCourse?.lectures?.map((lecture,index)=>(
+
+
+<button key={index}
+disabled={!lecture.isPreviewFree}
+onClick={()=>{
+    if(lecture.isPreviewFree){
+        setSelectedLecture(lecture)
+
+}
+}}
+className={`
+flex items-center justify-between  px-4
+py-3 rounded-lg border transition-all text-black duration-200 text-left
+
+${lecture.isPreviewFree?'hover:bg-gray-100 cursor-pointer border-gray-300' :
+    "cursor-not-allowed opacity-60 border-gray-200"
+}
+
+${selectedLecture?.lectureTitle === lecture?.lectureTitle ?"bg-gray-300 border-gray-400" : ""}
+`}>
+   
+    <span className='text-sm font-medium  text-gray-800'>{index+1}{". "}
+    {lecture.lectureTitle}</span>
+
+     <span className='text-lg text-gray-700'>
+
+       {lecture.isPreviewFree ? <FaCirclePlay color='green'/>  :<FaLock color='black'/>}
+    </span>
+    
+</button>
+    
+    ))}
+    
+
+
+
+      </div>
+     </div>
+
+
+     <div className='bg-white w-full md:w-3/5 p-6
+     rounded-2xl shadow-lg border border-gray-200'>
+
+        <div className='aspect-video w-full rounded-lg overflow-hidden 
+        mb-4 bg-black flex items-center justify-center
+        '>
+            {selectedLecture?.videoUrl ? <video className='w-full h-full object-cover'
+            src={selectedLecture?.videoUrl}
+            controls
+            /> :
+            
+            <span className='text-white text-sm '>
+                Select a preview lecture to watch 
+
+            </span>
+            }
+
+        </div>
+
+     </div>
+
+
+
+
+
+       </div>
+
+       <div className='mt-4 border-t pt-6'>
+        <h2 className='text-xl font-semibold mb-2'>Write a Review</h2>
+        <div className='mb-4'>
+            <div className='flex gap-1 mb-2'>
+                {
+                [1,2,3,4,5].map((star)=>(
+                    <FaStar key={star} className='fill-gray-400'/>
+                )
+                )}
+
+            </div>
+            <textarea className='w-full border border-gray-300 rounded-lg p-2'
+            placeholder='Write your review here...'
+            rows={3}
+            >
+
+            </textarea>
+            <button className='bg-black text-white mt-3 px-4 py-2 rounded hover:bg-gray-800'>
+             Submit Review
+            </button>
+
+        </div>
 
 
        </div>
