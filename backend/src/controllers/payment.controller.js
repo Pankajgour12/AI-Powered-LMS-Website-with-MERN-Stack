@@ -12,7 +12,7 @@ key_secret:process.env.RAZORPAY_KEY_SECRET
 })
 
 
-export const RazorpayOrder = async () =>{
+export const RazorpayOrder = async(req,res) =>{
 try {
     const {courseId} = req.body 
     const course = await Course.findById(courseId) 
@@ -37,7 +37,7 @@ try {
 }
 
 
-export const verifyPayment = async() =>{
+export const verifyPayment = async(req,res) =>{
     try {
         const {courseId , userId, razorpay_order_id} = req.body
         const orderInfo = await RazorPayInstance.orders.fetch(razorpay_order_id)

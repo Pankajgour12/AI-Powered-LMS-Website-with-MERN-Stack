@@ -17,6 +17,9 @@ const navigate = useNavigate()
 const {courseId} = useParams()
 const {courseData} = useSelector(state=>state.course)
 const {selectedCourse} = useSelector(state=>state.course)
+const {userData} = useSelector(state=>state.user)
+
+  
 const [selectedLecture, setSelectedLecture] = useState(null)
 const [creatorData, setCreatorData] = useState(null)
 const [creatorCourses, setCreatorCourses] = useState(null)
@@ -92,6 +95,19 @@ useEffect(() => {
 
 
 
+const handleEnroll = async(courseId,userId)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+
+}
+
+
+
+
+
   return (
     <div className='min-h-screen bg-gray-50 p-6'>
    <div className='max-w-6xl mx-auto bg-amber-50 shadow-md rounded-xl p-6 space-y-6 relative'>
@@ -159,7 +175,9 @@ useEffect(() => {
                     </ul>
 
                     <button className='bg-black text-white
-                    px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'>
+                    px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'
+                    onClick={()=>handleEnroll(courseId,userData._id)}
+                    >
                         Enroll Now
                     </button>
 
