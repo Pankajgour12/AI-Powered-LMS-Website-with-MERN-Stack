@@ -3,6 +3,13 @@ import {FaArrowLeftLong, FaCirclePlay, FaLock, FaStar} from 'react-icons/fa6'
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedCourse } from '../redux/courseSlice';
+import axios from 'axios'
+import { serverUrl } from '../App';
+
+import empty from '../assets/empty.jpg'
+import Card from '../component/Card';
+
+
 
 
 const ViewCourse = () => {
@@ -11,15 +18,17 @@ const {courseId} = useParams()
 const {courseData} = useSelector(state=>state.course)
 const {selectedCourse} = useSelector(state=>state.course)
 const [selectedLecture, setSelectedLecture] = useState(null)
-console.log(courseData);
-console.log(courseId);
+const [creatorData, setCreatorData] = useState(null)
+const [creatorCourses, setCreatorCourses] = useState(null)
+
+
 
 
 const dispatch = useDispatch()
 
 
 const fetchCourseData = () => {
-//   if (!courseData?.courses) return
+   if (!courseData?.courses) return
 
   const course = courseData.courses.find(
     (course) => course._id === courseId
@@ -31,7 +40,24 @@ const fetchCourseData = () => {
 }
 
 
+useEffect(()=>{
+    
+    const handleCreator = async () =>{
 
+        if(selectedCourse?.creator){
+        try {
+            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true})
+            console.log(result.data);
+           (setCreatorData(result.data))
+
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    }
+    handleCreator();
+},[selectedCourse])
 
 useEffect(()=>{
     fetchCourseData();
@@ -39,6 +65,30 @@ useEffect(()=>{
 
 
 
+// useEffect(()=>{
+
+//     if(creatorData?._id && courseData.length >0){
+//         const creatorCourse = courseData.filter((course)=>
+//             course.creator === creatorData?._id && course._id !== courseId
+        
+//         )
+   
+//        setCreatorCourses(creatorCourse)
+//     }
+
+// },[creatorData ,courseData])
+
+useEffect(() => {
+ if (!creatorData?._id || !courseData?.courses) return
+
+  const creatorCoursesFiltered = courseData.courses.filter(
+    (course) =>
+      course.creator === creatorData._id &&
+      course._id !== courseId
+  )
+
+  setCreatorCourses(creatorCoursesFiltered)
+}, [creatorData, courseData, courseId])
 
 
 
@@ -252,6 +302,56 @@ ${selectedLecture?.lectureTitle === lecture?.lectureTitle ?"bg-gray-300 border-g
 
 
        </div>
+
+
+       {/* for creator Information  */}
+        <div className='flex items-center gap-4 pt-4 border-t'>
+
+        {creatorData?.photoUrl ? <img src={creatorData?.photoUrl} alt="" 
+        className='w-16 h-16 rounded-full object-cover border border-gray-300'
+        />: 
+         <img src={empty} alt=""
+        className='w-16 h-16 rounded-full object-cover border border-gray-300'
+          />
+        }
+            <div>
+                <h2 className=' text-lg font-semibold'>
+                    {creatorData?.name}
+                </h2>
+                <p className='md:text-sm text-gray-700 text-[10px]'>
+                    {creatorData?.description}
+                </p>
+                <p className='md:text-sm text-gray-700 text-[10px]'>
+                    {creatorData?.email}
+                </p>
+            </div>
+
+        </div>
+
+
+        <div>
+            <p className='text-xl font-semibold mb-2'>Other Published Courses by the Educator -</p>
+        </div>
+
+        <div className='w-full transition-all duration-300 py-[20px] flex items-start justify-center
+        lg:justify-start flex-wrap gap-6 lg:px-[18px]'>
+
+     {
+        creatorCourses?.map((course,index)=>(
+            <Card key={index} 
+            thumbnail={course.thumbnail} id={course._id} 
+            price={course.price} title={course.title} category={course.category}
+            
+            
+            />
+        ))
+     }
+
+
+            
+        </div>
+
+
 
 
 

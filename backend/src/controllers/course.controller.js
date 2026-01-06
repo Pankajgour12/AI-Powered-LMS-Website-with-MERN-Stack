@@ -1,7 +1,7 @@
 import uploadOnCloudinary from "../config/cloudinary.js";
 import Course from "../models/course.model.js";
 import Lecture from "../models/lecture.model.js";
-
+import User from "../models/user.model.js"
 
 // for creating a course
 
@@ -257,4 +257,26 @@ export const removeLecture = async (req,res)=>{
 
 }
    
+
+// get Creator 
+
+export const getCreatorByID = async (req, res) =>{
+ try {
+     const {userId} = req.body
+
+     const user = await User.findById(userId).select('-password')
+
+    if(!user){
+        return res.status(404).json({message:'User is not Found'})
+    }
+
+    return res.status(200).json(user)
+
+ } catch (error) {
+    return res.status(500).json({message:`Failed to get Creator ${error}`})
+    
+ }
+
+
+}
 
