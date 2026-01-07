@@ -21,6 +21,7 @@ import CreateLecture from "./pages/educator/lecture/CreateLecture.jsx";
 import EditLecture from "./pages/educator/lecture/EditLecture.jsx";
 import ViewCourse from "./pages/ViewCourse.jsx";
 import ScrollToTop from "./component/ScrollToTop.jsx";
+import ViewLectures from "./pages/educator/lecture/ViewLectures.jsx";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -111,6 +112,11 @@ const App = () => {
         <Route
           path="/viewcourse/:courseId"
           element={userData ? <ViewCourse/> : <Navigate to={"/signup"} />}
+        />
+
+        <Route
+          path="/viewlecture/:courseId"
+          element={userData ? <ViewLectures/> : <Navigate to={"/signup"} />}
         />
 
 
