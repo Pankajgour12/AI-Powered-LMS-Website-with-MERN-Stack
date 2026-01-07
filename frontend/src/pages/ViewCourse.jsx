@@ -8,6 +8,7 @@ import { serverUrl } from '../App';
 
 import empty from '../assets/empty.jpg'
 import Card from '../component/Card';
+import { toast } from 'react-toastify';
 
 
 
@@ -97,9 +98,44 @@ useEffect(() => {
 
 const handleEnroll = async(courseId,userId)=>{
     try {
-        
+        const orderData = await axios.post(serverUrl + '/api/order/razorpay-order',{userId , courseId},{withCredentials:true})
+        console.log(orderData);
+
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount:orderData.data.amount,
+            name:"LEARNFLOW",
+            description:"COURSE ENROLLMENT PAYMENT",
+            order_id: orderData.data.id,
+            handler: async function (response) {
+                console.log("RazorPay Response",response);
+
+                try {
+                    const verifyPayment = await axios.post(serverUrl + '/api/order/verifypayment',{
+                        ...response,
+                        courseId,
+                        userId
+                        
+                    },{withCredentials:true})
+                    toast.success(verifyPayment.data.message)
+
+                } catch (error) {
+                    console.log(error);
+                    toast.error(error.response.data.message)
+                    
+                }
+            }
+            
+
+
+        }
+        const rzp = new window.Razorpay(options)
+        rzp.open()
+
+
     } catch (error) {
-        
+        console.log(error);
+        toast.error('Something went wrong while enrolling.')
     }
 
 }
