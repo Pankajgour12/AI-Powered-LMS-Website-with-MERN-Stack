@@ -24,7 +24,7 @@ const {userData} = useSelector(state=>state.user)
 const [selectedLecture, setSelectedLecture] = useState(null)
 const [creatorData, setCreatorData] = useState(null)
 const [creatorCourses, setCreatorCourses] = useState(null)
-
+const [isEnrolled, setIsEnrolled] = useState(false)
 
 
 
@@ -42,6 +42,15 @@ const fetchCourseData = () => {
     dispatch(setSelectedCourse(course))
   }
 }
+
+
+const checkEnrolled = ()=>{
+    const verify = userData?.enrolledCourses?.some(c => (typeof c === 'string' ? c : c._id).toString() === courseId?.toString()) 
+    console.log(verify);
+    if(verify) setIsEnrolled(true)
+}
+
+
 
 
 useEffect(()=>{
@@ -65,7 +74,9 @@ useEffect(()=>{
 
 useEffect(()=>{
     fetchCourseData();
-},[courseData,courseId])
+    checkEnrolled();
+
+},[courseData,courseId,userData])
 
 
 
@@ -117,6 +128,8 @@ const handleEnroll = async(courseId,userId)=>{
                         userId
                         
                     },{withCredentials:true})
+
+                    setIsEnrolled(true)
                     toast.success(verifyPayment.data.message)
 
                 } catch (error) {
@@ -210,12 +223,18 @@ const handleEnroll = async(courseId,userId)=>{
                         <li>✅ Lifetime access to course materials</li>
                     </ul>
 
-                    <button className='bg-black text-white
+                   {!isEnrolled ? <button className='bg-black text-white
                     px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'
                     onClick={()=>handleEnroll(courseId,userData._id)}
                     >
                         Enroll Now
+                    </button> :
+                     <button className='bg-green-100 text-green-600
+                    px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'
+                    >
+                        Watch  Now
                     </button>
+                    }
 
 
 
