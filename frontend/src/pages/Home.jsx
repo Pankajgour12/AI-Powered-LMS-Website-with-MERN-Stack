@@ -199,7 +199,7 @@ const Home = () => {
   transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
   className="
     absolute
-    right-[-1.8rem]
+    right-[-1.01rem]
     sm:right-[-3.2rem]
     top-1/2 -translate-y-1/2
     z-0
