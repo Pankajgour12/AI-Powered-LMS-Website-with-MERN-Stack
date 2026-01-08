@@ -45,100 +45,141 @@ useEffect(()=>{
 },[selectedCourse])
 
   return (
-    <div className='min-h-screen bg-gray-50 p-6 flex flex-col md:flex-row gap-6 '>
-         
-       {/* left or top */}
-      <div className='w-full md:2/3 bg-white rounded-2xl shadow-md p-6 border border-gray-200'>
+    <div className="min-h-screen bg-[#05060b] text-white">
 
-        <div className='mb-6'>
-          <h2 className='text-2xl font-bold flex items-center justify-start gap-[20px] text-gray-800  '
-          
-          > <FaArrowLeftLong className='text-black w-[22px] h-[22px] cursor-pointer  ' 
-          onClick={()=>navigate('/')}/>
-            
-            {selectedCourse?.title}</h2>
+      <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 
+      lg:grid-cols-[1.5fr_1fr] gap-8">
 
-            <div className='mt-2 flex gap-4 text-sm text-gray-500 font-medium '>
+<div className="space-y-6">
 
-              <span>Category : {selectedCourse?.category}</span>
+  {/* HEADER */}
+  <div className="flex items-center gap-4">
+    <FaArrowLeftLong
+      onClick={() => navigate('/')}
+      className="cursor-pointer text-white/70 hover:text-white"
+    />
 
-              <span>Level : {selectedCourse?.level} </span>
-            </div>
-         
-        </div>
-    
-
-      {/* video player  */}
-        <div className='aspect-video bg-black rounded-xl overflow-hidden mb-4 border border-gray-300'>
-          {selectedLecture?.videoUrl ? <video className='w-full h-full object-cover' src={selectedLecture?.videoUrl} controls /> :
-          <div className='flex items-center justify-center h-full text-white'>
-            Select a lecture to start watching 
-          </div>
-          }
-
-        </div>
-        <div className='mt-2'>
-          <h2 className='text-xl font-semibold text-gray-800'>  {selectedLecture?.lectureTitle} </h2>
-        </div>
-
-      </div>
-
-      {/* right or bottom  */}
-     <div className='w-full md:w-1/3 bg-white rounded-2xl shadow-md p-6 border border-gray-200 h-fit  '>
-     <h2 className='text-xl font-bold mb-4 text-gray-800'>
-      All Lectures
-     </h2>
-     <div className='flex flex-col gap-3 mb-6'>
-    {selectedCourse?.lectures?.length > 0 ?
-    
-    (selectedCourse?.lectures?.map((lecture, index)=>(
-      <button key={index}
-      onClick={()=>setSelectedLecture(lecture)}
-      className={` flex items-center justify-between p-3 rounded-lg border transition text-left ${selectedLecture?._id === lecture._id 
-        ? 'bg-gray-200 border-gray-600'
-        :'hover: bg-gray-50 border-gray-300'
-      }`}
-      >
-        
-        
-       <h2 className='text-sm font-semibold text-gray-800'>{index+1}
-        {'. '} {lecture.lectureTitle}</h2>
-        <FaPlayCircle
-        className='text-lg text-green-400'/>
-
-      </button>
-    )))
-
-
-    : (<p className='text-gray-500'>No Lecture available</p>)
-    }
-
-
-     </div>
-     {/* Educator details  */}
-     <div className='mt-4 border-t pt-4'>
- <h3 className='text-md font-semibold text-gray-700 mb-3'> Educator</h3>
-
- <div className='flex items-center gap-4'>
-  <img src={creatorData?.photoUrl} alt="Educator"
-  className='w-16 h-16 rounded-full object-cover' />
-
-
- </div>
-     </div>
-
-     <div>
-      <h2 className='text-lg font-medium text-gray-800 '>{creatorData.name}</h2>
-      <p className='text-sm text-gray-600'>{creatorData.description} </p>
-      <p className='text-sm text-gray-600'>{creatorData.email} </p>
-      
-     </div>
-
-     </div>
-
-
+    <div>
+      <h1 className="text-xl sm:text-2xl font-semibold">
+        {selectedCourse?.title}
+      </h1>
+      <p className="text-xs tracking-widest uppercase text-white/40">
+        {selectedCourse?.category} · {selectedCourse?.level}
+      </p>
     </div>
-  )
+  </div>
+
+  {/* VIDEO section */}
+  <div className="relative rounded-2xl overflow-hidden bg-black border border-white/10">
+
+    <div className="aspect-video flex items-center justify-center">
+      {selectedLecture?.videoUrl ? (
+        <video
+          src={selectedLecture.videoUrl}
+          controls
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="flex flex-col items-center gap-4">
+          <FaPlayCircle className="text-6xl text-white/70" />
+          <p className="text-xs tracking-[0.4em] uppercase text-white/50">
+            Select a lecture
+          </p>
+        </div>
+      )}
+    </div>
+
+    <div className="px-4 py-3 border-t border-white/10">
+      <p className="text-xs uppercase tracking-widest text-white/40">
+        Now Playing
+      </p>
+      <p className="text-sm font-medium">
+        {selectedLecture?.lectureTitle || "Idle"}
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div className="space-y-6">
+
+  {/* LECTURES */}
+  <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+
+    <h2 className="text-sm tracking-[0.4em] uppercase text-white/40 mb-4">
+      Lectures
+    </h2>
+
+    <div className="space-y-3 max-h-[420px] overflow-y-auto pr-1">
+      {selectedCourse?.lectures?.map((lecture, index) => {
+        const active = selectedLecture?._id === lecture._id
+
+        return (
+          <button
+            key={lecture._id}
+            onClick={() => setSelectedLecture(lecture)}
+            className={`
+              w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
+              transition
+              ${
+                active
+                  ? "bg-white/20 border border-white/30"
+                  : "bg-white/5 border border-white/10 hover:bg-white/10"
+              }
+            `}
+          >
+            <div
+              className={`w-2 h-2 rounded-full ${
+                active ? "bg-emerald-400" : "bg-white/40"
+              }`}
+            />
+
+            <div className="flex-1">
+              <p className="text-xs uppercase tracking-widest text-white/40">
+                Lecture {index + 1}
+              </p>
+              <p className="text-sm font-medium">
+                {lecture.lectureTitle}
+              </p>
+            </div>
+
+            <FaPlayCircle
+              className={`text-lg ${
+                active ? "text-emerald-400" : "text-white/40"
+              }`}
+            />
+          </button>
+        )
+      })}
+    </div>
+  </div>
+
+  {/* Creator Info */}
+
+  <div className='bg-white/5 border border-white/10 rounded-2xl'>
+    <h1 className='text-xl text-center mt-3 text-white/80 hover:underline'>Educator</h1>
+  <div className="  p-4 flex items-center gap-4">
+  
+    <img
+      src={creatorData?.photoUrl}
+      className="w-20 h-20 rounded-full object-cover border border-white/20"
+    />
+    <div>
+      
+      <h2 className=" text-lg font-semibold">{creatorData?.name}</h2>
+      <p className="text-xs text-white/60">{creatorData?.description}</p>
+      <p className="text-xs text-white/40">{creatorData?.email}</p>
+    </div>
+  </div></div>
+
+</div>
+
+</div>
+</div>
+
+ 
+);
+
 }
 
 export default ViewLectures
