@@ -11,6 +11,7 @@ import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
 import AboutSection from "../component/About.jsx";
+import Footer from "../component/Footer.jsx";
 
 const Home = () => {
 
@@ -59,7 +60,9 @@ const Home = () => {
             transition={{ duration: 0.8 }}
           >
 
-    <div className="space-y-12">
+    <div className="space-y-12"
+   
+    >
 
        <span className="text-xs tracking-[0.4em] uppercase text-white/50">
         LearnFlow Platform
@@ -396,7 +399,9 @@ const Home = () => {
 
             <CardPage/>
 
-            <AboutSection/>
+            <AboutSection 
+             
+            />
 
           
 
@@ -404,44 +409,12 @@ const Home = () => {
 
 
 
-      {/* ================= LMS SHOWCASE ================= */}
-      <section className="py-24 bg-[#0b0f19] text-white">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src={devIllustration}
-              alt="developer"
-              className="w-full max-w-md mx-auto"
-            />
-          </motion.div>
+  
 
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col gap-6"
-          >
-            <h2 className="text-3xl md:text-4xl font-semibold">
-              Learning, redesigned
-            </h2>
+      {/* Footer  */}
+      <Footer/>
 
-            <p className="text-gray-300">
-              LearnFlow blends AI discovery with structured learning so you
-              always know what to learn next — no confusion, no overwhelm.
-            </p>
-
-            <button className="self-start px-6 py-3 rounded-full bg-emerald-500 text-black font-medium hover:bg-emerald-400 transition">
-              Join LearnFlow
-            </button>
-          </motion.div>
-        </div>
-      </section>
+      
 
     </div>
 

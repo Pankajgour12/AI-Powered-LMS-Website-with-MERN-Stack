@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdPerson } from "react-icons/io";
 import { IoBookSharp } from "react-icons/io5";
@@ -20,6 +20,10 @@ const Navbar = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
+  const [showNav, setShowNav] = useState(true);
+const [lastScrollY, setLastScrollY] = useState(0);
+
+
 
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -58,20 +62,53 @@ const menuItem = {
 
 
 
+useEffect(() => {
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    // top pe hamesha show
+    if (currentScrollY < 80) {
+      setShowNav(true);
+    } 
+    // scroll down → hide
+    else if (currentScrollY > lastScrollY) {
+      setShowNav(false);
+    } 
+    // scroll up → show
+    else {
+      setShowNav(true);
+    }
+
+    setLastScrollY(currentScrollY);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [lastScrollY]);
+
+
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50">
-      <div className="backdrop-blur-xl bg-white/70 border-b border-white/30 shadow-md">
-        <div className="max-w-7xl  mx-auto px-5 py-2 flex items-center justify-between">
+   
+
+
+    <motion.nav
+    initial={{ y: 0 }}
+  animate={{ y: showNav ? 0 : -100 }}
+  transition={{ duration: 0.35, ease: "easeInOut" }}
+    className="fixed top-0 left-0 w-full z-50 ">
+      <div className="backdrop-blur-[5px]">
+        <div className="max-w-7xl  mx-auto px-5 py-2 flex items-center text-white justify-between">
           {/* right */}
           <div
             onClick={() => navigate("/")}
             className="flex items-center gap-3 cursor-pointer"
           >
             <img src={logo} alt="logo" className="w-10 h-10" />
-            <span className="text-xl font-bold text-gray-800">LearnFlow</span>
+            <span className=" text-xl text-white">LearnFlow</span>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center text-white gap-8">
             <Link to="/" className="nav-modern">
               <FiHome /> Home
             </Link>
@@ -98,7 +135,7 @@ const menuItem = {
                 </button>
 
                 {authOpen && (
-                  <div className="absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg border overflow-hidden animate-fade-in">
+                  <div className="absolute right-0 mt-3 w-40 bg-white/60 rounded-xl shadow-lg border overflow-hidden animate-fade-in">
                     <button
                       onClick={() => navigate("/login")}
                       className="w-full text-left px-4 py-2 hover:bg-gray-100"
@@ -170,7 +207,7 @@ const menuItem = {
                           setUserMenuOpen(false);
                           navigate("/profile");
                         }}
-                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+                        className="w-full text-left px-4 py-2  cursor-pointer  text-sm text-black hover:bg-gray-100 nav-modern"
                       >
                         <IoMdPerson />
                         My Profile
@@ -181,7 +218,7 @@ const menuItem = {
                           setUserMenuOpen(false);
                           navigate("/mycourses");
                         }}
-                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 nav-modern"
+                        className="w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100 nav-modern cursor-pointer"
                       >
                         <IoBookSharp />
                         My Courses
@@ -386,7 +423,7 @@ const menuItem = {
       </div>
     </motion.div>
   )}
-</AnimatePresence>
+     </AnimatePresence>
 
      
 
@@ -394,7 +431,8 @@ const menuItem = {
       
 
       
-    </nav>
+    </motion.nav>
+    
   );
 };
 

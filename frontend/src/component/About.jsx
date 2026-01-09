@@ -5,7 +5,9 @@ import BannerVideo from "../assets/BannerVideo.mp4";
 
 function AboutUs() {
   return (
-    <div className="min-h-screen bg-[#05060b] text-white overflow-hidden">
+    <div className="min-h-screen bg-[#05060b] text-white overflow-hidden"
+    
+    >
 
       {/* HERO (COMPACT) */}
       <section className="relative h-[65vh] flex items-center justify-center">
