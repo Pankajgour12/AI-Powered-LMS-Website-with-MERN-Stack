@@ -61,7 +61,7 @@ const menuItem = {
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
       <div className="backdrop-blur-xl bg-white/70 border-b border-white/30 shadow-md">
-        <div className="max-w-7xl mx-auto px-5 py-2 flex items-center justify-between">
+        <div className="max-w-7xl  mx-auto px-5 py-2 flex items-center justify-between">
           {/* right */}
           <div
             onClick={() => navigate("/")}
@@ -75,10 +75,10 @@ const menuItem = {
             <Link to="/" className="nav-modern">
               <FiHome /> Home
             </Link>
-            <Link to="/courses" className="nav-modern">
+            <Link to="/allcourses" className="nav-modern">
               <FiBook /> Courses
             </Link>
-            <Link to="explore" className="nav-modern">
+            <Link to="/explore" className="nav-modern">
               <FiCompass /> Explore
             </Link>
            
@@ -249,7 +249,7 @@ const menuItem = {
       <div className="flex flex-col px-6 py-6 gap-3 flex-1">
         {[
           { to: "/", icon: FiHome, label: "Home" },
-          { to: "/courses", icon: FiBook, label: "Courses" },
+          { to: "/allcourses", icon: FiBook, label: "Courses" },
           { to: "/explore", icon: FiCompass, label: "Explore" },
           { to: "/educator", icon: FiStar, label: "Educators" },
         ].map((item, i) => {

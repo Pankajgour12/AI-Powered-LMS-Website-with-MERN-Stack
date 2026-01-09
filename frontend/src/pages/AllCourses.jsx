@@ -54,7 +54,7 @@ const AllCourses = () => {
     <div className='flex min-h-screen  bg-black/20'>
      <Navbar/>
     
-     <button className='fixed top-20 left-4 z-50  bg-white text-black px-3 py-1 rounded-md md:hidden border-2
+     <button className='fixed top-20 left-4 z-10  bg-white text-black px-3 py-1 rounded-md md:hidden border-2
      border-black'
      onClick={()=>setIsSidebarVisible(prev=>!prev)}
      >
