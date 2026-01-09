@@ -10,6 +10,7 @@ import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
+import AboutSection from "../component/About.jsx";
 
 const Home = () => {
 
@@ -394,6 +395,8 @@ const Home = () => {
 
 
             <CardPage/>
+
+            <AboutSection/>
 
           
 
