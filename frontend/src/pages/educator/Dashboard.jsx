@@ -33,6 +33,19 @@ const Dashboard = () => {
 
 
 
+const totalEarning = creatorCourseData?.courses?.reduce((sum , course)=>{
+ const studentCount = course.enrolledStudents?.length || 0;
+ const coursePrice = course.price ? course.price * studentCount : 0;
+ return sum + coursePrice;
+
+} ,0) || 0 ;
+
+
+
+
+
+
+
 const DarkTooltip = ({ active, payload, label }) => {
   if (!active || !payload || !payload.length) return null;
 
@@ -145,7 +158,7 @@ const DarkTooltip = ({ active, payload, label }) => {
                 </h1>
 
                  <h1 className='text-xl  font-bold sm:text-2xl '>
-                    Total Earning :0
+                    Total Earning :{` ₹ ${totalEarning}`}
                 </h1>
 
 
@@ -198,7 +211,7 @@ const DarkTooltip = ({ active, payload, label }) => {
 
          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
 
-  {/* COURSE PROGRESS */}
+  {/* COURSE  */}
   <div className="relative rounded-3xl bg-[#05060b] border border-white/10 p-6 overflow-hidden">
 
 
@@ -286,7 +299,7 @@ const DarkTooltip = ({ active, payload, label }) => {
     </ResponsiveContainer>
   </div>
 
-  {/* ENROLLMENT FLOW */}
+  {/* ENROLLMENT */}
   <div className="relative rounded-3xl bg-[#05060b] border border-white/10 p-6 overflow-hidden">
 
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.22),transparent_65%)]" />
