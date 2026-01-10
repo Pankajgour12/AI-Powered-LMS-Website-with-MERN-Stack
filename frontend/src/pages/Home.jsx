@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
 import AboutSection from "../component/About.jsx";
 import Footer from "../component/Footer.jsx";
+import ReviewPage from "../component/ReviewPage.jsx";
 
 const Home = () => {
 
@@ -403,6 +404,8 @@ const Home = () => {
              
             />
 
+
+              <ReviewPage/>
           
 
     
