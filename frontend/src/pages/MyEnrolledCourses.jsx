@@ -10,11 +10,10 @@ function MyEnrolledCourses() {
   return (
     <div className="min-h-screen bg-[#05060b] text-white relative overflow-hidden">
 
-      {/* ambient gradients */}
+      
       <div className="absolute -top-40 -left-40 w-[520px] h-[520px] bg-indigo-500/15 blur-[220px]" />
       <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-emerald-500/15 blur-[220px]" />
 
-      {/* back */}
       <button
         onClick={() => navigate("/")}
         className="fixed top-6 left-6 z-50 flex items-center gap-2 text-sm text-white/60 hover:text-white transition"
