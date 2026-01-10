@@ -66,15 +66,14 @@ useEffect(() => {
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
 
-    // top pe hamesha show
+    
     if (currentScrollY < 80) {
       setShowNav(true);
     } 
-    // scroll down → hide
+   
     else if (currentScrollY > lastScrollY) {
       setShowNav(false);
     } 
-    // scroll up → show
     else {
       setShowNav(true);
     }
@@ -155,7 +154,7 @@ useEffect(() => {
 
             {userData && (
               <>
-                {userData.role === "educator" && (
+                {/* {userData.role === "educator" && (
                   <button
                     onClick={() => navigate("/dashboard")}
                     className="px-4 py-2 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white text-sm shadow hover:scale-105 transition"
@@ -163,13 +162,85 @@ useEffect(() => {
                     <FiGrid className="inline mr-1" />
                     Dashboard
                   </button>
-                )}
+                )} */}
+
+
+{userData.role === "educator" && (
+  <button
+    onClick={() => navigate("/dashboard")}
+    className="
+      relative group
+      flex items-center gap-2
+      px-4 py-2
+      rounded-md
+      cursor-pointers
+      text-sm font-medium tracking-wide
+      text-white/80
+
+      bg-[#0b0d16]/70
+      backdrop-blur-xl
+      border border-white/10
+
+      shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_30px_rgba(0,0,0,0.6)]
+
+      transition-all duration-300 ease-out
+      hover:text-white
+      hover:-translate-y-[1px]
+      active:translate-y-0
+
+      overflow-hidden
+    "
+  >
+    
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+        bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)]
+        animate-[shine_2.2s_linear_infinite]
+      "
+    />
+
+   
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        rounded-md
+        bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.25),transparent_60%)]
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+      "
+    />
+
+    {/* icon */}
+    <FiGrid
+      className="
+        relative z-10
+        text-[15px]
+        text-white/60
+        group-hover:text-white
+        transition-colors
+      "
+    />
+
+    {/* label */}
+    <span className="relative z-10">
+      Dashboard
+    </span>
+  </button>
+)}
+
+
+                
 
                 <div className="relative">
-                  {/* ImageIcone */}
+                  {/* Image */}
                   <div
                     onClick={() => setUserMenuOpen((prev) => !prev)}
-                    className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center cursor-pointer transition hover:scale-105 border border-white/20  bg-rose-300
+                    className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center cursor-pointer transition hover:scale-105 border border-white/20  bg-white/10
   "
                   >
                     {userData?.photoUrl ? (
