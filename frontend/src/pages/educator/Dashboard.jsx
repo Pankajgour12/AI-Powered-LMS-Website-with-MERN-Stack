@@ -158,7 +158,7 @@ const DarkTooltip = ({ active, payload, label }) => {
                 </h1>
 
                  <h1 className='text-xl  font-bold sm:text-2xl '>
-                    Total Earning :{` ₹ ${totalEarning}`}
+                    Total Earning :{` ₹${totalEarning.toLocaleString()}`}
                 </h1>
 
 

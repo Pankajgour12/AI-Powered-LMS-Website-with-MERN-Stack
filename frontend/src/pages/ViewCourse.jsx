@@ -9,6 +9,7 @@ import { serverUrl } from '../App';
 import empty from '../assets/empty.jpg'
 import Card from '../component/Card';
 import { toast } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
 
 
 
@@ -25,6 +26,11 @@ const [selectedLecture, setSelectedLecture] = useState(null)
 const [creatorData, setCreatorData] = useState(null)
 const [creatorCourses, setCreatorCourses] = useState(null)
 const [isEnrolled, setIsEnrolled] = useState(false)
+
+const [rating, setRating] = useState(0)
+const [comment, setComment] = useState('')
+const [loading, setLoading] = useState(false)
+
 
 
 
@@ -152,6 +158,33 @@ const handleEnroll = async(courseId,userId)=>{
     }
 
 }
+
+const handleReview = async ()=>{
+    setLoading(true)
+    try {
+        const result = await axios.post(serverUrl + '/api/review/createreview',{rating,comment,courseId},{withCredentials:true})
+         setLoading(false)
+        console.log(result.data);
+        toast.success(result.data.message)
+        setRating(0)
+        setComment('')
+
+        
+
+    } catch (error) {
+        console.log(error);
+        setLoading(false)
+        toast.error(error.response.data.message)
+        setRating(0)
+        setComment('')
+    }
+
+
+
+
+}
+
+
 
 
 
@@ -357,19 +390,33 @@ ${selectedLecture?.lectureTitle === lecture?.lectureTitle ?"bg-gray-300 border-g
             <div className='flex gap-1 mb-2'>
                 {
                 [1,2,3,4,5].map((star)=>(
-                    <FaStar key={star} className='fill-gray-400'/>
+                    <FaStar key={star}
+                    onClick={()=>setRating(star)}
+                    
+                    className={star <= rating ? "fill-amber-400":
+                        "fill-gray-300 hover:fill-amber-400 cursor-pointer transition"
+
+
+                    }
+                    
+                    />
                 )
                 )}
 
             </div>
-            <textarea className='w-full border border-gray-300 rounded-lg p-2'
+            <textarea
+            onChange={(e)=>setComment(e.target.value)} value={comment}
+            className='w-full border border-gray-300 rounded-lg p-2'
             placeholder='Write your review here...'
             rows={3}
             >
 
             </textarea>
-            <button className='bg-black text-white mt-3 px-4 py-2 rounded hover:bg-gray-800'>
-             Submit Review
+            <button
+            disabled={loading}
+            onClick={handleReview}
+            className='bg-black text-white mt-3 px-4 py-2 rounded hover:bg-gray-800'>
+            {loading? <ClipLoader size={30} color='white'/> : "Submit Review"}
             </button>
 
         </div>
