@@ -23,6 +23,7 @@ import ViewCourse from "./pages/ViewCourse.jsx";
 import ScrollToTop from "./component/ScrollToTop.jsx";
 import ViewLectures from "./pages/educator/lecture/ViewLectures.jsx";
 import MyEnrolledCourses from "./pages/MyEnrolledCourses.jsx";
+import getAllReviews from "./customHooks/getAllReviews.js";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -32,6 +33,8 @@ const App = () => {
   getCreatorCourse();
 
   getPublishedCourse();
+  getAllReviews();
+
 
   
 
