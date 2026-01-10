@@ -56,7 +56,7 @@ export const createReview = async (req, res)=>{
 
 export const getReviews = async (req, res)=>{
   try {
-    const review = await Review.find({}).populate('user','name photoUrl,role').sort({reviewedAt:-1})
+    const review = await Review.find({}).populate('user','name, photoUrl,description').sort({reviewedAt:-1})
     return res.status(200).json(review)
 
 

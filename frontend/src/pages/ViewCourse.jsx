@@ -185,6 +185,16 @@ const handleReview = async ()=>{
 }
 
 
+const calculateAvgReview = (reviews) =>{
+    if(!reviews || reviews.length === 0) return 0;
+    const total = reviews.reduce((sum , review)=>sum + review.rating, 0)
+    return (total/reviews.length).toFixed(1)
+}
+
+const avgRating = calculateAvgReview(selectedCourse?.reviews)
+
+
+
 
 
 
@@ -231,7 +241,7 @@ const handleReview = async ()=>{
                     <div className='text-yellow-500 font-medium flex gap-2'>
 
                         <span className='flex items-center justify-start gap-1'>
-                           5 <FaStar/>
+                           {avgRating}<FaStar/>
                               </span>
                         <span 
                         className='text-gray-400'>(27,000 Reviews) </span>
