@@ -127,4 +127,27 @@
             animation-play-state: paused;
           }
         
+
+          
+      /* SOCIAL COLORS */
+      
+          .social {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            transition: all 0.25s ease;
+            font-size: 18px;
+          }
+          .social.github:hover { color:#fff; border-color:#fff; }
+          .social.linkedin:hover { color:#0A66C2; border-color:#0A66C2; }
+          .social.twitter:hover { color:#fff; border-color:#fff; }
+          .social.instagram:hover { color:#E4405F; border-color:#E4405F; }
+          .social.whatsapp:hover { color:#25D366; border-color:#25D366; }
+       
       

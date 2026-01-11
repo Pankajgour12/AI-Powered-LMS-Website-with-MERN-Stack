@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
@@ -6,145 +6,120 @@ import {
   FaInstagram,
   FaXTwitter,
   FaEnvelope,
+  FaWhatsapp,
 } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
+const WHATSAPP_NUMBER = "919399098205"; 
+
 function Footer() {
-  const [pos, setPos] = useState({ x: 50, y: 50 });
-
   return (
-    <footer
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setPos({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100,
-        });
-      }}
-      className="relative bg-[#05060b] text-white overflow-hidden"
-    >
-      {/* deep ambient gradients */}
-      <div className="absolute -top-40 left-0 w-[600px] h-[600px] bg-indigo-500/10 blur-[220px]" />
-      <div className="absolute -bottom-40 right-0 w-[600px] h-[600px] bg-emerald-500/10 blur-[220px]" />
+    <footer className="relative bg-[#04050a] text-white overflow-hidden">
 
-      {/* cursor glow */}
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(500px at ${pos.x}% ${pos.y}%, rgba(99,102,241,0.18), transparent 65%)`,
-        }}
-      />
+      {/* ambient background */}
+      <div className="absolute -top-40 left-1/3 w-[700px] h-[700px] bg-indigo-500/10 blur-[260px]" />
+      <div className="absolute -bottom-40 right-1/3 w-[700px] h-[700px] bg-emerald-500/10 blur-[260px]" />
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-14">
+      <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-16">
 
-        {/* TOP GRID */}
-        <div className="grid gap-20 md:grid-cols-3">
+        
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-28 max-w-3xl"
+        >
+          <p className="text-xs uppercase tracking-[0.35em] text-white/50 mb-4">
+            Talk to the builder
+          </p>
+          <h2 className="text-3xl md:text-4xl font-semibold leading-tight">
+            Got a question?  
+            <span className="text-emerald-400"> Don’t hesitate.</span>
+          </h2>
+          <p className="mt-4 text-white/60">
+            No forms. No bots. No sales talk.  
+            Just a real conversation on WhatsApp.
+          </p>
 
-          {/* BRAND */}
+          {/* WhatsApp  */}
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Pankaj,%20I%20found%20LeanFlow%20and%20wanted%20to%20connect.`}
+            target="_blank"
+            rel="noreferrer"
+            className="
+              mt-8 inline-flex items-center gap-4
+              px-7 py-4
+              rounded-2xl
+              bg-[#25D366]/10
+              border border-[#25D366]/40
+              text-[#25D366]
+              hover:bg-[#25D366]/20
+              transition
+            "
+          >
+            <div className="w-11 h-11 rounded-xl bg-[#25D366]/20 flex items-center justify-center text-xl">
+              <FaWhatsapp />
+            </div>
+            <span className="text-sm font-medium">
+              Message me on WhatsApp
+            </span>
+          </motion.a>
+        </motion.div>
+
+        {/* MAIN  */}
+        <div className="grid gap-20 md:grid-cols-4">
+
+          
           <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="LearnFlow" className="w-11 h-11" />
+            <div className="flex items-center gap-4">
+              <img src={logo} alt="LearnFlow" className="w-12 h-12" />
               <span className="text-xl font-semibold tracking-wide">
                 LearnFlow
               </span>
             </div>
-
             <p className="text-sm text-white/65 leading-relaxed max-w-sm">
-              LearnFlow is a focused learning environment for people who value
-              clarity, depth, and long-term skill growth — not shortcuts.
+              LearnFlow is built for people who want real skills,
+              not surface-level tutorials.
             </p>
           </div>
 
-          {/* CONNECT */}
-          <div className="space-y-8">
-            <h4 className="text-xs uppercase tracking-[0.35em] text-white/60">
-              Connect
-            </h4>
-
-            {/* email */}
-            <motion.a
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              href="mailto:Pankajgour5000@gmail.com"
-              className="
-                flex items-center gap-4
-                px-6 py-4
-                rounded-2xl
-                bg-white/5
-                border border-white/15
-                backdrop-blur
-                hover:border-white/30
-                transition
-              "
-            >
-              <div className="w-11 h-11 rounded-xl bg-indigo-500/20 flex items-center justify-center">
-                <FaEnvelope />
-              </div>
-
-              <div>
-                <p className="text-xs text-white/45">Write to</p>
-                <p className="text-sm font-medium">
-                  Pankajgour5000@gmail.com
-                </p>
-              </div>
-            </motion.a>
-
-            {/* socials */}
-            <div className="flex gap-4">
-              {[
-                { icon: <FaGithub />, link: "https://github.com/Pankajgour12" },
-                { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/pankaj-gour" },
-                { icon: <FaXTwitter />, link: "https://twitter.com/" },
-                { icon: <FaInstagram />, link: "https://instagram.com/" },
-              ].map((item, i) => (
-                <motion.a
-                  key={i}
-                  whileHover={{ y: -8 }}
-                  whileTap={{ scale: 0.9 }}
-                  href={item.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="
-                    w-12 h-12
-                    flex items-center justify-center
-                    rounded-2xl
-                    bg-white/5
-                    border border-white/10
-                    text-lg text-white/60
-                    hover:text-white
-                    hover:border-white/30
-                    transition
-                  "
-                >
-                  {item.icon}
-                </motion.a>
-              ))}
-            </div>
+          {/* CATEGORIES */}
+          <div className="space-y-6">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">
+              Categories
+            </p>
+            <ul className="space-y-3 text-sm text-white/55">
+              <li>Web Development</li>
+              <li>Full Stack MERN</li>
+              <li>Data Science</li>
+              <li>System Design</li>
+              <li>Career Roadmaps</li>
+            </ul>
           </div>
 
-          {/* LINKS */}
+          {/* NAVIGATION */}
           <div className="space-y-6">
-            <h4 className="text-xs uppercase tracking-[0.35em] text-white/60">
-              Explore
-            </h4>
-
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">
+              Navigate
+            </p>
             <ul className="space-y-3 text-sm">
               {[
                 { label: "Home", to: "/" },
                 { label: "Courses", to: "/allcourses" },
-                { label: "About", to: "/about" },
-                { label: "Contact", to: "/contact" },
+                { label: "Profile", to: "/profile" },
+                { label: "Dashoboard", to: "/dashboard" },
+               
+                
+                
               ].map((item, i) => (
                 <li key={i}>
                   <Link
                     to={item.to}
-                    className="
-                      text-white/55
-                      hover:text-white
-                      transition
-                      inline-block
-                    "
+                    className="text-white/55 hover:text-white transition"
                   >
                     {item.label}
                   </Link>
@@ -152,22 +127,33 @@ function Footer() {
               ))}
             </ul>
           </div>
+
+          {/* SOCIALS */}
+          <div className="space-y-6">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">
+              Find me online
+            </p>
+
+            <div id="pnkj" className="flex gap-4">
+              <a className="social github" href="https://github.com/Pankajgour12" target="_blank" rel="noreferrer"><FaGithub /></a>
+              <a className="social linkedin" href="https://www.linkedin.com/in/pankaj-gour" target="_blank" rel="noreferrer"><FaLinkedin /></a>
+              <a className="social twitter" href="https://twitter.com/" target="_blank" rel="noreferrer"><FaXTwitter /></a>
+              <a className="social instagram" href="https://instagram.com/" target="_blank" rel="noreferrer"><FaInstagram /></a>
+              <a className="social whatsapp" href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer"><FaWhatsapp /></a>
+            </div>
+          </div>
         </div>
 
-        {/* DIVIDER */}
-        <div className="mt-20 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-
-        {/* BOTTOM */}
-        <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/45">
+        {/*  BOTTOM */}
+        <div className="mt-24 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <div className="mt-6 flex justify-between items-center text-xs text-white/45">
           <span>© {new Date().getFullYear()} LearnFlow</span>
           <span>
-            Crafted by{" "}
-            <span className="text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-emerald-600">
-              Pankaj Gour
-            </span>
+            Built by <span className="text-emerald-400 font-medium">Pankaj Gour</span>
           </span>
         </div>
       </div>
+
     </footer>
   );
 }

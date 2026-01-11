@@ -16,7 +16,7 @@ function ReviewPage() {
   });
 
   return (
-    <section className="relative bg-black overflow-hidden py-32">
+    <section className="relative bg-black overflow-hidden py-16">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
 
       {/* HERO CONTENT */}
