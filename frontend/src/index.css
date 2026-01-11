@@ -110,3 +110,21 @@
   animation: slide-up 0.35s ease-out;
 }
 
+ 
+     
+        
+          @keyframes trustMarquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+          }
+
+          .trust-marquee {
+            width: max-content;
+            animation: trustMarquee 60s linear infinite;
+          }
+
+          .trust-marquee:hover {
+            animation-play-state: paused;
+          }
+        
+      
