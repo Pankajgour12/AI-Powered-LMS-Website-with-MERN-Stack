@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Navbar from "../component/Navbar.jsx";
  import hero2 from "../assets/hero.png";
 // import home from "../assets/home.png";
-
+import ai from "../assets/ai.png";
 
 // import devIllustration from "../assets/BannerImage2.png";
 import Logos from "../component/Logos.jsx";
@@ -106,7 +106,8 @@ const Home = () => {
 
         >
           <span className="relative z-10 flex items-center gap-2">
-            ⚡ Search with AI
+                            <img src={ai} className='w-5 h-5 sm:w-7 sm:h-7 ' alt="" />
+             Search with AI
           </span>
           <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-emerald-500 opacity-0 group-hover:opacity-30 transition" />
         </button>

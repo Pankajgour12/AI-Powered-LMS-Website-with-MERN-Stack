@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState }   from 'react'
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { RiMicAiFill } from "react-icons/ri";
 import ai from '../assets/ai.png'
@@ -10,52 +10,32 @@ const SearchWithAi = () => {
   
   const navigate = useNavigate()
   const [input, setInput] = useState('')
-  const [recommendation, setRecommendation] = useState([])
+  const [recommendations, setRecommendations] = useState([])
 
- 
-          const recognitionRef = useRef(null);
-
-           
-
-           useEffect(() => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      toast.error("Speech recognition not supported");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-IN";
-
-    recognition.onresult = (e) => {
-      const text = e.results[0][0].transcript;
-      setInput(text);
-    };
-
-    recognition.onerror = (e) => {
-      console.error("Speech error:", e.error);
-    };
-
-    recognitionRef.current = recognition;
-  }, []);
+   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+   const recognition = new SpeechRecognition();
+   if(!recognition)toast.error('Speech recognition not supported ')
 
 
-
-
-
- const handleSearch = () => {
-    if (!recognitionRef.current) return;
-
-    try {
-      recognitionRef.current.start();
-      toast.info("Listening...");
-    } catch(error) {
-      console.error("Speech recognition error:", error);
-    }
+   
       
-    }
+
+   
+const handleSearch = async () => {
+  if(!recognition) return;
+  recognition.start();
+  recognition.onresult = async (e) => {
+    const transcript = e.results[0][0].transcript.trim();
+    setInput(transcript);
+
+    
+    
+  }
+
+
+
+
+}
 
         
 
@@ -93,8 +73,8 @@ const SearchWithAi = () => {
                 <button className='absolute right-14 sm:right-16 cursor-pointer  rounded-full'><img src={ai} className='w-8 h-8 sm:w-10 sm:h-10 ' alt="" /></button>
               
                 <button className='absolute right-2 w-10 h-10 flex items-center justify-center '
-                onClick={handleSearch}
-
+                
+               onClick={handleSearch}
                 >
                 
                     
