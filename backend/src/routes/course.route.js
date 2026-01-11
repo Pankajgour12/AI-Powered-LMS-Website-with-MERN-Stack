@@ -3,6 +3,7 @@ import authUser from "../middleware/auth.middleware.js";
 
 import { createCourse, createLecture, editCourse, editLecture, getCourseById, getCourseLecture, getCreatorByID, getCreatorCourses, getPublishedCourses, removeCourse, removeLecture } from "../controllers/course.controller.js";
 import upload from "../middleware/multer.js";
+import { searchWithAi } from "../controllers/search.controller.js";
 
 const courseRouter = express.Router();
 
@@ -32,6 +33,10 @@ courseRouter.post('/creator',authUser,getCreatorByID)
 
 
 
+
+//for Search
+
+courseRouter.post('/search', searchWithAi)
 
 
 export default courseRouter;

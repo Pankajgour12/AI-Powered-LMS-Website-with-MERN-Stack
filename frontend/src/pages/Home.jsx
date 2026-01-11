@@ -5,7 +5,7 @@ import Navbar from "../component/Navbar.jsx";
 // import home from "../assets/home.png";
 
 
-import devIllustration from "../assets/BannerImage2.png";
+// import devIllustration from "../assets/BannerImage2.png";
 import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +53,7 @@ const Home = () => {
 
   <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-40 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center ">
 
-    {/* LEFT — COMMAND */}
+    {/* LEFT  */}
 <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -101,7 +101,10 @@ const Home = () => {
           overflow-hidden
           hover:scale-[1.06]
           transition
-        ">
+        "
+        onClick={()=>navigate('/search')}
+
+        >
           <span className="relative z-10 flex items-center gap-2">
             ⚡ Search with AI
           </span>

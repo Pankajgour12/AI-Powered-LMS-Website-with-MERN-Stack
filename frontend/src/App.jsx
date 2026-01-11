@@ -24,6 +24,7 @@ import ScrollToTop from "./component/ScrollToTop.jsx";
 import ViewLectures from "./pages/educator/lecture/ViewLectures.jsx";
 import MyEnrolledCourses from "./pages/MyEnrolledCourses.jsx";
 import getAllReviews from "./customHooks/getAllReviews.js";
+import SearchWithAi from "./pages/SearchWithAi.jsx";
 
 export const serverUrl = "http://localhost:8000";
 
@@ -126,6 +127,13 @@ const App = () => {
          <Route
           path="/mycourses"
           element={userData ? <MyEnrolledCourses/> : <Navigate to={"/signup"} />}
+        />
+
+
+        
+         <Route
+          path="/search"
+          element={userData ? <SearchWithAi/> : <Navigate to={"/signup"} />}
         />
 
 

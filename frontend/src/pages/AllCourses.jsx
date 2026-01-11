@@ -85,7 +85,9 @@ const AllCourses = () => {
         <form action="" onSubmit={(e)=>e.preventDefault()}
         className='space-y-4 text-sm bg-gray-600 border-white/40 text-black/70 border p-[20px] rounded-2xl'>
 
-          <button className='px-[10px] py-[10px] bg-black/50  text-white rounded-[10px] text-[15px] font-light flex items-center justify-center gap-2 cursor-pointer'>
+          <button className='px-[10px] py-[10px] bg-black/50  text-white rounded-[10px] text-[15px] font-light flex items-center justify-center gap-2 cursor-pointer'
+          onClick={()=>navigate('/search')}
+          >
             Search With Ai
             <img src={ai} alt="ai" className='w-[20px] h-[20px] rounded-full'/>
           </button>
