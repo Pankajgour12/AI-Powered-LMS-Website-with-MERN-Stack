@@ -6,13 +6,25 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; 
 import axios from 'axios';
 import { serverUrl } from '../App';
-
+import start from '../assets/start.mp3'
 
 const SearchWithAi = () => {
-  
+const startsound = new Audio(start)
+
+
   const navigate = useNavigate()
   const [input, setInput] = useState('')
   const [recommendations, setRecommendations] = useState([])
+
+
+   function speak(message){
+    let utterance = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(utterance);
+
+
+   }
+
+
 
    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
    const recognition = new SpeechRecognition();
@@ -26,6 +38,7 @@ const SearchWithAi = () => {
 const handleSearch = async () => {
   if(!recognition) return;
   recognition.start();
+  startsound.play()
   recognition.onresult = async (e) => {
     const transcript = e.results[0][0].transcript.trim();
     setInput(transcript);
@@ -50,8 +63,14 @@ const handleRecommendation = async (query) =>{
 
     console.log(result.data.course
 );
-    setRecommendations(result.data.course
-)
+    setRecommendations(result.data.course)
+   if(result.data.course.length >0){
+    speak('These are the top courses I found for you')
+   }
+   else{
+    speak('No courses found')
+   }
+
 
 
     
