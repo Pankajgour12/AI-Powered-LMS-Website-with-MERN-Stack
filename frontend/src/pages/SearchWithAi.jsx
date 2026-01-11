@@ -4,6 +4,8 @@ import { RiMicAiFill } from "react-icons/ri";
 import ai from '../assets/ai.png'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; 
+import axios from 'axios';
+import { serverUrl } from '../App';
 
 
 const SearchWithAi = () => {
@@ -27,11 +29,40 @@ const handleSearch = async () => {
   recognition.onresult = async (e) => {
     const transcript = e.results[0][0].transcript.trim();
     setInput(transcript);
+  await  handleRecommendation(transcript)
+    
 
     
     
   }
 
+
+
+
+}
+
+
+
+
+const handleRecommendation = async (query) =>{
+  try {
+    const result = await axios.post(serverUrl + '/api/course/search',{input:query},{withCredentials:true})
+
+    console.log(result.data.course
+);
+    setRecommendations(result.data.course
+)
+
+
+    
+
+
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response.data.message)
+
+    
+  }
 
 
 
@@ -70,7 +101,10 @@ const handleSearch = async () => {
                 />
  
 
-                <button className='absolute right-14 sm:right-16 cursor-pointer  rounded-full'><img src={ai} className='w-8 h-8 sm:w-10 sm:h-10 ' alt="" /></button>
+               {input && <button className='absolute right-14 sm:right-16 cursor-pointer  rounded-full'><img src={ai} className='w-8 h-8 sm:w-10 sm:h-10 ' alt=""
+                onClick={()=>handleRecommendation(input)}
+                
+                /></button>}
               
                 <button className='absolute right-2 w-10 h-10 flex items-center justify-center '
                 
