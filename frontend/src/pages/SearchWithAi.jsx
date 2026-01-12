@@ -15,6 +15,9 @@ const startsound = new Audio(start)
   const navigate = useNavigate()
   const [input, setInput] = useState('')
   const [recommendations, setRecommendations] = useState([])
+  
+  const [listening, setListening] = useState(false)
+
 
 
    function speak(message){
@@ -37,6 +40,7 @@ const startsound = new Audio(start)
    
 const handleSearch = async () => {
   if(!recognition) return;
+   setListening(true)
   // recognition.start();
   // toast.info('Listening...')
   
@@ -69,12 +73,15 @@ const handleSearch = async () => {
 
 
 const handleRecommendation = async (query) =>{
+ 
+
   try {
     const result = await axios.post(serverUrl + '/api/course/search',{input:query},{withCredentials:true})
 
     console.log(result.data.course
 );
     setRecommendations(result.data.course)
+    setListening(false)
    if(result.data.course.length >0){
     speak('These are the top courses I found for you')
     toast.info('these are the top courses I found for you')
@@ -89,6 +96,8 @@ const handleRecommendation = async (query) =>{
 
 
   } catch (error) {
+    setListening(false)
+
     console.log(error);
     toast.error(error.response.data.message)
 
@@ -113,7 +122,7 @@ const handleRecommendation = async (query) =>{
 
 
 
-          {/* Search bar with AI */}
+          {/* Search  */}
           <div className='bg-black/40 shadow-xl rounded-3xl p-6 sm:p-8 w-full
           max-w-2xl text-center relative'>
             <FaArrowLeftLong 
@@ -155,6 +164,70 @@ const handleRecommendation = async (query) =>{
           </div>
 
 
+          {recommendations.length > 0 ? (
+  <div className="w-full max-w-7xl mt-16 px-3 sm:px-6">
+    
+   
+    <h1 className="text-center text-2xl sm:text-3xl font-semibold tracking-wide text-white mb-10">
+      AI Search
+      <span className="ml-2 text-emerald-400...">Results</span>
+    </h1>
+
+    {/* Courses Found */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {recommendations.map((course, index) => (
+        <div
+          key={course._id || index}
+          onClick={() => navigate(`/viewcourse/${course._id}`)}
+          className="group relative rounded-2xl overflow-hidden cursor-pointer
+                     bg-[#0b0f1a] border border-white/10
+                     hover:border-indigo-500/40
+                     hover:shadow-[0_0_40px_-10px_rgba(99,102,241,0.4)]
+                     transition-all duration-300"
+        >
+         
+          <div className="relative h-44 overflow-hidden">
+            <img
+              src={course.thumbnail}
+              alt={course.title}
+              className="w-full h-full object-cover "
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          </div>
+
+          
+          <div className="p-5">
+            <h2 className="text-lg sm:text-xl font-semibold text-white leading-tight">
+              {course.title}
+            </h2>
+
+            <p className="mt-2 text-sm text-gray-400 uppercase tracking-wide">
+              {course.category}
+            </p>
+          </div>
+
+          
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition">
+            <div className="absolute inset-0 bg-indigo-500/5" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+) : listening ? (
+  <h1 className="text-center text-xl sm:text-2xl mt-14 text-gray-400">
+    Listening…
+  </h1>
+) : (
+  <h1 className="text-center text-xl sm:text-2xl mt-14 text-gray-500">
+    No Courses Found
+  </h1>
+)}
+
+
+         
+
+     
 
 
      </div>

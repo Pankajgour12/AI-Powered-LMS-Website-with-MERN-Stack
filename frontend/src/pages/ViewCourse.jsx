@@ -65,9 +65,9 @@ useEffect(()=>{
 
         if(selectedCourse?.creator){
         try {
-            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true})
-            console.log(result.data);
-           (setCreatorData(result.data))
+            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true});
+           
+             (setCreatorData(result.data))
 
         } catch (error) {
             console.log(error);
