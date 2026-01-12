@@ -8,17 +8,32 @@ import ai from "../assets/ai.png";
 // import devIllustration from "../assets/BannerImage2.png";
 import Logos from "../component/Logos.jsx";
 import ExploreCourse from "../component/ExploreCourses.jsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CardPage from "../component/CardPage.jsx";
 import AboutSection from "../component/About.jsx";
 import Footer from "../component/Footer.jsx";
 import ReviewPage from "../component/ReviewPage.jsx";
+import { useEffect } from "react";
+
 
 const Home = () => {
 
 
   const navigate = useNavigate()
+  const location = useLocation();
 
+
+ useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location]);
 
 
 
@@ -386,13 +401,14 @@ const Home = () => {
     </section>
 
 
-            <section >
+            <section id="explore" >
            <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
             >
+
           <ExploreCourse/>
 
           </motion.div>
@@ -404,9 +420,10 @@ const Home = () => {
 
             <CardPage/>
 
-            <AboutSection 
-             
-            />
+            
+<section id="about">
+  <AboutSection />
+</section>
 
 
               <ReviewPage/>
@@ -420,6 +437,7 @@ const Home = () => {
 
       {/* Footer  */}
       <Footer/>
+      
 
       
 

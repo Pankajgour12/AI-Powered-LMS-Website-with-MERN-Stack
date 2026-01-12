@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { IoMdPerson } from "react-icons/io";
+import { IoMdPerson,IoIosInformationCircleOutline } from "react-icons/io";
 import { IoBookSharp } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { FiHome, FiBook, FiCompass, FiStar, FiGrid, FiMenu, FiX,
 } from "react-icons/fi";
 import logo from "../assets/logo.png";
@@ -60,6 +59,18 @@ const menuItem = {
   show: { opacity: 1, y: 0 },
 };
 
+const handleScrollTo = (id) => {
+  setMobileOpen(false);
+
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  } else {
+    navigate(`/#${id}`);
+  }
+};
+
+
 
 
 useEffect(() => {
@@ -101,10 +112,10 @@ useEffect(() => {
           {/* right */}
           <div
             onClick={() => navigate("/")}
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer"
           >
             <img src={logo} alt="logo" className="w-10 h-10" />
-            <span className=" text-xl text-white">LearnFlow</span>
+            <span className=" text-xl text-white  tracking-tight">LearnFlow</span>
           </div>
 
           <div className="hidden md:flex items-center text-white gap-8">
@@ -114,13 +125,14 @@ useEffect(() => {
             <Link to="/allcourses" className="nav-modern">
               <FiBook /> Courses
             </Link>
-            <Link to="/explore" className="nav-modern">
-              <FiCompass /> Explore
-            </Link>
+            <button onClick={() => handleScrollTo("explore")} className="nav-modern">
+  <FiCompass /> Explore
+</button>
+
            
-            <Link to="/educator" className="nav-modern">
-              <FiStar /> Educators
-            </Link>
+           <button onClick={() => handleScrollTo("about")} className="nav-modern">
+         <IoIosInformationCircleOutline />  About
+</button>
           </div>
 
           <div className="hidden md:flex items-center gap-4 relative">
@@ -128,22 +140,22 @@ useEffect(() => {
               <div className="relative">
                 <button
                   onClick={() => setAuthOpen(!authOpen)}
-                  className="px-5 py-2 rounded-full border border-rose-300 text-rose-600 font-medium hover:bg-rose-50 transition cursor-pointer"
+                  className="px-5 py-2 rounded-full border border-rose-300 text-rose-600 font-medium hover:bg-rose-100 transition cursor-pointer"
                 >
                   Login
                 </button>
 
                 {authOpen && (
-                  <div className="absolute right-0 mt-3 w-40 bg-white/60 rounded-xl shadow-lg border overflow-hidden animate-fade-in">
+                  <div className="absolute right-0 mt-3 w-40 bg-zinc-500 rounded-xl shadow-lg border  overflow-hidden animate-fade-in">
                     <button
                       onClick={() => navigate("/login")}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 hover:bg-gray-600 cursor-pointer"
                     >
                       Login
                     </button>
                     <button
                       onClick={() => navigate("/signup")}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 hover:bg-gray-600 cursor-pointer"
                     >
                       Sign up
                     </button>
@@ -154,15 +166,7 @@ useEffect(() => {
 
             {userData && (
               <>
-                {/* {userData.role === "educator" && (
-                  <button
-                    onClick={() => navigate("/dashboard")}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white text-sm shadow hover:scale-105 transition"
-                  >
-                    <FiGrid className="inline mr-1" />
-                    Dashboard
-                  </button>
-                )} */}
+               
 
 
 {userData.role === "educator" && (
@@ -229,6 +233,74 @@ useEffect(() => {
     {/* label */}
     <span className="relative z-10">
       Dashboard
+    </span>
+  </button>
+)}
+
+{userData && (
+  <button
+    onClick={() => navigate("/mycourses")}
+    className="
+      relative group
+      flex items-center gap-2
+      px-4 py-2
+      rounded-md
+      cursor-pointers
+      text-sm font-medium tracking-wide
+      text-white/80
+
+      bg-[#0b0d16]/70
+      backdrop-blur-xl
+      border border-white/10
+
+      shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_30px_rgba(0,0,0,0.6)]
+
+      transition-all duration-300 ease-out
+      hover:text-white
+      hover:-translate-y-[1px]
+      active:translate-y-0
+
+      overflow-hidden
+    "
+  >
+    
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+        bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)]
+        animate-[shine_2.2s_linear_infinite]
+      "
+    />
+
+   
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        rounded-md
+        bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.25),transparent_60%)]
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+      "
+    />
+
+    {/* icon */}
+    <IoBookSharp 
+      className="
+        relative z-10
+        text-[15px]
+        text-white/60
+        group-hover:text-white
+        transition-colors
+      "
+    />
+
+    {/* label */}
+    <span className="relative z-10">
+      My Courses
     </span>
   </button>
 )}
@@ -330,14 +402,18 @@ useEffect(() => {
       animate="show"
       exit="exit"
       className="
-        fixed inset-0 z-50 md:hidden
-        bg-white/95 backdrop-blur-xl
+        fixed inset-0 text-white z-50 md:hidden
+        bg-black/70
+        backdrop-blur-xl
         flex flex-col
+      
+        overflow-y-hidden
       "
     >
       
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-        <span className="text-base font-semibold tracking-tight text-gray-900">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+        <span className="text-base flex items-center gap-2 font-semibold tracking-tight text-green-500">
+          <img src={logo} alt="" className="h-8 w-8 object-cover " />
           LearnFlow
         </span>
 
@@ -353,13 +429,15 @@ useEffect(() => {
         </button>
       </div>
 
+   
+
       
-      <div className="flex flex-col px-6 py-6 gap-3 flex-1">
+      <div className="flex flex-col  px-6 py-6 gap-3 flex-1">
         {[
           { to: "/", icon: FiHome, label: "Home" },
           { to: "/allcourses", icon: FiBook, label: "Courses" },
-          { to: "/explore", icon: FiCompass, label: "Explore" },
-          { to: "/educator", icon: FiStar, label: "Educators" },
+          { to: "#explore", icon: FiCompass, label: "Explore" },
+          { to: "#about", icon: IoIosInformationCircleOutline, label: "About" },
         ].map((item, i) => {
           const Icon = item.icon;
           return (
@@ -369,12 +447,80 @@ useEffect(() => {
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-4 px-4 py-3 rounded-xl  text-gray-800  hover:bg-gray-100  transition"
               >
-                <Icon className="text-lg text-gray-500" />
-                <span className="text-sm font-medium">{item.label}</span>
+                <Icon className="text-lg text-white/70" />
+                <span className="text-sm text-white/80 font-medium">{item.label}</span>
               </Link>
             </motion.div>
           );
         })}
+
+            {userData && (
+  <button
+    onClick={() => navigate("/mycourses")}
+    className="
+      relative group
+      flex items-center gap-2
+      px-4 py-2
+      rounded-md
+      cursor-pointers
+      text-sm font-medium tracking-wide
+      text-white/80
+
+      bg-[#0b0d16]/70
+      backdrop-blur-xl
+      border border-white/10
+
+      shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_30px_rgba(0,0,0,0.6)]
+
+      transition-all duration-300 ease-out
+      hover:text-white
+      hover:-translate-y-[1px]
+      active:translate-y-0
+
+      overflow-hidden
+    "
+  >
+    
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+        bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)]
+        animate-[shine_2.2s_linear_infinite]
+      "
+    />
+
+   
+    <span
+      className="
+        pointer-events-none
+        absolute inset-0
+        rounded-md
+        bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.25),transparent_60%)]
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-500
+      "
+    />
+
+    {/* icon */}
+    <IoBookSharp 
+      className="
+        relative z-10
+        text-[15px]
+        text-white/60
+        group-hover:text-white
+        transition-colors
+      "
+    />
+
+    {/* label */}
+    <span className="relative z-10">
+      My Courses
+    </span>
+  </button>
+)}
 
       
         {userData?.role === "educator" && (
@@ -421,12 +567,12 @@ useEffect(() => {
 
         {userData && (
           <div className="space-y-4">
-            {/* PROFILE CARD */}
+           
             <div className="
               flex items-center gap-4
               px-4 py-3
               rounded-2xl
-              bg-gray-100
+              bg-gray-400
             ">
               <div
                 className="
@@ -449,10 +595,10 @@ useEffect(() => {
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-lg font-medium text-zinc-900 truncate">
                   {userData.name}
                 </p>
-                <p className="text-xs text-gray-500 capitalize">
+                <p className="text-xs text-gray-800 capitalize">
                   {userData.role}
                 </p>
               </div>
@@ -465,12 +611,12 @@ useEffect(() => {
               </button>
             </div>
 
-            {/* USER ACTIONS */}
+            
             <div className="flex justify-between items-center">
               <button
                 onClick={() => navigate("/mycourses")}
                 className="
-                  text-sm text-gray-700
+                  text-sm text-white
                   hover:text-black
                   transition
                 "
@@ -497,6 +643,9 @@ useEffect(() => {
      </AnimatePresence>
 
      
+
+
+
 
       
       

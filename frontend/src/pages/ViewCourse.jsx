@@ -52,7 +52,7 @@ const fetchCourseData = () => {
 
 const checkEnrolled = ()=>{
     const verify = userData?.enrolledCourses?.some(c => (typeof c === 'string' ? c : c._id).toString() === courseId?.toString()) 
-    console.log(verify);
+    
     if(verify) setIsEnrolled(true)
 }
 

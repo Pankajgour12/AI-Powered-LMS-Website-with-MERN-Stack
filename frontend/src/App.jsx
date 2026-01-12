@@ -25,7 +25,7 @@ import ViewLectures from "./pages/educator/lecture/ViewLectures.jsx";
 import MyEnrolledCourses from "./pages/MyEnrolledCourses.jsx";
 import getAllReviews from "./customHooks/getAllReviews.js";
 import SearchWithAi from "./pages/SearchWithAi.jsx";
-
+import { ReactLenis, useLenis } from 'lenis/react'
 export const serverUrl = "http://localhost:8000";
 
 const App = () => {
@@ -37,13 +37,16 @@ const App = () => {
   getAllReviews();
 
 
-  
+    const lenis = useLenis((lenis) => {
+    
+  })
 
 
   const { userData } = useSelector((state) => state.user);
 
   return (
     <>
+    <ReactLenis root />
       <ToastContainer />
       <ScrollToTop/>
       <Routes>
