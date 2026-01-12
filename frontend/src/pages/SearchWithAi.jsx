@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; 
 import axios from 'axios';
 import { serverUrl } from '../App';
-import start from '../assets/start.mp3'
+ import start from '../assets/start.mp3'
 
 const SearchWithAi = () => {
 const startsound = new Audio(start)
@@ -37,8 +37,19 @@ const startsound = new Audio(start)
    
 const handleSearch = async () => {
   if(!recognition) return;
-  recognition.start();
-  startsound.play()
+  // recognition.start();
+  // toast.info('Listening...')
+  
+  startsound.currentTime = 0;
+  startsound.play();
+
+  
+  startsound.onended = () => {
+    recognition.start();
+  };
+
+
+  
   recognition.onresult = async (e) => {
     const transcript = e.results[0][0].transcript.trim();
     setInput(transcript);
@@ -66,6 +77,7 @@ const handleRecommendation = async (query) =>{
     setRecommendations(result.data.course)
    if(result.data.course.length >0){
     speak('These are the top courses I found for you')
+    toast.info('these are the top courses I found for you')
    }
    else{
     speak('No courses found')
