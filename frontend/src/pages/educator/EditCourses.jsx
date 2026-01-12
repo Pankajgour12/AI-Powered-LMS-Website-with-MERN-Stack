@@ -166,231 +166,217 @@ const EditCourses = () => {
 
 
     
+return (
+  <div className="min-h-screen bg-[#05060b] text-white">
+    <div className="max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-[360px_1fr] gap-10">
 
+      {/* LEFT – COURSE IDENTITY */}
+      <div className="space-y-6">
+        <div className="flex items-center gap-3 text-sm text-white/60">
+          <FaArrowLeftLong
+            className="cursor-pointer hover:text-white"
+            onClick={() => navigate("/edu-courses")}
+          />
+          Back to courses
+        </div>
 
-  return (
-    <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
-      {/* top bar */}
+        <div className="relative rounded-2xl overflow-hidden border border-white/10">
+          <img
+            src={frontendImage}
+            alt=""
+            className="w-full h-[220px] object-cover"
+            onClick={() => thumb.current.click()}
+          />
 
-      <div
-        className="flex items-center justify-center gap-[20px] 
-      md:justify-between flex-col md:flex-row mb-6 relative"
-      >
-        <FaArrowLeftLong
-          className="top-[-20%] md:top-[20%] absolute left-[0] md:left-[2%] w-[22px] h-[22px] cursor-pointer
-         "
-          onClick={() => navigate("/edu-courses")}
-        />
-        <h2 className="text-2xl font-semibold md:pl-[60px]">
-          Add details Information regarding the Course
-        </h2>
-
-        <div className="space-x-2 space-y-2">
-          <button className="bg-black text-white px-4 py-2 rounded-md"
-          onClick={()=>navigate(`/createlecture/${selectCourse?._id}`)}
+          
+          <div
+            onClick={() => thumb.current.click()}
+            className="
+              absolute inset-0
+              bg-black/60
+              opacity-0 hover:opacity-100
+              transition
+              flex flex-col items-center justify-center
+              gap-2 cursor-pointer
+            "
           >
-            Go to Lecture Page
+            <FaEdit />
+            <span className="text-sm tracking-wide">Change thumbnail</span>
+          </div>
+        </div>
+
+        
+        <div className="space-y-3">
+          <h2 className="text-lg font-semibold leading-tight">
+            {title || "Untitled course"}
+          </h2>
+
+          <div className="flex items-center gap-3 text-xs">
+            <span className="px-2 py-1 rounded-full bg-white/10">
+              {category || "No category"}
+            </span>
+            <span className="px-2 py-1 rounded-full bg-white/10">
+              {level || "No level"}
+            </span>
+          </div>
+
+          <div className="text-sm text-white/60">
+            {price ? `₹${price}` : "Free course"}
+          </div>
+        </div>
+
+        
+        <div className="pt-4 border-t border-white/10 space-y-3">
+          {!isPublished ? (
+            <button
+              onClick={() => setIsPublished(prev => !prev)}
+              className="
+                w-full py-2 rounded-md
+                border border-emerald-400/30
+                text-emerald-400
+                hover:bg-emerald-400/10
+              "
+            >
+              Publish course
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsPublished(prev => !prev)}
+              className="
+                w-full py-2 rounded-md
+                border border-rose-400/30
+                text-rose-400
+                hover:bg-rose-400/10
+              "
+            >
+              Unpublish course
+            </button>
+          )}
+
+          <button
+            onClick={handleRemoveCouse}
+            className="
+              w-full py-2 rounded-md
+              border border-red-500/30
+              text-red-400
+              hover:bg-red-500/10
+            "
+          >
+            Delete course
           </button>
         </div>
       </div>
 
-      {/* Form details */}
-      <div className="bg-gray-100 p-6 rounded-md">
-        <h2 className="text-lg font-medium mb-4">Basic Course Information</h2>
-
-        <div className="space-x-2 space-y-5">
-          {!isPublished ? (
-            <button
-              className="bg-green-100 text-green-600 px-4 py-2 
-        rounded-md border
-        "
-              onClick={() => setIsPublished((prev) => !prev)}
-            >
-              Click to Published
-            </button>
-          ) : (
-            <button
-              className="bg-red-100 text-red-600 px-4 py-2 
-        rounded-md border "
-              onClick={() => setIsPublished((prev) => !prev)}
-            >
-              Click to UnPublished
-            </button>
-          )}
-
-          <button className="bg-red-600 text-white px-4 py-2 border rounded-md"
-          onClick={handleRemoveCouse}
-          >
-            Romove Course
-          </button>
-        </div>
+      {/* RIGHT – PANEL */}
+      <div className="rounded-2xl border border-white/10 bg-[#0b0f19] p-8">
+        <h3 className="text-lg font-semibold mb-6">
+          Course configuration
+        </h3>
 
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm text-gray-700 font-medium mb-1"
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Course title"
+            className="w-full bg-black/40 border border-white/10 rounded-md px-4 py-2"
+          />
+
+          <input
+            value={subTitle}
+            onChange={(e) => setSubTitle(e.target.value)}
+            placeholder="Course subtitle"
+            className="w-full bg-black/40 border border-white/10 rounded-md px-4 py-2"
+          />
+
+          <textarea
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Course description"
+            className="w-full bg-black/40 border border-white/10 rounded-md px-4 py-2 resize-none"
+          />
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="bg-black/40 border border-white/10 rounded-md px-3 py-2"
             >
-              Course Title
-            </label>
+              <option value="">Category</option>
+              <option>Web Development</option>
+              <option>UI/UX</option>
+              <option>App Development</option>
+              <option>Ethical Hacking</option>
+              <option>AI/ML</option>
+              <option>Data Science</option>
+              <option>Other</option>
+            </select>
+
+            <select
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              className="bg-black/40 border border-white/10 rounded-md px-3 py-2"
+            >
+              <option value="">Level</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+
             <input
-              type="text"
-              id="title"
-              placeholder="Enter Course Title"
-              className="w-full border border-gray-300 rounded-md px-4 py-2"
-              onChange={(e)=>setTitle(e.target.value)} value={title}
-
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="₹ Price"
+              className="bg-black/40 border border-white/10 rounded-md px-3 py-2"
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="subtitle"
-              className="block text-sm text-gray-700 font-medium mb-1"
-            >
-              Course Subtitle
-            </label>
-            <input
-              type="text"
-              id="subtitle"
-              placeholder="Enter Course Subtitle"
-              className="w-full border border-gray-300 rounded-md px-4 py-2"
-              onChange={(e)=>setSubTitle(e.target.value)} value={subTitle}
-
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm text-gray-700 font-medium mb-1"
-            >
-              Course Description
-            </label>
-            <textarea
-              id="description"
-              rows="4"
-              placeholder="Course Description"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 h-24  resize-none"
-              onChange={(e)=>setDescription(e.target.value)} value={description}
-              
-            ></textarea>
-          </div>
-
-          <div
-            className="flex flex-col sm:flex-row sm:space-x-4 
-        space-y-4 sm:space-y-0"
-          >
-            {/* for category */}
-            <div className="flex-1">
-              <label
-                htmlFor=""
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Course Category
-              </label>
-              <select
-                name=""
-                id=""
-                className="w-full border px-4 py-2 rounded-md bg-amber-50"
-                onChange={(e)=>setCategory(e.target.value)} value={category}
-                
-              >
-                <option value="">Select category</option>
-      <option value="Web Development">Web Development</option>
-      <option value="UI/UX">UI / UX Design</option>
-      <option value="App Development">App Development</option>
-      <option value="Ethical Hacking">Ethical Hacking</option>
-      <option value="AI/ML">AI / ML</option>
-      <option value="Data Science">Data Science</option>
-      <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* for Level */}
-            <div className="flex-1">
-              <label
-                htmlFor=""
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Course Level
-              </label>
-              <select
-                name=""
-                id=""
-                className="w-full border px-4 py-2 rounded-md bg-amber-50"
-                onChange={(e)=>setLevel(e.target.value)} value={level}
-
-              >
-                <option value="">Select Level</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate </option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-
-            {/* for Price */}
-            <div className="flex-1">
-              <label
-                htmlFor="price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Course Price (INR)
-              </label>
-              <input
-                type="number"
-                name=""
-                id="price"
-                placeholder="₹ "
-                className="w-full border px-4 py-2 rounded-md"
-              onChange={(e)=>setPrice(e.target.value)} value={price}
-                
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="thumbnail"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Course Thumbnail
-            </label>
-            <input type="file" hidden ref={thumb} accept="image/*"
-            onChange={handleThumnail}
-            />
-          </div>
-
-          <div className="relative w-[300px] h-[170px]">
-            <img
-              src={frontendImage}
-              alt="thumbnail"
-              onClick={() => thumb.current.click()}
-              className="w-[100%] h-[100%] border border-black rounded-[5px]"
-            />
-            <FaEdit
-              className="w-[20px] h-[20px]
-              absolute top-2 right-2"
-              onClick={() => thumb.current.click()}
-            />
-          </div>
-
-          <div className="flex items-center justify-start gap-[15px]">
+          <div className="flex justify-between items-center pt-6 border-t border-white/10">
             <button
-              className="bg-amber-50 hover:bg-red-200 text-black border border-black cursor-pointer px-4 py-2 rounded-md"
-              onClick={() => navigate("/edu-courses")}
+              onClick={() => navigate(`/createlecture/${selectCourse?._id}`)}
+              className="text-sm text-white/60 hover:text-white"
             >
-              Cancel
+              Go to lectures →
             </button>
-            <button className="bg-black text-white px-7 py-2 rounded-md hover:bg-gray-500 cursor-pointer"
-            
-            onClick={handleEditCourse}>
-           { loading ? <ClipLoader size={30} color="white" />: "Save"}
-            </button>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate("/edu-courses")}
+                className="px-4 py-2 rounded-md bg-white/5 hover:bg-white/10"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleEditCourse}
+                className="
+                  px-6 py-2 rounded-md
+                  bg-white text-black
+                  font-medium
+                "
+              >
+                {loading ? <ClipLoader size={18} color="black" /> : "Save"}
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </div>
-  );
+
+    <input
+      type="file"
+      hidden
+      ref={thumb}
+      accept="image/*"
+      onChange={handleThumnail}
+    />
+  </div>
+);
+
+
+
+  
 };
 
 export default EditCourses;

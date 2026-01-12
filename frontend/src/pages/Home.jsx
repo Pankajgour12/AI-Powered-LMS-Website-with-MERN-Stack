@@ -69,7 +69,7 @@ const Home = () => {
   <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-40 grid lg:grid-cols-[1fr_1.3fr] gap-24 items-center ">
 
     {/* LEFT  */}
-<motion.div
+       <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
