@@ -12,6 +12,9 @@ import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 import { toast } from "sonner";
 
+
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +27,13 @@ const [lastScrollY, setLastScrollY] = useState(0);
 
 
 
+
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+
+
+
+
 
   const handleLogout = async () => {
     try {
@@ -69,6 +78,10 @@ const handleScrollTo = (id) => {
     navigate(`/#${id}`);
   }
 };
+
+
+
+
 
 
 
@@ -394,45 +407,48 @@ useEffect(() => {
 
       {/* MOBILE MENU */}
 
+
       <AnimatePresence>
-      {mobileOpen && (
+  {mobileOpen && (
     <motion.div
       variants={menuWrap}
       initial="hidden"
       animate="show"
       exit="exit"
       className="
-        fixed inset-0 text-white z-50 md:hidden
-        bg-black/70
-        backdrop-blur-xl
+        fixed inset-0 z-50 md:hidden
+        bg-[#07080d]
+        text-white
         flex flex-col
-      
-        overflow-y-hidden
+        overscroll-none
       "
     >
-      
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-        <span className="text-base flex items-center gap-2 font-semibold tracking-tight text-green-500">
-          <img src={logo} alt="" className="h-8 w-8 object-cover " />
-          LearnFlow
-        </span>
+      {/* TOP BAR */}
+      <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="" className="w-9 h-9" />
+          <span className="text-lg font-semibold tracking-tight">
+            LearnFlow
+          </span>
+        </div>
 
         <button
           onClick={() => setMobileOpen(false)}
           className="
-            p-2 rounded-full
-            hover:bg-gray-100
+            w-10 h-10
+            rounded-full
+            bg-white/5
+            flex items-center justify-center
+            hover:bg-white/10
             transition
           "
         >
-          <FiX size={22} />
+          <FiX size={20} />
         </button>
       </div>
 
-   
-
-      
-      <div className="flex flex-col  px-6 py-6 gap-3 flex-1">
+      {/* NAV LINKS */}
+      <div className="flex-1 px-6 py-6 space-y-3">
         {[
           { to: "/", icon: FiHome, label: "Home" },
           { to: "/allcourses", icon: FiBook, label: "Courses" },
@@ -445,84 +461,51 @@ useEffect(() => {
               <Link
                 to={item.to}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-4 px-4 py-3 rounded-xl  text-gray-800  hover:bg-gray-100  transition"
+                className="
+                  group
+                  flex items-center gap-4
+                  px-5 py-4
+                  rounded-2xl
+                  bg-white/[0.03]
+                  hover:bg-white/[0.08]
+                  transition
+                "
               >
-                <Icon className="text-lg text-white/70" />
-                <span className="text-sm text-white/80 font-medium">{item.label}</span>
+                <Icon className="text-xl text-white/70 group-hover:text-white" />
+                <span className="text-base font-medium">
+                  {item.label}
+                </span>
               </Link>
             </motion.div>
           );
         })}
 
-            {userData && (
-  <button
-    onClick={() => navigate("/mycourses")}
-    className="
-      relative group
-      flex items-center gap-2
-      px-4 py-2
-      rounded-md
-      cursor-pointers
-      text-sm font-medium tracking-wide
-      text-white/80
+        {/* MY COURSES */}
+        {userData && (
+          <motion.div variants={menuItem}>
+            <button
+              onClick={() => navigate("/mycourses")}
+              className="
+                w-full
+                mt-4
+                flex items-center gap-4
+                px-5 py-4
+                rounded-2xl
+                bg-gradient-to-r from-indigo-500/20 to-emerald-500/20
+                border border-white/10
+                hover:border-white/20
+                transition
+              "
+            >
+              <IoBookSharp className="text-xl text-white" />
+              <span className="text-base font-medium">
+                My Courses
+              </span>
+            </button>
+          </motion.div>
+        )}
 
-      bg-[#0b0d16]/70
-      backdrop-blur-xl
-      border border-white/10
-
-      shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_30px_rgba(0,0,0,0.6)]
-
-      transition-all duration-300 ease-out
-      hover:text-white
-      hover:-translate-y-[1px]
-      active:translate-y-0
-
-      overflow-hidden
-    "
-  >
-    
-    <span
-      className="
-        pointer-events-none
-        absolute inset-0
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-500
-        bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)]
-        animate-[shine_2.2s_linear_infinite]
-      "
-    />
-
-   
-    <span
-      className="
-        pointer-events-none
-        absolute inset-0
-        rounded-md
-        bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.25),transparent_60%)]
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-500
-      "
-    />
-
-    {/* icon */}
-    <IoBookSharp 
-      className="
-        relative z-10
-        text-[15px]
-        text-white/60
-        group-hover:text-white
-        transition-colors
-      "
-    />
-
-    {/* label */}
-    <span className="relative z-10">
-      My Courses
-    </span>
-  </button>
-)}
-
-      
+        {/* DASHBOARD */}
         {userData?.role === "educator" && (
           <motion.div variants={menuItem}>
             <button
@@ -530,107 +513,111 @@ useEffect(() => {
                 setMobileOpen(false);
                 navigate("/dashboard");
               }}
-              className="w-full flex items-center gap-4 px-4 py-3 rounded-xl bg-gray-800 text-white hover:bg-gray-600 transition"
+              className="
+                w-full
+                flex items-center gap-4
+                px-5 py-4
+                rounded-2xl
+                bg-white/10
+                hover:bg-white/20
+                transition
+              "
             >
-              <FiGrid className="text-lg" />
-              <span className="text-sm font-medium">Dashboard</span>
+              <FiGrid className="text-xl" />
+              <span className="text-base font-medium">
+                Dashboard
+              </span>
             </button>
           </motion.div>
         )}
       </div>
 
-     
-      <div className="border-t border-gray-400 px-6 py-10">
+      {/* USER / AUTH SECTION */}
+      <div className="px-6 py-6 border-t border-white/10">
         {!userData && (
-        <div className="flex items-center gap-3">
-  <button
-    onClick={() => navigate("/login")}
-    className="text-sm font-medium text-gray-800 hover:text-black transition"
-  >
-    Login
-  </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate("/login")}
+              className="
+                flex-1
+                py-3
+                rounded-xl
+                bg-white/10
+                hover:bg-white/20
+                transition
+                text-sm font-medium
+              "
+            >
+              Login
+            </button>
 
-  <button
-    onClick={() => navigate("/signup")}
-    className="px-6 py-2.5 rounded-full border border-rose-500  text-rose-600 font-medium  hover:bg-rose-50 transition
-    "
-  >
-    Get started
-  </button>
-</div>
-
-
-
-
-
+            <button
+              onClick={() => navigate("/signup")}
+              className="
+                flex-1
+                py-3
+                rounded-xl
+                bg-white
+                text-black
+                font-medium
+                text-sm
+                hover:opacity-90
+                transition
+              "
+            >
+              Get started
+            </button>
+          </div>
         )}
 
         {userData && (
           <div className="space-y-4">
-           
+            {/* PROFILE */}
             <div className="
               flex items-center gap-4
-              px-4 py-3
+              p-4
               rounded-2xl
-              bg-gray-400
+              bg-white/5
             ">
-              <div
-                className="
-                  w-12 h-12
-                  rounded-full
-                  bg-rose-500 text-white
-                  flex items-center justify-center
-                  font-semibold
-                  overflow-hidden
-                "
-              >
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
                 {userData.photoUrl ? (
-                  <img
-                    src={userData.photoUrl}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={userData.photoUrl} className="w-full h-full object-cover" />
                 ) : (
-                  userData.name?.charAt(0).toUpperCase()
+                  <span className="font-semibold">
+                    {userData.name?.charAt(0).toUpperCase()}
+                  </span>
                 )}
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-lg font-medium text-zinc-900 truncate">
+                <p className="text-sm font-medium truncate">
                   {userData.name}
                 </p>
-                <p className="text-xs text-gray-800 capitalize">
+                <p className="text-xs text-white/50 capitalize">
                   {userData.role}
                 </p>
               </div>
 
               <button
                 onClick={() => navigate("/profile")}
-                className="text-xs text-rose-600 hover:underline"
+                className="text-xs text-white/70 hover:text-white"
               >
                 View
               </button>
             </div>
 
-            
-            <div className="flex justify-between items-center">
+            {/* ACTIONS */}
+            <div className="flex justify-between">
               <button
                 onClick={() => navigate("/mycourses")}
-                className="
-                  text-sm text-white
-                  hover:text-black
-                  transition
-                "
+                className="text-sm text-white/70 hover:text-white"
               >
                 My Courses
               </button>
 
               <button
                 onClick={handleLogout}
-                className="
-                  text-sm text-rose-600
-                  hover:text-rose-700
-                  transition
-                "
+                className="text-sm text-rose-500 hover:text-rose-400"
               >
                 Logout
               </button>
@@ -640,7 +627,10 @@ useEffect(() => {
       </div>
     </motion.div>
   )}
-     </AnimatePresence>
+</AnimatePresence>
+
+
+      
 
      
 
