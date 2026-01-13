@@ -171,7 +171,7 @@ return (
   <div className="min-h-screen bg-[#05060b] text-white">
     <div className="max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-[360px_1fr] gap-10">
 
-      {/* LEFT – COURSE IDENTITY */}
+      {/* LEFT – */}
       <div className="space-y-6">
         <div className="flex items-center gap-3 text-sm text-white/60">
           <FaArrowLeftLong
