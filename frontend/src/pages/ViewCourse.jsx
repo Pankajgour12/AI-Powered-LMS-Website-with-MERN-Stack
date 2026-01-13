@@ -37,17 +37,40 @@ const [loading, setLoading] = useState(false)
 const dispatch = useDispatch()
 
 
-const fetchCourseData = () => {
-   if (!courseData?.courses) return
+// const fetchCourseData = () => {
+//    if (!courseData?.courses) return
+
+//   const course = courseData.courses.find(
+//     (course) => course._id === courseId
+//   )
+
+//   if (course) {
+//     dispatch(setSelectedCourse(course))
+//   }
+// }
+
+
+
+useEffect(() => {
+  if (!courseId || !courseData?.courses) return;
+
+  // 🔥 IMPORTANT RESET (bug killer)
+  setSelectedLecture(null);
+  setCreatorData(null);
+  setCreatorCourses(null);
+  setIsEnrolled(false);
 
   const course = courseData.courses.find(
-    (course) => course._id === courseId
-  )
+    c => c._id.toString() === courseId.toString()
+  );
 
   if (course) {
-    dispatch(setSelectedCourse(course))
+    dispatch(setSelectedCourse(course));
   }
-}
+}, [courseId, courseData, dispatch]);
+
+
+
 
 
 const checkEnrolled = ()=>{
@@ -56,60 +79,89 @@ const checkEnrolled = ()=>{
     if(verify) setIsEnrolled(true)
 }
 
+useEffect(() => {
+  if (!selectedCourse?.creator) return;
 
-
-
-useEffect(()=>{
-    
-    const handleCreator = async () =>{
-
-        if(selectedCourse?.creator){
-        try {
-            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true});
-           
-             (setCreatorData(result.data))
-
-        } catch (error) {
-            console.log(error);
-            
-        }
+  const handleCreator = async () => {
+    try {
+      const result = await axios.post(
+        serverUrl + '/api/course/creator',
+        { userId: selectedCourse.creator },
+        { withCredentials: true }
+      );
+      setCreatorData(result.data);
+    } catch (e) {
+      console.log(e);
     }
-    }
-    handleCreator();
-},[selectedCourse])
+  };
 
-useEffect(()=>{
-    fetchCourseData();
-    checkEnrolled();
-
-},[courseData,courseId,userData])
+  handleCreator();
+}, [selectedCourse,courseId]);
 
 
 
 // useEffect(()=>{
+    
+//     const handleCreator = async () =>{
 
-//     if(creatorData?._id && courseData.length >0){
-//         const creatorCourse = courseData.filter((course)=>
-//             course.creator === creatorData?._id && course._id !== courseId
-        
-//         )
-   
-//        setCreatorCourses(creatorCourse)
+//         if(selectedCourse?.creator){
+//         try {
+//             const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true});
+           
+//              (setCreatorData(result.data))
+
+//         } catch (error) {
+//             console.log(error);
+            
+//         }
 //     }
+//     }
+//     handleCreator();
+// },[selectedCourse])
 
-// },[creatorData ,courseData])
+// useEffect(()=>{
+//     fetchCourseData();
+//     checkEnrolled();
+
+// },[courseData,courseId,userData])
 
 useEffect(() => {
- if (!creatorData?._id || !courseData?.courses) return
+  if (!userData || !courseId) return;
+
+  const verify = userData.enrolledCourses?.some(
+    c => (typeof c === "string" ? c : c._id).toString() === courseId.toString()
+  );
+
+  setIsEnrolled(!!verify);
+}, [courseId, userData]);
+
+
+
+
+// useEffect(() => {
+//  if (!creatorData?._id || !courseData?.courses) return
+
+//   const creatorCoursesFiltered = courseData.courses.filter(
+//     (course) =>
+//       course.creator === creatorData._id &&
+//       course._id !== courseId
+//   )
+
+//   setCreatorCourses(creatorCoursesFiltered)
+// }, [creatorData, courseData, courseId])
+
+
+useEffect(() => {
+  if (!creatorData?._id || !courseData?.courses) return;
 
   const creatorCoursesFiltered = courseData.courses.filter(
-    (course) =>
+    course =>
       course.creator === creatorData._id &&
       course._id !== courseId
-  )
+  );
 
-  setCreatorCourses(creatorCoursesFiltered)
-}, [creatorData, courseData, courseId])
+  setCreatorCourses(creatorCoursesFiltered);
+}, [creatorData, courseData, courseId]);
 
 
 
@@ -199,309 +251,247 @@ const avgRating = calculateAvgReview(selectedCourse?.reviews)
 
 
 
+return (
+  <div className="min-h-screen bg-[#0b0f19] text-white">
 
-  return (
-    <div className='min-h-screen bg-gray-50 p-6'>
-   <div className='max-w-6xl mx-auto bg-amber-50 shadow-md rounded-xl p-6 space-y-6 relative'>
+    {/* ===== HERO SECTION ===== */}
+    <section className="relative overflow-hidden border-b border-white/10">
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-emerald-500/20 blur-3xl" />
 
-      {/* top section  */}
-       <div className='flex flex-col md:flex-row gap-10 justify-around'>
+      <div className="relative max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-14 items-center">
 
-             {/* thumbnail */}
+      
+        <div>
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-sm text-white/60 hover:text-white mb-6"
+          >
+            <FaArrowLeftLong />
+            Back
+          </button>
 
-             <div className='w-full md:w-1/2'>
-             <FaArrowLeftLong
-    className='text-2xl text-gray-800 mb-4 cursor-pointer'
-    onClick={() => navigate('/')}
-           
-             />
+          <h1 className="text-4xl lg:text-5xl font-semibold leading-tight">
+            {selectedCourse?.title}
+          </h1>
 
-             {selectedCourse?.thumbnail ?  <img src={selectedCourse?.thumbnail} alt="Thumbnail" />:
-                <div className='w-full h-48 bg-gray-300 flex items-center justify-center'>
-                <span className='text-gray-600'>No Thumbnail Available</span>
-                </div>
-             
-            }
+          <p className="mt-4 text-white/60 max-w-xl">
+            {selectedCourse?.subTitle}
+          </p>
 
-
-               
-
-                
-
-
-
-             </div>
-
-             {/* courseInfo */}
-             <div className='flex-1 space-y-2 mt-[20px] '>
-                <h2 className='text-2xl font-bold ' > {selectedCourse?.title} </h2>
-                <p className='text-gray-700'> { selectedCourse?.subTitle}</p>
-                <div className='flex items-start flex-col justify-between'>
-
-                    <div className='text-yellow-500 font-medium flex gap-2'>
-
-                        <span className='flex items-center justify-start gap-1'>
-                           {avgRating}<FaStar/>
-                              </span>
-                        <span 
-                        className='text-gray-400'>(27,000 Reviews) </span>
-
-                    </div>
-
-
-                    <div>
-                        <span className='text-xl font-semibold text-black'>
-                            ₹ {selectedCourse?.price}
-                            {" "}
-                        </span> 
-                        <span className='line-through text-sm text-gray-500'> 
-                         ₹ 5999 
-                        </span>
-
-                    </div>
-
-                    <ul className='text-sm text-gray-700 space-y-1 pt-2'>
-                        <li>✅ 250+ hours of Video content</li>
-                        <li>✅ 18+ Inustry Projects</li>
-                        <li>✅ Lifetime access to course materials</li>
-                    </ul>
-
-                   {!isEnrolled ? <button className='bg-black text-white
-                    px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'
-                    onClick={()=>handleEnroll(courseId,userData._id)}
-                    >
-                        Enroll Now
-                    </button> :
-                     <button className='bg-green-100 text-green-600
-                    px-6 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer'
-                    onClick={()=>navigate(`/viewlecture/${courseId}`)}
-                    >
-                        Watch  Now
-                    </button>
-                    }
-
-
-
-
-                </div>
-
-
-
-             </div>
-
-
-       </div>
-
-       <div>
-        <h2 className='text-xl font-semibold mb-2'>
-            Here's What You Will Gain
-        </h2>
-        <ul className='list-disc pl-6 text-gray-700 space-y-1'>
-            <li>Learn {selectedCourse?.category} from Beginning </li>
-
-        </ul>
-       </div>
-
-       <div>
-        <h2 className='text-xl font-semibold mb-2'>
-            Who This Course is For
-        </h2>
-        <p className=' text-gray-700'>
-            Beginners, apiring developers, and professsionals looking to upgrade skills.
-
-        </p>
-       </div>
-
-
-       {/* lectures Area  */}
-
-       <div className='flex flex-col md:flex-row gap-6'>
-
-     <div className='bg-white w-full md:w-2/5  p-6 rounded-2xl shadow-lg border bordgra200 '>
-
-<h2 className='text-xl font-bold mb-1 text-gray-800'>Course Curriculum</h2>
-<p className='text-sm text-gray-500 mb-4'>
-{selectedCourse?.lectures?.length} Lectures
-
-</p>
-
-<div className='flex flex-col gap-3'>
-    {selectedCourse?.lectures?.map((lecture,index)=>(
-
-
-<button key={index}
-disabled={!lecture.isPreviewFree}
-onClick={()=>{
-    if(lecture.isPreviewFree){
-        setSelectedLecture(lecture)
-
-}
-}}
-className={`
-flex items-center justify-between  px-4
-py-3 rounded-lg border transition-all text-black duration-200 text-left
-
-${lecture.isPreviewFree?'hover:bg-gray-100 cursor-pointer border-gray-300' :
-    "cursor-not-allowed opacity-60 border-gray-200"
-}
-
-${selectedLecture?.lectureTitle === lecture?.lectureTitle ?"bg-gray-300 border-gray-400" : ""}
-`}>
-   
-    <span className='text-sm font-medium  text-gray-800'>{index+1}{". "}
-    {lecture.lectureTitle}</span>
-
-     <span className='text-lg text-gray-700'>
-
-       {lecture.isPreviewFree ? <FaCirclePlay color='green'/>  :<FaLock color='black'/>}
-    </span>
-    
-</button>
-    
-    ))}
-    
-
-
-
-      </div>
-     </div>
-
-
-     <div className='bg-white w-full md:w-3/5 p-6
-     rounded-2xl shadow-lg border border-gray-200'>
-
-        <div className='aspect-video w-full rounded-lg overflow-hidden 
-        mb-4 bg-black flex items-center justify-center
-        '>
-            {selectedLecture?.videoUrl ? <video className='w-full h-full object-cover'
-            src={selectedLecture?.videoUrl}
-            controls
-            /> :
-            
-            <span className='text-white text-sm '>
-                Select a preview lecture to watch 
-
+          <div className="flex items-center gap-4 mt-6">
+            <span className="flex items-center gap-1 text-amber-400 font-medium">
+              {avgRating} <FaStar />
             </span>
-            }
+            <span className="text-white/40 text-sm">
+              ({selectedCourse?.reviews?.length || 0} reviews)
+            </span>
+          </div>
 
+          <div className="flex items-end gap-3 mt-6">
+            <span className="text-3xl text-green-600 font-semibold">
+                {!isEnrolled?`₹${selectedCourse?.price}`:'Watch now'}
+              {/* ₹{selectedCourse?.price} */}
+            </span>
+            <span className="line-through text-white/40 text-sm">
+              ₹5999
+            </span>
+          </div>
+
+          <ul className="mt-6 space-y-2 text-sm text-white/70">
+            <li>•✅ 250+ hours of structured video content</li>
+            <li>•✅ Industry-level projects</li>
+            <li>•✅ Lifetime access</li>
+          </ul>
+
+          {!isEnrolled ? (
+            <button
+              onClick={() => handleEnroll(courseId, userData._id)}
+              className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-[1.04] transition"
+            >
+              Enroll Now
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate(`/viewlecture/${courseId}`)}
+              className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30"
+            >
+              Watch Course
+            </button>
+          )}
         </div>
 
-     </div>
+        {/* RIGHT */}
+        <div className="relative rounded-3xl overflow-hidden border border-white/10">
+          {selectedCourse?.thumbnail ? (
+            <img
+              src={selectedCourse.thumbnail}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img src={empty} alt="" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+        </div>
+      </div>
+    </section>
 
+    {/* ===== MAIN CONTENT ===== */}
+    <section className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-[360px_1fr] gap-14">
 
+      {/* lecture Part  */}
+       <aside className="bg-white/5 border border-white/10 rounded-3xl p-6 h-fit">
+        <h3 className="text-lg font-semibold mb-1">Course Curriculum</h3>
+        <p className="text-xs text-white/40 mb-6">
+          {selectedCourse?.lectures?.length} lectures
+        </p>
 
+        <div className="space-y-2">
+          {selectedCourse?.lectures?.map((lecture, index) => {
+            const unlocked = lecture.isPreviewFree || isEnrolled
 
+            return (
+              <button
+                key={index}
+                disabled={!unlocked}
+                onClick={() => unlocked && setSelectedLecture(lecture)}
+                className={`
+                  w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition
+                  ${unlocked
+                    ? "hover:bg-white/10 hover:scale-[1.01]"
+                    : "opacity-40 cursor-not-allowed"}
+                  ${selectedLecture?.lectureTitle === lecture.lectureTitle
+                    ? "bg-white/10 ring-1 ring-emerald-400/30"
+                    : ""}
+                `}
+              >
+                <span className="text-left">
+                  {index + 1}. {lecture.lectureTitle}
+                </span>
 
-       </div>
-
-       <div className='mt-4 border-t pt-6'>
-        <h2 className='text-xl font-semibold mb-2'>Write a Review</h2>
-        <div className='mb-4'>
-            <div className='flex gap-1 mb-2'>
-                {
-                [1,2,3,4,5].map((star)=>(
-                    <FaStar key={star}
-                    onClick={()=>setRating(star)}
-                    
-                    className={star <= rating ? "fill-amber-400":
-                        "fill-gray-300 hover:fill-amber-400 cursor-pointer transition"
-
-
-                    }
-                    
-                    />
-                )
+                {unlocked ? (
+                  <FaCirclePlay className="text-emerald-400" />
+                ) : (
+                  <FaLock className="text-white/40" />
                 )}
+              </button>
+            )
+          })}
+        </div>
+      </aside>
 
-            </div>
-            <textarea
-            onChange={(e)=>setComment(e.target.value)} value={comment}
-            className='w-full border border-gray-300 rounded-lg p-2'
-            placeholder='Write your review here...'
-            rows={3}
-            >
+      
 
-            </textarea>
-            <button
+      {/* VIDEO + REVIEW */}
+      
+         <div>
+        <div className="aspect-video rounded-3xl overflow-hidden bg-black flex items-center justify-center border border-white/10 mb-10">
+          {selectedLecture?.videoUrl ? (
+            <video
+              src={selectedLecture.videoUrl}
+              controls
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-white/40 text-sm">
+              Select a lecture to watch
+            </span>
+          )}
+        </div>
+
+        {/* REVIEW */}
+         <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+          <h3 className="text-lg font-semibold mb-4">Write a Review</h3>
+
+          <div className="flex gap-1 mb-4">
+            {[1, 2, 3, 4, 5].map(star => (
+              <FaStar
+                key={star}
+                onClick={() => setRating(star)}
+                className={`cursor-pointer ${
+                  star <= rating ? "text-amber-400" : "text-white/30"
+                }`}
+              />
+            ))}
+          </div>
+
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            rows={4}
+            className="
+              w-full
+              resize-none
+              rounded-xl
+              bg-black/40
+              border border-white/10
+              p-3
+              text-sm
+              focus:outline-none
+              focus:ring-1 focus:ring-emerald-400/40
+            "
+            placeholder="Share your experience…"
+          />
+
+          <button
             disabled={loading}
             onClick={handleReview}
-            className='bg-black text-white mt-3 px-4 py-2 rounded hover:bg-gray-800'>
-            {loading? <ClipLoader size={30} color='white'/> : "Submit Review"}
-            </button>
-
+            className="mt-4 px-6 py-2 rounded-full bg-white text-black text-sm font-medium"
+          >
+            {loading ? <ClipLoader size={18} color="black" /> : "Submit Review"}
+          </button>
         </div>
 
 
-       </div>
 
+        
 
-       {/* for creator Information  */}
-        <div className='flex items-center gap-4 pt-4 border-t'>
+      </div>
+    </section>
 
-        {creatorData?.photoUrl ? <img src={creatorData?.photoUrl} alt="" 
-        className='w-16 h-16 rounded-full object-cover border border-gray-300'
-        />: 
-         <img src={empty} alt=""
-        className='w-16 h-16 rounded-full object-cover border border-gray-300'
-          />
-        }
-            <div>
-                <h2 className=' text-lg font-semibold'>
-                    {creatorData?.name}
-                </h2>
-                <p className='md:text-sm text-gray-700 text-[10px]'>
-                    {creatorData?.description}
-                </p>
-                <p className='md:text-sm text-gray-700 text-[10px]'>
-                    {creatorData?.email}
-                </p>
-            </div>
-
-        </div>
-
-
+    {/* ===== CREATOR ===== */}
+    <section className="max-w-7xl mx-auto px-6 pb-20">
+      <div className="flex items-center gap-4 border-t border-white/10 pt-10">
+        <img
+          src={creatorData?.photoUrl || empty}
+          className="w-16 h-16 rounded-full object-cover border border-white/20"
+        />
         <div>
-            <p className='text-xl font-semibold mb-2'>Other Published Courses by the Educator -</p>
+          <h4 className="font-semibold">{creatorData?.name}</h4>
+          <p className="text-sm text-white/50">{creatorData?.description}</p>
+          <p className="text-xs text-white/40">{creatorData?.email}</p>
         </div>
+      </div>
 
-        <div className='w-full transition-all duration-300 py-[20px] flex items-start justify-center
-        lg:justify-start flex-wrap gap-6 lg:px-[18px]'>
+      {creatorCourses?.length > 0 && (
+        <>
+          <h3 className="mt-14 mb-6 text-xl font-semibold">
+            More from this educator
+          </h3>
 
-     {
-        creatorCourses?.map((course,index)=>(
-            <Card key={index} 
-            thumbnail={course.thumbnail} id={course._id} 
-            price={course.price} title={course.title} category={course.category}
-            
-            
-            />
-        ))
-     }
+          <div className="flex flex-wrap gap-6">
+            {creatorCourses.map((course, index) => (
+              <Card
+                key={course._id || index}
+                thumbnail={course.thumbnail}
+                id={course._id}
+                price={course.price}
+                title={course.title}
+                rating={course.rating}
+                reviews={course.reviews}
+                category={course.category}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </section>
 
+  </div>
+);
 
-            
-        </div>
+  
 
-
-
-
-
-
-   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-  )
 }
 
 export default ViewCourse
