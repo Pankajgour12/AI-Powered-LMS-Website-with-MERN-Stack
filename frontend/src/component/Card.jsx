@@ -40,8 +40,8 @@ const avgRating = calculateAvgReview(reviews)
           className="
             max-w-full max-h-full
             object-cover
-            transition-transform duration-700
-            group-hover:scale-[1.05]
+            
+            
           "
         />
 
