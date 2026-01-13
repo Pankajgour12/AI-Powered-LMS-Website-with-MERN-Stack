@@ -270,9 +270,26 @@ return (
 
       {/* RIGHT – PANEL */}
       <div className="rounded-2xl border border-white/10 bg-[#0b0f19] p-8">
-        <h3 className="text-lg font-semibold mb-6">
-          Course configuration
-        </h3>
+        
+
+        <div className="flex flex-col mb-4 gap-2 sm:flex-row sm:items-center sm:justify-between">
+         <h3 className="text-base sm:text-lg font-semibold text-white">
+        Course configuration
+       </h3>
+
+  <button
+    onClick={() => navigate(`/createlecture/${selectCourse?._id}`)}
+    className="
+      self-start sm:self-auto
+      text-sm sm:text-base font-medium
+      text-emerald-400 hover:text-emerald-300
+      transition
+    "
+  >
+    Go to lectures →
+  </button>
+</div>
+
 
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <input
@@ -333,18 +350,16 @@ return (
             />
           </div>
 
-          <div className="flex justify-between items-center pt-6 border-t border-white/10">
-            <button
+          <div className="flex justify-end items-end gap-3 pt-6 border-t border-white/10">
+            {/* <button
               onClick={() => navigate(`/createlecture/${selectCourse?._id}`)}
-              className="text-sm text-white/60 hover:text-white"
+              className="text-sm text-emerald-500 hover:text-white"
             >
               Go to lectures →
-            </button>
-
-            <div className="flex gap-3">
-              <button
+            </button> */}
+             <button
                 onClick={() => navigate("/edu-courses")}
-                className="px-4 py-2 rounded-md bg-white/5 hover:bg-white/10"
+                className="px-4 py-2 rounded-md  bg-white/5 hover:bg-white/10"
               >
                 Cancel
               </button>
@@ -359,6 +374,9 @@ return (
               >
                 {loading ? <ClipLoader size={18} color="black" /> : "Save"}
               </button>
+
+            <div className="flex justify-end  gap-3">
+             
             </div>
           </div>
         </form>
