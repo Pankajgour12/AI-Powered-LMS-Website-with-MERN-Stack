@@ -78,108 +78,123 @@ const EditLecture = () => {
   }
 
 
+return (
+  <div className="min-h-screen bg-[#05060b] 
+  flex items-center justify-center px-4">
 
-  return (
-    <div 
-    className='min-h-screen bg-gray-100 flex items-center justify-center p-4'
-    >
-        <div className='w-full max-w-xl bg-white rounded-xl shadow-lg p-6 space-y-6'>
+    {/*  background */}
+    <div className="absolute inset-0
+     bg-[radial-gradient(circle_at_25%_20%,rgba(16,185,129,0.12),
+     transparent_40%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.1),transparent_45%)]" />
 
-             {/* header  */}
-             <div className='flex items-center  gap-4 mb-2'>
-             <FaArrowLeftLong 
-                className='text-gray-600 hover:text-gray-800 cursor-pointer'
-             onClick={()=>navigate(`/createlecture/${courseId}`)}
-             />
+    <div className="relative w-full max-w-2xl rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-8 space-y-8">
 
-        <h2 className='text-2xl font-semibold text-gray-800'>
-           Update Course Lecture
-        </h2>
-             </div>
-
-              <button className='mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-800 transition-all text-sm'
-              disabled={loading1}
-              onClick={removeLecture}
-              >
-                {loading1? <ClipLoader size={30} color='white'/> :"Remove Lecture"}
-              </button>
-
-              <div className='space-y-4'>
-                <div>
-                    <label 
-                    className='block text-sm font-medium text-gray-700 mb-1'>
-                        Lecture Title  *
-                    </label>
-                    <input 
-                    type="text" 
-                    className='w-full border border-gray-300 rounded-md p-3 text-sm focus:ring-2 focus:ring-black 
-                    focus:outline-none'
-                    required
-                    
-                    onChange={(e)=>setLectureTitle(e.target.value)}
-                    value={lectureTitle}
-                    />
-                </div>
-
-                <div>
-                    <label 
-                    className='block text-sm font-medium text-gray-700 mb-1'>
-                        Video  *
-                    </label>
-                    <input 
-                    type="file" 
-                    className='
-                    w-full border border-gray-300 rounded-md p-2 file:mr-4
-                    file:py-2 file:px-4 file:rounded-md 
-                    file:border-0 file:text-sm file:bg-gray-700
-                    file:text-white hover:file:bg-gray-500
-
-
-                    '
-                    required
-                    accept='video/*'
-                    onChange={(e)=>setVideoUrl(e.target.files[0])}
-                    
-                    />
-                </div>
-
-                <div className='flex items-center gap-3'>
-                    <input type="checkbox"
-                    className='accent-black h-4 w-4' id='isFree'
-                    onChange={()=>setIsPreviewFree(
-                        prev=>!prev
-                    )}
-                    
-                    
-                    />
-                    <label id='isFree' className='ml-2 text-sm text-gray-800'>
-                        Mark as free preview ?
-                    </label>
-                </div>
-
-                {loading ? <p>Uploading video... Please wait.</p>:
-                 ""}
-
-              </div>
-
-              <div className='pt-4'>
-                <button className='w-full px-5 py-2 rounded-md bg-black text-white hover:bg-gray-600
-                    transition-all text-sm font-medium shadow  '
-                   disabled={loading}
-                    onClick={handleEditLecture}
-                    >
-                    {loading ? <ClipLoader size={30} color='white'/>: "Update Lecture"}
-                </button>
-              </div>
-
-
+      {/* HEADER */}
+      <div className="flex items-center gap-4">
+        <FaArrowLeftLong
+          className="text-white/70 hover:text-white cursor-pointer transition"
+          onClick={() => navigate(`/createlecture/${courseId}`)}
+        />
+        <div>
+          <h2 className="text-2xl font-bold text-white">
+            Edit Lecture
+          </h2>
+          <p className="text-sm text-white/50">
+            Update lecture content & access
+          </p>
         </div>
+      </div>
+
+      
+      <div className="flex items-center justify-between
+       rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4">
+        <div>
+          <p className="text-sm font-semibold text-red-400">
+            Remove this lecture
+          </p>
+          <p className="text-xs text-red-400/70">
+            This action is permanent
+          </p>
+        </div>
+
+        <button
+          disabled={loading1}
+          onClick={removeLecture}
+          className="px-4 py-2 rounded-md bg-red-600 text-white text-sm font-medium
+           hover:bg-red-700 transition disabled:opacity-60"
+        >
+          {loading1 ? <ClipLoader size={18} color="white" /> : "Delete"}
+        </button>
+      </div>
+
+      {/* FORM */}
+      <div className="space-y-6">
+
+        
+        <div>
+          <label className="block text-sm font-medium text-white/70 mb-2">
+            Lecture Title
+          </label>
+          <input
+            type="text"
+            value={lectureTitle}
+            onChange={(e) => setLectureTitle(e.target.value)}
+            className="w-full rounded-lg bg-white/10 border border-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            placeholder="e.g. Introduction"
+          />
+        </div>
+
+        
+        <div>
+          <label className="block text-sm font-medium text-white/70 mb-2">
+            Upload Lecture Video
+          </label>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={(e) => setVideoUrl(e.target.files[0])}
+            className="w-full text-sm text-white
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-md file:border-0
+              file:bg-emerald-500 file:text-black
+              hover:file:bg-emerald-400 transition"
+          />
+        </div>
+
+        {/* PREVIEW */}
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="preview"
+            className="h-4 w-4 accent-emerald-500"
+            onChange={() => setIsPreviewFree(prev => !prev)}
+          />
+          <label htmlFor="preview" className="text-sm text-white/80">
+            Allow free preview for students
+          </label>
+        </div>
+
+        {loading && (
+          <p className="text-xs text-emerald-400">
+            Uploading video… please wait
+          </p>
+        )}
+      </div>
+
      
-
-
+      <button
+        disabled={loading}
+        onClick={handleEditLecture}
+        className="w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 text-black py-3 text-sm font-semibold hover:opacity-90 transition disabled:opacity-60"
+      >
+        {loading ? <ClipLoader size={20} color="black" /> : "Save Changes"}
+      </button>
 
     </div>
-  )
+  </div>
+);
+
+ 
 }
 
 export default EditLecture
