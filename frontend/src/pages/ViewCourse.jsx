@@ -37,24 +37,14 @@ const [loading, setLoading] = useState(false)
 const dispatch = useDispatch()
 
 
-// const fetchCourseData = () => {
-//    if (!courseData?.courses) return
 
-//   const course = courseData.courses.find(
-//     (course) => course._id === courseId
-//   )
-
-//   if (course) {
-//     dispatch(setSelectedCourse(course))
-//   }
-// }
 
 
 
 useEffect(() => {
   if (!courseId || !courseData?.courses) return;
 
-  // 🔥 IMPORTANT RESET (bug killer)
+  
   setSelectedLecture(null);
   setCreatorData(null);
   setCreatorCourses(null);
@@ -73,11 +63,7 @@ useEffect(() => {
 
 
 
-const checkEnrolled = ()=>{
-    const verify = userData?.enrolledCourses?.some(c => (typeof c === 'string' ? c : c._id).toString() === courseId?.toString()) 
-    
-    if(verify) setIsEnrolled(true)
-}
+
 
 useEffect(() => {
   if (!selectedCourse?.creator) return;
@@ -100,30 +86,6 @@ useEffect(() => {
 
 
 
-// useEffect(()=>{
-    
-//     const handleCreator = async () =>{
-
-//         if(selectedCourse?.creator){
-//         try {
-//             const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true});
-           
-//              (setCreatorData(result.data))
-
-//         } catch (error) {
-//             console.log(error);
-            
-//         }
-//     }
-//     }
-//     handleCreator();
-// },[selectedCourse])
-
-// useEffect(()=>{
-//     fetchCourseData();
-//     checkEnrolled();
-
-// },[courseData,courseId,userData])
 
 useEffect(() => {
   if (!userData || !courseId) return;
@@ -138,17 +100,6 @@ useEffect(() => {
 
 
 
-// useEffect(() => {
-//  if (!creatorData?._id || !courseData?.courses) return
-
-//   const creatorCoursesFiltered = courseData.courses.filter(
-//     (course) =>
-//       course.creator === creatorData._id &&
-//       course._id !== courseId
-//   )
-
-//   setCreatorCourses(creatorCoursesFiltered)
-// }, [creatorData, courseData, courseId])
 
 
 useEffect(() => {
@@ -264,7 +215,7 @@ return (
         <div>
           <button
             onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-sm text-white/60 hover:text-white mb-6"
+            className="flex items-center gap-2 text-sm text-green-400 font-medium transition hover:text-white mb-6"
           >
             <FaArrowLeftLong />
             Back
