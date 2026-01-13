@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { setCreatorCourseData, setCourseData } from '../../redux/courseSlice'
 import { serverUrl } from "../../App";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+
 import { ClipLoader } from "react-spinners";
 
 const CreateCourses = () => {

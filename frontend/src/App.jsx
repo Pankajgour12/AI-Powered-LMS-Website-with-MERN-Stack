@@ -3,8 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import useCurrentUser from "./customHooks/getCurrentUser.js";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
@@ -26,6 +24,8 @@ import MyEnrolledCourses from "./pages/MyEnrolledCourses.jsx";
 import getAllReviews from "./customHooks/getAllReviews.js";
 import SearchWithAi from "./pages/SearchWithAi.jsx";
 import { ReactLenis, useLenis } from 'lenis/react'
+import { Toaster } from "sonner";
+
 export const serverUrl = "http://localhost:8000";
 
 const App = () => {
@@ -47,7 +47,7 @@ const App = () => {
   return (
     <>
     <ReactLenis root />
-      <ToastContainer />
+  <Toaster richColors position="top-right" />
       <ScrollToTop/>
       <Routes>
         <Route path="/" element={<Home />} />

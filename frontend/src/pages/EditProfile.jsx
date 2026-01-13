@@ -5,7 +5,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import axios from "axios";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 
 const EditProfile = () => {

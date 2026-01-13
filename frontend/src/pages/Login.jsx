@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
 import axios from 'axios'
 import { serverUrl } from '../App'
-import { toast } from 'react-toastify'
+import { toast } from "sonner";
 import { useDispatch } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
 import { signInWithPopup } from 'firebase/auth'

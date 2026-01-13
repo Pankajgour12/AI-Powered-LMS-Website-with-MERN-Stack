@@ -134,11 +134,11 @@ function Footer() {
               Find me online
             </p>
 
-            <div id="pnkj" className="flex gap-4">
+            <div  className="flex gap-4">
               <a className="social github" href="https://github.com/Pankajgour12" target="_blank" rel="noreferrer"><FaGithub /></a>
-              <a className="social linkedin" href="https://www.linkedin.com/in/pankaj-gour" target="_blank" rel="noreferrer"><FaLinkedin /></a>
-              <a className="social twitter" href="https://twitter.com/" target="_blank" rel="noreferrer"><FaXTwitter /></a>
-              <a className="social instagram" href="https://instagram.com/" target="_blank" rel="noreferrer"><FaInstagram /></a>
+              <a className="social linkedin" href="https://linkedin.com/in/pankajgour404" target="_blank" rel="noreferrer"><FaLinkedin /></a>
+              <a className="social twitter" href="https://x.com/Pankajgour404" target="_blank" rel="noreferrer"><FaXTwitter /></a>
+              <a className="social instagram" href="https://www.instagram.com/pankaj_vimla_gour/" target="_blank" rel="noreferrer"><FaInstagram /></a>
               <a className="social whatsapp" href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer"><FaWhatsapp /></a>
             </div>
           </div>

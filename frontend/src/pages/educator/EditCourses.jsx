@@ -6,7 +6,8 @@ import emptyImg from "../../assets/empty.jpg";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { serverUrl } from "../../App";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
+
 import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourseData, setCreatorCourseData } from "../../redux/courseSlice";

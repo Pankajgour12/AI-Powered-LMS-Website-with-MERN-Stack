@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { serverUrl } from "../App";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 
 const ForgetPassword = () => {

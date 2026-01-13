@@ -6,7 +6,8 @@ import { useNavigate, useParams  } from 'react-router-dom'
 import { serverUrl } from "../../../App.jsx";
 import { ClipLoader } from "react-spinners";
 import { setLectureData } from "../../../redux/lectureSlice.js";
-import { toast } from "react-toastify";
+
+import { toast } from "sonner";
 import { FaEdit } from "react-icons/fa";
 
 const CreateLecture = () => {
@@ -21,11 +22,24 @@ const CreateLecture = () => {
   
 
   const handleCreateLecture = async () =>{
+
+   if (!lectureTitle.trim()) {
+    toast.error("Lecture title is required");
+    return;
+  }
+
    setLoading(true)
    try {
        const result = await axios.post(serverUrl + `/api/course/createlecture/${courseId}`,{lectureTitle},{withCredentials:true})
         console.log(result.data);
-       dispatch( setLectureData([...lectureData,result.data.lecture]))
+
+       
+
+       dispatch(
+  setLectureData([...(lectureData || []), result.data.lecture])
+);
+
+
         setLoading(false)
         toast.success("Lecture Added ")
         setLectureTitle('')
@@ -40,6 +54,16 @@ const CreateLecture = () => {
 
 
   }
+
+
+
+
+
+
+
+
+
+
 
   useEffect(()=>{
     const getCourseLecture = async () =>{
@@ -108,7 +132,7 @@ const CreateLecture = () => {
              onClick={handleCreateLecture}
              disabled={loading}
              >
-             { loading ? <ClipLoader size={28} color="white"/> : "+ Create Lecture"}
+             { loading ? <ClipLoader size={28} color="white"/> : "Save Lecture"}
             </button>
         </div>
 

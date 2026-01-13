@@ -136,20 +136,24 @@ export const createLecture = async (req, res) =>{
     try {
         const {lectureTitle} = req.body
         const {courseId} = req.params
-    if(!lectureTitle || !courseId){
-        return res.status(400).json({message:"Lecture Title is required"})
-
-    }
-       
-    const lecture = await Lecture.create({lectureTitle})
-    const course = await Course.findById(courseId)
-
-if(course){
-    course.lectures.push(lecture._id)
-    
+        const lectureTitleClean = lectureTitle?.trim();
+if (!lectureTitleClean || !courseId) {
+  return res.status(400).json({ message: "Lecture Title is required" });
 }
- await course.populate('lectures')
-await course.save()
+
+  
+       
+const lecture = await Lecture.create({ lectureTitle: lectureTitleClean });
+   
+   const course = await Course.findById(courseId);
+if (!course) {
+  return res.status(404).json({ message: "Course not found" });
+}
+
+course.lectures.push(lecture._id);
+await course.save();
+await course.populate("lectures");
+
     return res.status(201).json({message:"Lecture created successfully", lecture, course})
 
 
@@ -170,7 +174,7 @@ try {
         return res.status(404).json({message:"Course not found"})
     }
     await course.populate('lectures')
-    await course.save()
+    // await course.save()
     return res.status(200).json({message:"Course lectures fetched successfully",course})
     
 

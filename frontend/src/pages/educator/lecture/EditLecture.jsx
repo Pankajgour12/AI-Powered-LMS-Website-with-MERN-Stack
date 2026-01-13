@@ -5,7 +5,7 @@ import { FaArrowLeftLong } from 'react-icons/fa6'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { serverUrl } from '../../../App'
-import { toast } from 'react-toastify'
+import { toast } from "sonner";
 import { setLectureData } from '../../../redux/lectureSlice'
 import { ClipLoader } from 'react-spinners'
 

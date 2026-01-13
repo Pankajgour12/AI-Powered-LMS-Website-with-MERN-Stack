@@ -3,7 +3,9 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { RiMicAiFill } from "react-icons/ri";
 import ai from '../assets/ai.png'
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; 
+import { toast } from "sonner";
+
+
 import axios from 'axios';
 import { serverUrl } from '../App';
  import start from '../assets/start.mp3'
@@ -87,7 +89,8 @@ const handleRecommendation = async (query) =>{
     toast.info('these are the top courses I found for you')
    }
    else{
-    speak('No courses found')
+    speak('No courses Found')
+    toast.error("no courses Found")
    }
 
 

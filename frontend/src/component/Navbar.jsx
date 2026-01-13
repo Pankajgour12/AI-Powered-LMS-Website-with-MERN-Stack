@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const navigate = useNavigate();

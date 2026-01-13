@@ -8,7 +8,7 @@ import { serverUrl } from '../App';
 
 import empty from '../assets/empty.jpg'
 import Card from '../component/Card';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { ClipLoader } from 'react-spinners';
 
 
