@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../App";
 import { toast } from "sonner";
+import {User,Mail,Lock,Eye,EyeOff,GraduationCap,Briefcase,} from "lucide-react";
 
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
@@ -20,6 +21,7 @@ const SignUp = () => {
   const [role, setRole] = useState("student");
 
   const [loading, setLoading] = useState(false);
+const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -73,207 +75,252 @@ const SignUp = () => {
 };
 
 
-  return (
-    <div className="bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center">
-      <form
-        className="w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex "
-        onSubmit={(e) => e.preventDefault()}
-      >
-        {/* left div */}
-        <div className="md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-3">
-          <div className="text-center ">
-            <h1 className="font-semibold text-rose-800 text-2xl">
-              Let's get started
-            </h1>
-            <h2 className="text-rose-950">Create your account</h2>
+
+
+return (
+  <div className="min-h-screen w-full bg-[#07090f] flex items-center justify-center px-4">
+    <div className="relative w-full max-w-sm">
+
+      {/* ambient aura */}
+      <div className="absolute -inset-10 bg-gradient-to-tr from-emerald-500/20 via-transparent to-indigo-500/20 blur-3xl pointer-events-none" />
+
+      <div className="
+        relative
+        bg-[#0b1020]/80 backdrop-blur-xl
+        border border-white/10
+        rounded-2xl
+        px-6 py-7
+        shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)]
+      ">
+
+        {/* HEADER */}
+        <div className="text-center mb-7">
+          <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/5 flex items-center justify-center">
+            <img src={logo} className="w-7 opacity-90" />
           </div>
 
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3">
-            <label htmlFor="name" className="font-semibold text-sm">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Full Name"
-              required
-              className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-            />
-          </div>
+          <h1 className="text-lg font-semibold text-white tracking-tight">
+            Create account
+          </h1>
+          <p className="text-sm text-white/40 mt-1">
+            One step closer to mastery
+          </p>
+        </div>
 
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3">
-            <label htmlFor="email" className="font-semibold text-sm">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter Email"
-              required
-              className="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
+        <div className="space-y-4">
 
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3">
-            <label htmlFor="password" className="font-semibold text-sm">
-              Password
-            </label>
+          <div>
+  <label className="block text-sm text-white/50 mb-1">
+    Full name
+  </label>
 
-            <div className="relative w-full">
-              <input
-                type="password"
-                id="password"
-                placeholder="Minimum 6 characters"
-                required
-                minLength={6}
-                className="w-full p-2 pr-10 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
+  <div className="relative">
+    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
 
-              <button
-                type="button"
-                onClick={() => {
-                  const input = document.getElementById("password");
-                  input.type = input.type === "password" ? "text" : "password";
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-rose-600 transition"
-                title="Show / Hide Password"
-              >
-                👁
-              </button>
-            </div>
-
-            <span className="text-xs text-gray-500">
-              Password must be at least 6 characters
-            </span>
-          </div>
-
-         {/* Role Selection */}
-           <div className="flex flex-col gap-2 w-[80%] items-start px-3">
-           <label className="font-semibold text-sm">Select Role</label>
-
-          <div className="flex gap-3 w-full">
-           {/* STUDENT */}
-             <label className="flex-1 cursor-pointer">
-      <input
-        type="radio"
-        name="role"
-        value="student"
-        className="hidden peer"
-        checked={role === "student"}
-        onChange={() => setRole("student")}
-      />
-      <div className="p-2 text-center rounded-md border border-gray-400 peer-checked:border-rose-500 peer-checked:bg-rose-50">
-        Student
-      </div>
-    </label>
-
-    {/* EDUCATOR */}
-    <label className="flex-1 cursor-pointer">
-      <input
-        type="radio"
-        name="role"
-        value="educator"
-        className="hidden peer"
-        checked={role === "educator"}
-        onChange={() => setRole("educator")}
-      />
-      <div className="p-2 text-center rounded-md border border-gray-400 peer-checked:border-rose-500 peer-checked:bg-rose-50">
-        Educator
-      </div>
-    </label>
+    <input
+      id="signup-name"
+      type="text"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          document.getElementById("signup-email")?.focus();
+        }
+      }}
+      placeholder="eg. Pnkj"
+      className="
+        w-full rounded-lg bg-black/40
+        border border-white/10
+        pl-10 pr-3 py-2.5
+        text-sm text-white
+        placeholder:text-white/30
+        focus:outline-none
+        focus:border-emerald-400/40
+        focus:ring-1 focus:ring-emerald-400/30
+        transition
+      "
+    />
   </div>
 </div>
 
 
+         <div>
+  <label className="block text-sm text-white/50 mb-1">
+    Email address
+  </label>
+
+  <div className="relative">
+    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+
+    <input
+      id="signup-email"
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          document.getElementById("signup-password")?.focus();
+        }
+      }}
+      placeholder="you@example.com"
+      className={`
+        w-full rounded-lg bg-black/40
+        pl-10 pr-3 py-2.5 text-sm text-white
+        placeholder:text-white/30
+        focus:outline-none focus:ring-1 transition
+        ${
+          email.length === 0
+            ? "border border-white/10"
+            : /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)
+            ? "border-emerald-400/40 focus:ring-emerald-400/30"
+            : "border-red-400/40 focus:ring-red-400/30"
+        }
+      `}
+    />
+  </div>
+</div>
+
+
+        <div>
+  <label className="block text-xs text-white/50 mb-1">
+    Password
+  </label>
+
+  <div className="relative group">
+    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-emerald-400 transition" />
+
+    <input
+      id="signup-password"
+      type={showPassword ? "text" : "password"}
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          document.getElementById("role-student")?.focus();
+        }
+      }}
+      placeholder="Minimum 6 characters"
+      className="
+        w-full rounded-lg bg-black/40
+        border border-white/10
+        pl-10 pr-10 py-2.5
+        text-sm text-white
+        placeholder:text-white/30
+        focus:outline-none
+        focus:border-emerald-400/40
+        focus:ring-1 focus:ring-emerald-400/30
+        transition
+      "
+    />
+
+    <button
+      type="button"
+      onClick={() => setShowPassword(!showPassword)}
+      className="
+        absolute right-2 top-1/2 -translate-y-1/2
+        w-7 h-7 rounded-full
+        flex items-center justify-center
+        text-white/40 hover:text-emerald-400
+        hover:bg-white/5 transition
+      "
+    >
+      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+    </button>
+  </div>
+</div>
+
+
+
+          {/* ROLE */}
+          <div className="grid grid-cols-2 gap-2">
+  <button
+    id="role-student"
+    type="button"
+    onClick={() => setRole("student")}
+    className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs border transition ${
+      role === "student"
+        ? "border-emerald-400 bg-emerald-500/10 text-emerald-300"
+        : "border-white/10 text-white/50 hover:bg-white/5"
+    }`}
+  >
+    <GraduationCap size={14} />
+    Student
+  </button>
+
+  <button
+    type="button"
+    onClick={() => setRole("educator")}
+    className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs border transition ${
+      role === "educator"
+        ? "border-emerald-400 bg-emerald-500/10 text-emerald-300"
+        : "border-white/10 text-white/50 hover:bg-white/5"
+    }`}
+  >
+    <Briefcase size={14} />
+    Educator
+  </button>
+</div>
+
+
+          
           <button
-            type="submit"
-            className="w-[80%] p-2 rounded-md bg-rose-600 text-white font-medium hover:bg-rose-700 transition cursor-pointer "
+            id="signup-submit"
             onClick={handleSigup}
             disabled={loading}
+            className="
+              w-full mt-3 py-2.5 rounded-lg
+              bg-emerald-400 text-black
+              text-sm font-medium
+              hover:shadow-[0_0_40px_-10px_rgba(52,211,153,0.9)]
+              active:scale-[0.97]
+              transition
+            "
           >
-            {loading ? (
-              <ClipLoader size={30} color="#e11d48" />
-            ) : (
-              "Create Account"
-            )}
+            {loading ? <ClipLoader size={16} color="black" /> : "Create account"}
           </button>
 
-          <div className="w-[80%] flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-300"></div>
-            <span className="text-xs text-gray-500">OR</span>
-            <div className="flex-1 h-px bg-gray-300"></div>
-          </div>
-
-          {/* Google Signup */}
+          {/* GOOGLE */}
           <button
             onClick={googleSignUp}
-            className="w-[80%] flex items-center justify-center gap-3 p-2 rounded-md border border-gray-400 hover:bg-gray-100 transition cursor-pointer"
+            className="
+              w-full py-2.5 rounded-lg
+              border border-white/10
+              flex items-center justify-center gap-2
+              text-sm text-white/80
+              hover:bg-white/5
+              transition
+            "
           >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
-              className="w-5 h-5"
-              alt="Google"
+              className="w-4 h-4"
             />
-            <span className="font-medium">Sign up with Google</span>
+            
+            Continue with Google
           </button>
-
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <span
-              onClick={() => navigate("/login")}
-              className="text-rose-600 font-medium cursor-pointer hover:underline"
-            >
-              Login
-            </span>
-          </p>
         </div>
 
-        {/* right div */}
-        <div
-          className="
-    w-[50%] h-full hidden md:flex
-    relative overflow-hidden
-    rounded-r-2xl
-    flex-col items-center justify-center
-    text-white
-    bg-gradient-to-br
-    from-[#fbc2eb] via-[#a6c1ee] to-[#c2e9fb]
-  "
-        >
-          {/* soft overlay for depth */}
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
-
-          {/* subtle glow shapes */}
-          <div className="absolute -top-24 -left-24 w-80 h-80 bg-white/40 rounded-full blur-[100px]" />
-          <div className="absolute bottom-[-120px] right-[-120px] w-96 h-96 bg-white/30 rounded-full blur-[120px]" />
-
-          {/* content */}
-          <div className="relative z-10 flex flex-col items-center text-center gap-5 px-10">
-            <img src={logo} alt="logo" className="w-28 drop-shadow-lg" />
-
-            <h1 className="text-3xl font-bold tracking-tight text-gray-800">
-              LearnFlow
-            </h1>
-
-            <p className="text-sm text-gray-700 leading-relaxed max-w-xs">
-              Learn with clarity. Grow with confidence. A calm space for focused
-              learning.
-            </p>
-
-            <span className="mt-2 text-xs text-gray-600 bg-white/60 px-4 py-1 rounded-full">
-              AI-Powered Learning Platform
-            </span>
-          </div>
-        </div>
-      </form>
+        <p className="text-sm text-white/40 text-center mt-5">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-emerald-400 cursor-pointer hover:underline"
+          >
+            Login
+          </span>
+        </p>
+      </div>
     </div>
-  );
+  </div>
+);
+
+
+
+
+
+
+
+
 };
 
 export default SignUp;
