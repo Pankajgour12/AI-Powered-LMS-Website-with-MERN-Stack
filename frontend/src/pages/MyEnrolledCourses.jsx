@@ -10,14 +10,18 @@ function MyEnrolledCourses() {
 
   return (
     <div className="min-h-screen bg-[#05060b] text-white relative overflow-hidden">
-      {/* ambient lights */}
-      <div className="absolute -top-40 -left-40 w-[520px] h-[520px] bg-indigo-500/15 blur-[220px]" />
-      <div className="absolute bottom-0 right-0 w-[520px] h-[520px] bg-emerald-500/15 blur-[220px]" />
+      
+ <div className="pointer-events-none absolute inset-0">
+    <div className="absolute -top-56 -left-56 w-[700px] h-[700px] bg-indigo-50020 blur-[260px]" />
+    <div className="absolute top-1/3 right-[-300px] w-[600px] h-[600px] bg-sky-500/20 blur-[260px]" />
+    <div className="absolute bottom-[-300px] left-1/4 w-[600px] h-[600px] bg-emerald-500/20 blur-[260px]" />
+  </div>
+
 
       {/* back */}
       <button
         onClick={() => navigate("/")}
-        className="fixed top-6 left-6 z-50 flex items-center gap-2 text-sm text-white/60 hover:text-white transition"
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 text-sm  text-white/60 hover:text-white transition"
       >
         <FaArrowLeftLong size={16} />
         Home
@@ -25,16 +29,18 @@ function MyEnrolledCourses() {
 
       {/* HEADER */}
       <header className="relative max-w-4xl mx-auto px-6 pt-24 pb-24 text-center">
-        <p className="text-xs uppercase tracking-[0.45em] text-white/45">
-          LearnFlow • Your Journey
-        </p>
+        <p className="text-[11px] uppercase tracking-[0.55em] text-white/40">
+    LearnFlow
+  </p>
 
-        <h1 className="mt-6 text-[clamp(2.6rem,5vw,3.8rem)] font-semibold leading-tight">
-          <span className="block">Your Learning</span>
-          <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">
-            Timeline
-          </span>
-        </h1>
+  <h1 className="mt-8 font-semibold leading-[1.05]">
+    <span className="block text-[clamp(2.8rem,6vw,4.2rem)]">
+      Your Learning
+    </span>
+    <span className="block text-[clamp(2.8rem,6vw,4.2rem)] bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">
+      Timeline
+    </span>
+  </h1>
 
         <p className="mt-8 max-w-2xl mx-auto text-white/65 leading-relaxed">
           These aren’t just courses.  
@@ -59,15 +65,16 @@ function MyEnrolledCourses() {
 
                 return (
                   <motion.section
-                    key={course._id}
-                    initial={{ opacity: 0, y: 60 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-120px" }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                    className={`flex flex-col sm:flex-row ${
-                      left ? "sm:flex-row-reverse" : ""
-                    } items-center`}
-                  >
+  key={course._id}
+  initial={{ opacity: 0, y: 80 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-160px" }}
+  transition={{ duration: 0.9, ease: "easeOut" }}
+  className={`flex flex-col sm:flex-row ${
+    left ? "sm:flex-row-reverse" : ""
+  } items-center gap-12`}
+>
+
                     {/* TEXT */}
                     <div className="sm:w-1/2 px-4">
                       <motion.div
@@ -80,7 +87,7 @@ function MyEnrolledCourses() {
 
                         <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-white/45">
                           <span>{course.category}</span>
-                          <span className="w-1 h-1 rounded-full bg-white/30" />
+                          <span className="w-1 h-1 rounded-full  bg-green-400" />
                           <span>{course.level}</span>
                         </div>
 
