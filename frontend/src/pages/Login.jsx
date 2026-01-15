@@ -9,6 +9,9 @@ import { useDispatch } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../utils/firebase'
+import funGif from "../assets/gif.gif";
+import { FaArrowLeftLong } from 'react-icons/fa6'
+
 const Login = () => {
   const navigate = useNavigate()
 
@@ -73,211 +76,227 @@ const Login = () => {
 
       
    
+return (
+  <div className="w-[100vw] h-[100vh] flex items-center justify-center bg-[#0b0f1a]">
 
-    
-  return (
-    
-    <div className='bg-gray-900 w-[100vw] h-[100vh] flex items-center justify-center' >
-          <form className='w-[90%] md:w-200 h-150 bg-amber-50 shadow-xl rounded-2xl flex'
-          onSubmit={(e)=>e.preventDefault()}
-          >
-       
-    
-         {/* left div */}
 
-         <div className="md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-6 rounded-l-2xl">
-
-  
-  <div className="text-center">
-    <h1 className="font-semibold text-rose-800 text-3xl">
-      Welcome back 
-    </h1>
-    <h2 className="text-gray-600 pt-1 text-sm">
-      Login to your LearnFlow account
-    </h2>
-  </div>
-
-  
-  <div className="flex flex-col gap-1 w-[80%] items-start">
-    <label htmlFor="email" className="font-medium text-sm text-gray-700">
-      Email
-    </label>
-    <input
-      type="email"
-      id="email"
-      placeholder="you@example.com"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          document.getElementById("password")?.focus();
-        }
-      }}
-      className="w-full p-2.5 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400"
-    />
-  </div>
-
-  
-  <div className="flex flex-col gap-1 w-[80%] items-start">
-    <label htmlFor="password" className="font-medium text-sm text-gray-700">
-      Password
-    </label>
-
-    <div className="relative w-full">
-      <input
-        type="password"
-        id="password"
-        placeholder="Minimum 6 characters"
-        value={password}
-        minLength={6}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            document.getElementById("login-btn")?.focus();
-          }
-        }}
-        className="w-full p-2.5 pr-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-rose-400"
-      />
-
-     
-      <button
-        type="button"
-        onClick={() => {
-          const input = document.getElementById("password");
-          input.type =
-            input.type === "password" ? "text" : "password";
-        }}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-rose-600 transition"
-      >
-        👁
-      </button>
-    </div>
-
-    <div className="w-full text-right">
-      <span
-        onClick={() => navigate('/forgot')}
-        className="text-xs text-rose-600 cursor-pointer hover:underline"
-      >
-        Forgot your password?
-      </span>
-    </div>
-  </div>
-
-  
-  <button
-    id="login-btn"
-    type="button"
-    disabled={loading || !email || !password}
-    onClick={handleLogin}
-    className="
-      w-[80%] p-2.5 rounded-md
-      bg-rose-600 text-white font-medium
-      hover:bg-rose-700 transition
-      cursor-pointer
-
-      disabled:opacity-60 disabled:cursor-not-allowed
-    "
-  >
-    {loading ? <ClipLoader size={26} color="white" /> : "Login"}
-  </button>
-
-  
-  <div className="w-[80%] flex items-center gap-3">
-    <div className="flex-1 h-px bg-gray-300" />
-    <span className="text-xs text-gray-500">OR</span>
-    <div className="flex-1 h-px bg-gray-300" />
-  </div>
-
-  
-  <button
-    type="button"
-    className="w-[80%] flex items-center justify-center gap-3 p-2.5 rounded-md border border-gray-300 hover:bg-gray-100 transition"
-    onClick={googleLogin}
-  >
-    <img
-      src="https://www.svgrepo.com/show/475656/google-color.svg"
-      className="w-5 h-5"
-      alt="Google"
-    />
-    <span className="font-medium text-sm">
-      Continue with Google
-    </span>
-  </button>
-
- 
-  <p className="text-sm text-gray-600">
-    Don’t have an account?{" "}
-    <span
-      onClick={() => navigate("/signup")}
-      className="text-rose-600 font-medium cursor-pointer hover:underline"
+          <button
+                         onClick={() => navigate("/")}
+                         className="text-green-400 hover:text-white
+                         absolute top-8 left-6 flex items-center gap-2
+                         transition"
+                       >
+                         <FaArrowLeftLong size={22} />
+                         
+                       </button>
+    <form
+      className="
+        w-[90%] md:w-[950px] h-[540px]
+        bg-[#0f1424]/90 backdrop-blur-xl
+        shadow-[0_30px_90px_rgba(0,0,0,0.75)]
+        rounded-3xl flex overflow-hidden
+        border border-white/10
+      "
+      onSubmit={(e) => e.preventDefault()}
     >
-      Sign up
-    </span>
-  </p>
-</div>
 
+      {/* LEFT — LOGIN */}
+      <div className="md:w-[50%] w-full h-full flex flex-col items-center justify-center gap-6">
+             
 
+             
+                      
+           
+        <div className="text-center">
+          
+          <h1 className="font-semibold text-white text-3xl">
+           
+            Welcome back 👋
+          </h1>
+          <p className="text-white/50 pt-1 text-sm">
+            Login to your LearnFlow account
+          </p>
+        </div>
 
+        {/* EMAIL */}
+        <div className="flex flex-col gap-1 w-[80%]">
+          <label htmlFor="email" className="text-sm text-white/60">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("password")?.focus();
+              }
+            }}
+            className="
+              w-full px-4 py-3 rounded-lg
+              bg-[#0b0f1a]
+              border border-white/10
+              text-white placeholder:text-white/30
+              focus:outline-none
+              focus:border-indigo-400/60
+              transition
+            "
+          />
+        </div>
 
+        {/* PASSWORD */}
+        <div className="flex flex-col gap-1 w-[80%]">
+          <label htmlFor="password" className="text-sm text-white/60">
+            Password
+          </label>
 
-{/* right div */}
-<div
-  className="
-    w-[50%] h-full hidden md:flex
-    relative overflow-hidden
-    rounded-r-2xl
-    flex-col items-center justify-center
-    text-white
-    bg-gradient-to-br
-    from-[#fbc2eb] via-[#a6c1ee] to-[#c2e9fb]
-  "
->
-  <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
+          <div className="relative">
+            <input
+              type="password"
+              id="password"
+              placeholder="Minimum 6 characters"
+              value={password}
+              minLength={6}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  document.getElementById("login-btn")?.focus();
+                }
+              }}
+              className="
+                w-full px-4 py-3 pr-10 rounded-lg
+                bg-[#0b0f1a]
+                border border-white/10
+                text-white placeholder:text-white/30
+                focus:outline-none
+                focus:border-indigo-400/60
+                transition
+              "
+            />
 
-  <div className="absolute -top-24 -left-24 w-80 h-80 bg-white/40 rounded-full blur-[100px]" />
-  <div className="absolute bottom-[-120px] right-[-120px] w-96 h-96 bg-white/30 rounded-full blur-[120px]" />
+            <button
+              type="button"
+              onClick={() => {
+                const input = document.getElementById("password");
+                input.type =
+                  input.type === "password" ? "text" : "password";
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-indigo-400 transition"
+            >
+              👁
+            </button>
+          </div>
 
-  <div className="relative z-10 flex flex-col items-center text-center gap-5 px-10">
-    <img
-      src={logo}
-      alt="logo"
-      className="w-28 drop-shadow-lg"
-    />
+          <div className="text-right">
+            <span
+              onClick={() => navigate("/forgot")}
+              className="text-xs text-indigo-400 cursor-pointer hover:underline"
+            >
+              Forgot your password?
+            </span>
+          </div>
+        </div>
 
-    <h1 className="text-3xl font-bold tracking-tight text-gray-800">
+        {/* LOGIN BUTTON */}
+        <button
+          id="login-btn"
+          type="button"
+          disabled={loading || !email || !password}
+          onClick={handleLogin}
+          className="
+            w-[80%] py-3 rounded-lg
+            bg-gradient-to-r from-indigo-500 to-violet-600
+            text-white font-medium
+            hover:opacity-90 transition
+            disabled:opacity-50 disabled:cursor-not-allowed
+          "
+        >
+          {loading ? <ClipLoader size={26} color="white" /> : "Login"}
+        </button>
+
+        {/* OR */}
+        <div className="w-[80%] flex items-center gap-3">
+          <div className="flex-1 h-px bg-white/10" />
+          <span className="text-xs text-white/40">OR</span>
+          <div className="flex-1 h-px bg-white/10" />
+        </div>
+
+        {/* GOOGLE */}
+        <button
+          type="button"
+          onClick={googleLogin}
+          className="
+            w-[80%] py-3 rounded-lg
+            border border-white/10
+            flex items-center justify-center gap-3
+            text-white/80
+            hover:bg-white/5 transition
+          "
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            className="w-5 h-5"
+            alt="Google"
+          />
+          Continue with Google
+        </button>
+
+        <p className="text-sm text-white/50">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/signup")}
+            className="text-indigo-400 cursor-pointer hover:underline"
+          >
+            Sign up
+          </span>
+        </p>
+      </div>
+
+      {/* RIGHT — FUN GIF */}
+<div className="hidden md:flex w-[50%] h-full bg-[#7ed1e6] relative overflow-hidden items-center justify-center">
+
+  
+  
+
+  
+  {/* content */}
+  <div className="relative z-10 flex flex-col items-center justify-center gap-6 px-10">
+
+    <p className="text-[#1e293b] font-semibold text-2xl tracking-tight drop-shadow-sm">
       LearnFlow
-    </h1>
-
-    <p className="text-sm text-gray-700 leading-relaxed max-w-xs">
-      Learn with clarity.  
-      Grow with confidence.  
-      A calm space for focused learning.
     </p>
 
-    <span className="mt-2 text-xs text-gray-600 bg-white/60 px-4 py-1 rounded-full">
-      AI-Powered Learning Platform
-    </span>
+    <img
+      src={funGif}
+      alt="Fun Illustration"
+      className="
+        w-[90%] max-w-sm
+       
+        hover:scale-[1.02]
+        transition-transform duration-500
+      "
+    />
+
+    <p className="text-sm text-[#1e293b]/70 text-center max-w-xs">
+      Learn smarter.  
+      Stay focused.  
+      Enjoy the journey.
+    </p>
+
   </div>
 </div>
 
 
+    </form>
+  </div>
+);
 
-
     
-    
-    
-    
-    
-    
-          </form>
-    
-    
-          
-        </div>
-    
-  )
+ 
 }
 
 export default Login

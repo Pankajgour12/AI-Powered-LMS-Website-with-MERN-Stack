@@ -12,9 +12,7 @@
     font-family: var(--font-DmSans);
 }
 
-html{
-   scroll-behavior: auto;
-}
+
 
 
 
@@ -153,3 +151,19 @@ html{
           .social.whatsapp:hover { color:#25D366; border-color:#25D366; }
        
       
+
+ /* index.css mein daal */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important; /* Force browser to stop native smooth scroll */
+}
+
+/* Optional: Pura content GPU pe force karne ke liye */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden; /* Extra scrollbars avoid karne ke liye */
+}

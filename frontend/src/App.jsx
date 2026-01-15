@@ -28,6 +28,24 @@ import { Toaster } from "sonner";
 
 export const serverUrl = "https://ai-powered-lms-website-with-mern-stack.onrender.com";
 
+
+// export const serverUrl = "http://localhost:8000";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const App = () => {
   useCurrentUser();
 
@@ -37,16 +55,29 @@ const App = () => {
   getAllReviews();
 
 
-    const lenis = useLenis((lenis) => {
-    
-  })
+
+const lenisOptions = {
+    duration: 2.5, 
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 0.9, 
+    smoothTouch: false,
+    touchMultiplier: 2,
+  };
+
+
+
+
+
 
 
   const { userData } = useSelector((state) => state.user);
 
   return (
     <>
-    <ReactLenis root />
+    <ReactLenis root options={lenisOptions}>
   <Toaster richColors position="top-right" />
       <ScrollToTop/>
       <Routes>
@@ -138,6 +169,7 @@ const App = () => {
           path="/search"
           element={userData ? <SearchWithAi/> : <Navigate to={"/signup"} />}
         />
+        
 
 
 
@@ -147,6 +179,7 @@ const App = () => {
 
 
       </Routes>
+      </ReactLenis>
     </>
   );
 };

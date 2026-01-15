@@ -94,7 +94,7 @@ export const login = async (req, res) => {
 
    res.cookie("token", token, {
   httpOnly: true,
-  secure: true,      
+ secure: true,      
   sameSite: "none",    
   maxAge: 7 * 24 * 60 * 60 * 1000,
 });
@@ -129,7 +129,7 @@ export const logout = async (req, res) => {
     try {
        await res.clearCookie("token", {
   httpOnly: true,
- secure: true,      
+ secure: true,     
   sameSite: "none",
 });
 
@@ -249,8 +249,8 @@ export const googleAuth = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,      
-  sameSite: "none",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
