@@ -7,6 +7,34 @@ import { motion } from "framer-motion";
 function MyEnrolledCourses() {
   const { userData } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const { courseData } = useSelector(state => state.course);
+
+const isEducator = userData?.role === "educator" && !!courseData?.courses;
+
+
+
+const coursesToShow = isEducator
+  ? courseData?.courses?.filter(
+      course =>
+        course.creator?.toString() === userData._id?.toString()
+    )
+  : userData?.enrolledCourses;
+
+
+  
+ 
+
+
+
+  
+if (isEducator && !courseData?.courses) {
+  return (
+    <div className="min-h-screen flex items-center justify-center text-white/60">
+      Loading courses...
+    </div>
+  );
+}
+
 
   return (
     <div className="min-h-screen bg-[#05060b] text-white relative overflow-hidden">
@@ -35,8 +63,9 @@ function MyEnrolledCourses() {
 
   <h1 className="mt-8 font-semibold leading-[1.05]">
     <span className="block text-[clamp(2.8rem,6vw,4.2rem)]">
-      Your Learning
-    </span>
+  {isEducator ? "Your Teaching" : "Your Learning"}
+</span>
+
     <span className="block text-[clamp(2.8rem,6vw,4.2rem)] bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">
       Timeline
     </span>
@@ -50,17 +79,24 @@ function MyEnrolledCourses() {
 
       {/* CONTENT */}
       <main className="relative max-w-5xl mx-auto px-6 pb-32">
-        {userData.enrolledCourses.length === 0 ? (
+        {!coursesToShow || coursesToShow.length === 0 ? (
           <div className="text-center text-white/60 py-24">
-            You haven’t enrolled in any courses yet.
-          </div>
+  {isEducator
+    ? "You haven’t created any courses yet."
+    : "You haven’t enrolled in any courses yet."}
+</div>
+
+
+          
         ) : (
           <div className="relative">
             {/* vertical spine */}
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 hidden sm:block" />
 
             <div className="space-y-28">
-              {userData.enrolledCourses.map((course, index) => {
+              
+                {coursesToShow.map((course, index) => {
+
                 const left = index % 2 === 0;
 
                 return (
@@ -111,7 +147,8 @@ function MyEnrolledCourses() {
                             shadow-[0_10px_40px_rgba(99,102,241,0.35)]
                           "
                         >
-                          Continue Learning →
+                          {isEducator ? "View Course →" : "Continue Learning →"}
+
                         </motion.button>
                       </motion.div>
                     </div>

@@ -23,13 +23,12 @@ import ViewLectures from "./pages/educator/lecture/ViewLectures.jsx";
 import MyEnrolledCourses from "./pages/MyEnrolledCourses.jsx";
 import getAllReviews from "./customHooks/getAllReviews.js";
 import SearchWithAi from "./pages/SearchWithAi.jsx";
-import { ReactLenis, useLenis } from 'lenis/react'
 import { Toaster } from "sonner";
 
-export const serverUrl = "https://ai-powered-lms-website-with-mern-stack.onrender.com";
+ export const serverUrl = "https://ai-powered-lms-website-with-mern-stack.onrender.com";
 
 
-// export const serverUrl = "http://localhost:8000";
+//  export const serverUrl = "http://localhost:8000";
 
 
 
@@ -56,16 +55,7 @@ const App = () => {
 
 
 
-const lenisOptions = {
-    duration: 2.5, 
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 0.9, 
-    smoothTouch: false,
-    touchMultiplier: 2,
-  };
+
 
 
 
@@ -77,8 +67,8 @@ const lenisOptions = {
 
   return (
     <>
-    <ReactLenis root options={lenisOptions}>
-  <Toaster richColors position="top-right" />
+    
+  <Toaster richColors position="top-mid" />
       <ScrollToTop/>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -179,7 +169,7 @@ const lenisOptions = {
 
 
       </Routes>
-      </ReactLenis>
+      
     </>
   );
 };

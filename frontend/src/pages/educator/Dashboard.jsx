@@ -167,6 +167,8 @@ const DarkTooltip = ({ active, payload, label }) => {
                 <div className="mt-2 flex  flex-wrap">
                   <span className="px-3 py-1 rounded-full text-[10px] uppercase tracking-widest bg-white/10 border border-white/20 text-white/80">
                     {userData?.description}
+
+
                   </span>
 
                   

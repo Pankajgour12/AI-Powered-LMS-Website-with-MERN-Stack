@@ -21,10 +21,15 @@ const {courseData} = useSelector(state=>state.course)
 const {selectedCourse} = useSelector(state=>state.course)
 const {userData} = useSelector(state=>state.user)
 
+const isCreator = userData && selectedCourse && userData._id === selectedCourse.creator;
+
+
   
 const [selectedLecture, setSelectedLecture] = useState(null)
 const [creatorData, setCreatorData] = useState(null)
-const [creatorCourses, setCreatorCourses] = useState(null)
+
+const [creatorCourses, setCreatorCourses] = useState([])
+
 const [isEnrolled, setIsEnrolled] = useState(false)
 
 const [rating, setRating] = useState(0)
@@ -46,9 +51,11 @@ useEffect(() => {
 
   
   setSelectedLecture(null);
-  setCreatorData(null);
-  setCreatorCourses(null);
-  setIsEnrolled(false);
+   setCreatorCourses([]);
+   
+
+  
+  
 
   const course = courseData.courses.find(
     c => c._id.toString() === courseId.toString()
@@ -94,7 +101,8 @@ useEffect(() => {
     c => (typeof c === "string" ? c : c._id).toString() === courseId.toString()
   );
 
-  setIsEnrolled(!!verify);
+  setIsEnrolled(isCreator || !!verify);
+
 }, [courseId, userData]);
 
 
@@ -191,7 +199,8 @@ const handleReview = async ()=>{
 const calculateAvgReview = (reviews) =>{
     if(!reviews || reviews.length === 0) return 0;
     const total = reviews.reduce((sum , review)=>sum + review.rating, 0)
-    return (total/reviews.length).toFixed(1)
+    return Number((total / reviews.length).toFixed(1))
+
 }
 
 const avgRating = calculateAvgReview(selectedCourse?.reviews)
@@ -199,6 +208,13 @@ const avgRating = calculateAvgReview(selectedCourse?.reviews)
 
 
 
+if (!selectedCourse) {
+  return (
+    <div className="min-h-screen flex items-center justify-center text-white/60">
+      Loading course...
+    </div>
+  );
+}
 
 
 
@@ -231,7 +247,7 @@ return (
 
           <div className="flex items-center gap-4 mt-6">
             <span className="flex items-center gap-1 text-amber-400 font-medium">
-              {avgRating} <FaStar />
+              {avgRating} <FaStar /> 
             </span>
             <span className="text-white/40 text-sm">
               ({selectedCourse?.reviews?.length || 0} reviews)
@@ -254,21 +270,34 @@ return (
             <li>•✅ Lifetime access</li>
           </ul>
 
-          {!isEnrolled ? (
-            <button
-              onClick={() => handleEnroll(courseId, userData._id)}
-              className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-[1.04] transition"
-            >
-              Enroll Now
-            </button>
-          ) : (
-            <button
-              onClick={() => navigate(`/viewlecture/${courseId}`)}
-              className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30"
-            >
-              Watch Course
-            </button>
-          )}
+          {!isCreator && !isEnrolled && (
+  <button
+   
+    onClick={() => {
+  if (!userData) {
+    toast.error("Login required");
+    return;
+  }
+  handleEnroll(courseId, userData._id);
+}}
+
+    className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-[1.04] transition"
+  >
+    Enroll Now
+  </button>
+)}
+
+{(isCreator || isEnrolled) && (
+  <button
+    onClick={() => navigate(`/viewlecture/${courseId}`)}
+    className="mt-8 inline-flex items-center justify-center px-8 py-3 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/30"
+  >
+    Watch Course
+  </button>
+)}
+
+
+
         </div>
 
         {/* RIGHT */}
@@ -299,7 +328,9 @@ return (
 
         <div className="space-y-2">
           {selectedCourse?.lectures?.map((lecture, index) => {
-            const unlocked = lecture.isPreviewFree || isEnrolled
+            // const unlocked = lecture.isPreviewFree || isEnrolled
+            const unlocked = lecture.isPreviewFree || isEnrolled || isCreator;
+
 
             return (
               <button
@@ -387,6 +418,7 @@ return (
           <button
             disabled={loading}
             onClick={handleReview}
+            
             className="mt-4 px-6 py-2 rounded-full bg-white text-black text-sm font-medium"
           >
             {loading ? <ClipLoader size={18} color="black" /> : "Submit Review"}
