@@ -25,6 +25,12 @@ const Login = () => {
     
 
     const handleLogin = async () => {
+      if (loading) return;
+
+  if (!email || !password) {
+    toast.error("Email and password required");
+    return;
+  }
       setLoading(true)
 
       try {
@@ -40,7 +46,8 @@ const Login = () => {
          navigate("/", { replace: true });
       } catch (error) {
         console.log(error)
-        toast.error(error.response.data.message)
+        toast.error(error?.response?.data?.message || "Login failed");
+
         setLoading(false)
         
       }
