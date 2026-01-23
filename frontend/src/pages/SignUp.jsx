@@ -25,27 +25,56 @@ const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
 
-  const handleSigup = async () => {
-    setLoading(true);
+  const handleSignup = async () => {
+  if (loading) return;
 
-    try {
-      const result = await axios.post(
-        serverUrl + "/api/auth/signup",
-        { name, password, email, role },
-        { withCredentials: true }
-      );
+  if (!name.trim()) {
+    toast.error("Name is required");
+    return;
+  }
 
-      dispatch(setUserData(result.data.user));
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    toast.error("Enter a valid email");
+    return;
+  }
 
-      setLoading(false);
-      toast.success("Signup Successfully✅");
-      navigate("/", { replace: true });
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      toast.error(error.response.data.message);
-    }
-  };
+  if (!password || password.length < 6) {
+    toast.error("Password must be at least 6 characters");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const result = await axios.post(
+      serverUrl + "/api/auth/signup",
+      { name, email, password, role },
+      { withCredentials: true }
+    );
+
+    dispatch(setUserData(result.data.user));
+    toast.success("Signup successful ✅");
+    navigate("/", { replace: true });
+
+  } catch (error) {
+    const status = error?.response?.status;
+const code = error?.response?.data?.code;
+
+if (status === 409 && code === "USER_EXISTS") {
+  toast.error("Account already exists. Redirecting to login…");
+  setTimeout(() => navigate("/login"), 1500);
+} else {
+  toast.error(
+    error?.response?.data?.message || "Signup failed"
+  );
+}
+
+    
+  } finally {
+    setLoading(false);
+  }
+};
+
 
  const googleSignUp = async () => {
   try {
@@ -265,7 +294,7 @@ return (
           
           <button
             id="signup-submit"
-            onClick={handleSigup}
+            onClick={handleSignup}
             disabled={loading}
             className="
               w-full mt-3 py-2.5 rounded-lg

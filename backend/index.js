@@ -22,7 +22,7 @@ app.use(cookieParser());
 
  app.use(cors({
    origin: 'https://ai-powered-lms-website-with-mern-stack-1.onrender.com',
-  //  origin: "http://localhost:5173",
+  origin: "http://localhost:5173",
    credentials: true,
  })); 
  

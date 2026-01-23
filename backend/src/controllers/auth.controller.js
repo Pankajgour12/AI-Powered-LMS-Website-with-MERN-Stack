@@ -9,20 +9,31 @@ export const signUp = async (req, res) => {
 
 try {
     const { name, email, password, role } = req.body;
+if (!validator.isEmail(email)) {
+  return res.status(400).json({ message: "Invalid Email" });
+}
 
-    let existUser = await User.findOne({ email });
+if (password.length < 6) {
+  return res.status(400).json({ message: "Password must be at least 6 characters long" });
+}
 
-    if (existUser) {
-        return res.status(400).json({ message: "User already exists" });
-    }
+const existUser = await User.findOne({ email });
 
-    if(!validator.isEmail(email)){
-        return res.status(400).json({ message: "Invalid Email" });
-    }
+if (existUser) {
+  return res.status(409).json({
+    code: "USER_EXISTS",
+    message: "User already registered. Please login."
+  });
+}
 
-    if(password.length < 6){
-        return res.status(400).json({ message: "Password must be at least 6 characters long" });
-    }
+  
+
+
+
+   
+
+
+    
 
     let hashedPassword = await bcrypt.hash(password, 10);
 
@@ -76,21 +87,36 @@ export const login = async (req, res) => {
  try {
 
     const { email, password } = req.body;
-
     let user = await User.findOne({ email });
     
-    if(!user){
-        return res.status(400).json({ message: "Invalid email or password" });
-    }
 
-    let isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if(!isPasswordValid){
-        return res.status(400).json({ message: "Invalid email or password" });
-    }
+
+if (!user) {
+  return res.status(400).json({ message: "Invalid email or password" });
+}
+
+const isPasswordValid = await bcrypt.compare(password, user.password);
+
+if (!isPasswordValid) {
+  return res.status(400).json({ message: "Invalid email or password" });
+}
+
+
+
+
+
+    
+    
+    if (!user || !isPasswordValid) {
+  return res.status(400).json({
+    message: "Invalid email or password"
+  });
+}
+
 
     let token = await genToken(user._id);
-    console.log(token);
+    
 
    res.cookie("token", token, {
   httpOnly: true,
@@ -149,9 +175,13 @@ export const sendOTP = async (req, res) => {
     const { email } = req.body;
 
     let user = await User.findOne({ email });
-    if(!user){
-        return res.status(400).json({ message: "User with this email does not exist" });
-    }
+    if (!user) {
+  return res.status(200).json({
+    message: "If this email exists, an OTP has been sent"
+  });
+}
+
+    
 
     // Generate OTP
     const otp = Math.floor(1000 + Math.random() * 9000).toString();

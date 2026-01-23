@@ -13,14 +13,26 @@ import { ClipLoader } from "react-spinners";
 const CreateCourses = () => {
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState();
-  const [category, setCateory] = useState();
-  const [loading, setLoading] = useState();
+const [title, setTitle] = useState("");
+const [category, setCategory] = useState("");
+const [loading, setLoading] = useState(false);
+
 
   const dispatch = useDispatch()
   const {creatorCourseData, courseData} = useSelector(state=>state.course)
 
   const handleCreateCourse = async () => {
+      if (loading) return;
+    if (!title?.trim()) {
+  toast.error("Course title is required");
+  return;
+}
+
+if (!category) {
+  toast.error("Please select a category");
+  return;
+}
+
     setLoading(true);
     try {
       const result = await axios.post(
@@ -43,7 +55,10 @@ const CreateCourses = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error(error.response.data.message);
+      toast.error(
+  error.response?.data?.message || "Something went wrong"
+);
+     
     }
   };
 
@@ -140,7 +155,7 @@ const CreateCourses = () => {
     {/* REAL SELECT (invisible but functional) */}
     <select
       value={category}
-      onChange={(e) => setCateory(e.target.value)}
+      onChange={(e) => setCategory(e.target.value)}
       className="
         absolute inset-0
         h-full

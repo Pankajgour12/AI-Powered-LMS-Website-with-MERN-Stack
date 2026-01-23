@@ -77,11 +77,18 @@ const EditProfile = () => {
   {/* Avatar */}
   <div className="w-16 h-16 rounded-full border border-white/30 overflow-hidden flex items-center justify-center bg-white/10 shrink-0">
     {photo || userData?.photoUrl ? (
-      <img
-        src={photo ? URL.createObjectURL(photo) : userData.photoUrl}
-        alt="avatar"
-        className="w-full h-full object-cover"
-      />
+     <img
+  src={
+    photo
+      ? URL.createObjectURL(photo)
+      : `${userData.photoUrl}?t=${Date.now()}`
+  }
+  alt="avatar"
+  className="w-full h-full object-cover"
+/>
+
+
+
     ) : (
       <span className="text-lg font-semibold text-white">
         {(name || userData?.name || "U").charAt(0).toUpperCase()}

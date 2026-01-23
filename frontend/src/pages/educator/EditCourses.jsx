@@ -61,7 +61,13 @@ const EditCourses = () => {
         setDescription(selectCourse.description || "")
         setCategory(selectCourse.category || "")
         setLevel(selectCourse.level || "")
-        setPrice(selectCourse.price || "")
+        setPrice(
+  typeof selectCourse.price === "number" && selectCourse.price > 0
+    ? selectCourse.price
+    : 0
+)
+
+        
         setFrontendImage(selectCourse.thumbnail || emptyImg)    
         setIsPublished(selectCourse?.isPublished )
 
@@ -76,6 +82,15 @@ const EditCourses = () => {
 
 
   const handleEditCourse = async () =>{
+     if (!price || price <= 0) {
+  toast.error("Course price is required");
+  return;
+}
+
+   
+  
+
+
     setLoading(true)
 
     const formData = new FormData()
@@ -88,6 +103,8 @@ const EditCourses = () => {
     if (backendImage) {
   formData.append("thumbnail", backendImage);
 }
+
+
 
     formData.append('isPublished', isPublished)
 
@@ -220,26 +237,31 @@ return (
               {level || "No level"}
             </span>
           </div>
+               <div className="text-sm text-white/60">
+  ₹{price}
+</div>
 
-          <div className="text-sm text-white/60">
-            {price ? `₹${price}` : "Free course"}
-          </div>
+          
         </div>
 
         
         <div className="pt-4 border-t border-white/10 space-y-3">
           {!isPublished ? (
+           
             <button
-              onClick={() => setIsPublished(prev => !prev)}
-              className="
-                w-full py-2 rounded-md
-                border border-emerald-400/30
-                text-emerald-400
-                hover:bg-emerald-400/10
-              "
-            >
-              Publish course
-            </button>
+  onClick={() => {
+    if (!price || price <= 0) {
+      toast.error("Add price before publishing");
+      return;
+    }
+    setIsPublished(prev => !prev);
+  }}
+>
+  Publish course
+</button>
+
+
+
           ) : (
             <button
               onClick={() => setIsPublished(prev => !prev)}
@@ -341,13 +363,20 @@ return (
               <option>Advanced</option>
             </select>
 
+           
             <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="₹ Price"
-              className="bg-black/40 border border-white/10 rounded-md px-3 py-2"
-            />
+  type="number"
+  min={1}
+  required
+  value={price}
+  onChange={(e) => setPrice(Number(e.target.value))}
+  placeholder="₹ Price"
+  className="bg-black/40 border border-white/10 rounded-md px-3 py-2"
+/>
+
+
+
+
           </div>
 
           <div className="flex justify-end items-end gap-3 pt-6 border-t border-white/10">

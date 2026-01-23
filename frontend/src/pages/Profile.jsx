@@ -5,6 +5,17 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Profile = () => {
   const { userData } = useSelector(state => state.user);
+  const { courseData } = useSelector(state => state.course);
+
+const isEducator = userData?.role === "educator";
+
+const createdCoursesCount = courseData?.courses?.filter(
+  course => course.creator?.toString() === userData?._id?.toString()
+).length || 0;
+
+const enrolledCoursesCount = userData?.enrolledCourses?.length || 0;
+
+
   const navigate = useNavigate();
 
   return (
@@ -41,10 +52,11 @@ const Profile = () => {
             <div className="relative flex items-center gap-5">
               {userData?.photoUrl ? (
                 <img
-                  src={userData.photoUrl}
-                  alt="profile"
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border border-white/30 shrink-0"
-                />
+  src={`${userData.photoUrl}?t=${Date.now()}`}
+  alt="profile"
+  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover"
+/>
+
               ) : (
                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-black flex items-center justify-center text-3xl font-semibold shrink-0">
                   {userData?.name?.charAt(0).toUpperCase()}
@@ -135,12 +147,23 @@ const Profile = () => {
 
             <div className="flex items-end justify-between">
               <div>
-                <span className="block text-xs text-white/40">
+                {/* <span className="block text-xs text-white/40">
                   Enrolled Courses
                 </span>
                 <div className="mt-2 text-3xl font-semibold">
                   {userData?.enrolledCourses?.length || 0}
-                </div>
+                </div> */}
+                <span className="block text-xs text-white/40">
+               {isEducator ? "Courses Created" : "Courses Enrolled"}
+               </span>
+
+                  <div className="mt-2 text-3xl font-semibold">
+  
+                    {isEducator ? createdCoursesCount : enrolledCoursesCount}
+                     </div>
+
+
+
               </div>
 
               <div className="text-xs text-white/40 max-w-[140px] text-right">

@@ -21,7 +21,8 @@ const {courseData} = useSelector(state=>state.course)
 const {selectedCourse} = useSelector(state=>state.course)
 const {userData} = useSelector(state=>state.user)
 
-const isCreator = userData && selectedCourse && userData._id === selectedCourse.creator;
+const isCreator =userData && selectedCourse &&
+  userData._id?.toString() === selectedCourse.creator?.toString();
 
 
   
@@ -159,8 +160,16 @@ const handleEnroll = async(courseId,userId)=>{
 
 
         }
-        const rzp = new window.Razorpay(options)
-        rzp.open()
+
+        if (!window.Razorpay) {
+  toast.error("Payment service not available. Please try again.");
+  return;
+}
+
+const rzp = new window.Razorpay(options);
+rzp.open();
+
+        
 
 
     } catch (error) {
@@ -170,30 +179,44 @@ const handleEnroll = async(courseId,userId)=>{
 
 }
 
-const handleReview = async ()=>{
-    setLoading(true)
-    try {
-        const result = await axios.post(serverUrl + '/api/review/createreview',{rating,comment,courseId},{withCredentials:true})
-         setLoading(false)
-        console.log(result.data);
-        toast.success(result.data.message)
-        setRating(0)
-        setComment('')
+const handleReview = async () => {
 
-        
+  if (!userData) {
+    toast.error("Login required");
+    return;
+  }
 
-    } catch (error) {
-        console.log(error);
-        setLoading(false)
-        toast.error(error.response.data.message)
-        setRating(0)
-        setComment('')
-    }
+  if (rating === 0) {
+    toast.error("Please select a rating");
+    return;
+  }
 
+  // 🔒 IMPORTANT: enrolled OR creator
+  if (!isEnrolled && !isCreator) {
+    toast.error("Enroll in the course to submit a review");
+    return;
+  }
 
+  setLoading(true);
 
+  try {
+    const result = await axios.post(
+      serverUrl + '/api/review/createreview',
+      { rating, comment, courseId },
+      { withCredentials: true }
+    );
 
-}
+    toast.success(result.data.message);
+    setRating(0);
+    setComment("");
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
 const calculateAvgReview = (reviews) =>{
@@ -255,10 +278,21 @@ return (
           </div>
 
           <div className="flex items-end gap-3 mt-6">
-            <span className="text-3xl text-green-600 font-semibold">
+            {/* <span className="text-3xl text-green-600 font-semibold">
                 {!isEnrolled?`₹${selectedCourse?.price}`:'Watch now'}
-              {/* ₹{selectedCourse?.price} */}
-            </span>
+             
+            </span> */}
+         {!isEnrolled && selectedCourse?.price > 0 && (
+  <span className="text-3xl text-green-600 font-semibold">
+    ₹{selectedCourse.price}
+  </span>
+)}
+
+
+
+
+
+
             <span className="line-through text-white/40 text-sm">
               ₹5999
             </span>

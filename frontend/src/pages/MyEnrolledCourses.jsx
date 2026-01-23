@@ -9,31 +9,37 @@ function MyEnrolledCourses() {
   const navigate = useNavigate();
   const { courseData } = useSelector(state => state.course);
 
-const isEducator = userData?.role === "educator" && !!courseData?.courses;
+const isEducator = userData?.role === "educator";
 
 
+
+const createdCourses =
+  courseData?.courses?.filter(
+    course => course.creator?.toString() === userData?._id?.toString()
+  ) || [];
+
+const enrolledCourses = userData?.enrolledCourses || [];
 
 const coursesToShow = isEducator
-  ? courseData?.courses?.filter(
-      course =>
-        course.creator?.toString() === userData._id?.toString()
-    )
-  : userData?.enrolledCourses;
-
+  ? [...createdCourses, ...enrolledCourses]
+  : enrolledCourses;
 
   
- 
+ const uniqueCourses = Array.from(
+  new Map(coursesToShow.map(course => [course._id, course])).values()
+);
 
 
 
-  
-if (isEducator && !courseData?.courses) {
+if (!userData || (isEducator && !courseData?.courses)) {
   return (
     <div className="min-h-screen flex items-center justify-center text-white/60">
       Loading courses...
     </div>
   );
 }
+
+
 
 
   return (
@@ -79,7 +85,10 @@ if (isEducator && !courseData?.courses) {
 
       {/* CONTENT */}
       <main className="relative max-w-5xl mx-auto px-6 pb-32">
-        {!coursesToShow || coursesToShow.length === 0 ? (
+        {!uniqueCourses || uniqueCourses.length === 0 ? (
+          
+
+
           <div className="text-center text-white/60 py-24">
   {isEducator
     ? "You haven’t created any courses yet."
@@ -95,7 +104,7 @@ if (isEducator && !courseData?.courses) {
 
             <div className="space-y-28">
               
-                {coursesToShow.map((course, index) => {
+                {uniqueCourses.map((course, index) => {
 
                 const left = index % 2 === 0;
 
