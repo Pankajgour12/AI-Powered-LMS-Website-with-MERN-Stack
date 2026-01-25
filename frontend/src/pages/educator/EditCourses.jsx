@@ -245,7 +245,11 @@ return (
         </div>
 
         
-        <div className="pt-4 border-t border-white/10 space-y-3">
+        {/* <div className="pt-4  w-full 
+        py-2 rounded-md
+                border 
+                text-green-400
+                hover:bg-rose-400/10  space-y-3">
           {!isPublished ? (
            
             <button
@@ -287,7 +291,58 @@ return (
           >
             Delete course
           </button>
-        </div>
+        </div> */}
+      <div className="w-full pt-4 space-y-3">
+  {!isPublished ? (
+    <button
+      onClick={() => {
+        if (!price || price <= 0) {
+          toast.error("Add price before publishing");
+          return;
+        }
+        setIsPublished(prev => !prev);
+      }}
+      className="
+        w-full py-2 rounded-md
+        border border-green-400/30
+        text-green-400
+        hover:bg-green-400/10
+        transition
+      "
+    >
+      Publish course
+    </button>
+  ) : (
+    <button
+      onClick={() => setIsPublished(prev => !prev)}
+      className="
+        w-full py-2 rounded-md
+        border border-rose-400/30
+        text-rose-400
+        hover:bg-rose-400/10
+        transition
+      "
+    >
+      Unpublish course
+    </button>
+  )}
+
+  <button
+    onClick={handleRemoveCouse}
+    className="
+      w-full py-2 rounded-md
+      border border-red-500/30
+      text-red-400
+      hover:bg-red-500/10
+      transition
+    "
+  >
+    Delete course
+  </button>
+</div>
+
+
+
       </div>
 
       {/* RIGHT – PANEL */}
