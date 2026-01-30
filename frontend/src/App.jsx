@@ -25,10 +25,10 @@ import getAllReviews from "./customHooks/getAllReviews.js";
 import SearchWithAi from "./pages/SearchWithAi.jsx";
 import { Toaster } from "sonner";
 
-  //  export const serverUrl = "https://ai-powered-lms-website-with-mern-stack.onrender.com";
+ export const serverUrl = "https://ai-powered-lms-website-with-mern-stack.onrender.com";
 
 
- export const serverUrl = "http://localhost:8000";
+//  export const serverUrl = "http://localhost:8000";
 
 
 
