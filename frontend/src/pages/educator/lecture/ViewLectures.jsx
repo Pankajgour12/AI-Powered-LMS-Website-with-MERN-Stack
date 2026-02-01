@@ -11,12 +11,12 @@ import { FaPlayCircle } from 'react-icons/fa'
 function ViewLectures(){
  const {courseId} = useParams()
  const {courseData} = useSelector(state => state.course)
- console.log(courseData);
+
  const {userData} = useSelector(state => state.user)
  const selectedCourse = courseData?.courses?.find(
   (course) => course._id === courseId
 )
-console.log(selectedCourse);
+
  const [creatorData, setCreatorData] = useState(null)
   const [selectedLecture, setSelectedLecture] = useState(selectedCourse?.lectures?.[0] || null)
  
@@ -31,8 +31,8 @@ useEffect(()=>{
 
         if(selectedCourse?.creator){
         try {
-            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true})
-            console.log(result.data);
+            const result = await axios.post(serverUrl + '/api/course/creator',{userId:selectedCourse?.creator}, {withCredentials:true});
+            
            (setCreatorData(result.data))
 
         } catch (error) {

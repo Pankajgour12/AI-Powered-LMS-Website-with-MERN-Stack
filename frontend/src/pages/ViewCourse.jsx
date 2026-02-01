@@ -128,7 +128,7 @@ useEffect(() => {
 const handleEnroll = async(courseId,userId)=>{
     try {
         const orderData = await axios.post(serverUrl + '/api/order/razorpay-order',{userId , courseId},{withCredentials:true})
-        console.log(orderData);
+        
 
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,

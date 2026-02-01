@@ -38,6 +38,12 @@ Query: ${input}
     contents: prompt,
   });
 
-  
-  return response.text;
+  const text =
+  response.text ||
+  response.candidates?.[0]?.content?.parts?.[0]?.text ||
+  "Other";
+
+return text.trim();
+
+ 
 };

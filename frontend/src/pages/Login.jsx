@@ -41,7 +41,7 @@ const Login = () => {
 
          setLoading(false)
          toast.success('Login Successfully ')
-         console.log("DISPATCH USER =>", result.data.user);
+         
 
          navigate("/", { replace: true });
       } catch (error) {

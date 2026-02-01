@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
 
 
+
 import axios from 'axios';
 import { serverUrl } from '../App';
- import start from '../assets/start.mp3'
+import { useRef } from 'react';
+import { useEffect } from 'react';
+//  import start from '../assets/start.mp3'
 
 const SearchWithAi = () => {
-const startsound = new Audio(start)
+// const startsound = new Audio(start)
+const [loading, setLoading] = useState(false);
 
 
   const navigate = useNavigate()
@@ -19,6 +23,7 @@ const startsound = new Audio(start)
   const [recommendations, setRecommendations] = useState([])
   
   const [listening, setListening] = useState(false)
+  const recognitionRef = useRef(null);
 
 
 
@@ -29,87 +34,98 @@ const startsound = new Audio(start)
 
    }
 
+useEffect(() => {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  if (!SpeechRecognition) {
+    toast.error("Speech recognition not supported");
+    return;
+  }
 
-   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-   const recognition = new SpeechRecognition();
-   if(!recognition)toast.error('Speech recognition not supported ')
+  const rec = new SpeechRecognition();
+  rec.lang = navigator.language || "en-US";
 
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  rec.continuous = false;
 
-   
-      
+  rec.onstart = () => setListening(true);
 
-   
-const handleSearch = async () => {
-  if(!recognition) return;
-   setListening(true)
-  // recognition.start();
-  // toast.info('Listening...')
-  
-  startsound.currentTime = 0;
-  startsound.play();
+  rec.onend = () => setListening(false);
 
-  
-  startsound.onended = () => {
-    recognition.start();
+  rec.onerror = () => {
+    setListening(false);
+    toast.error("Mic error");
   };
 
+  rec.onresult = async (e) => {
+    const transcript = e.results[0][0].transcript.trim();
+    if (!transcript) return; 
+    setInput(transcript);
+    await handleRecommendation(transcript);
+  };
+
+  recognitionRef.current = rec;
+}, []);
+
+
 
   
-  recognition.onresult = async (e) => {
-    const transcript = e.results[0][0].transcript.trim();
-    setInput(transcript);
-  await  handleRecommendation(transcript)
-    
 
-    
-    
-  }
+   
 
-
-
-
-}
-
-
-
-
-const handleRecommendation = async (query) =>{
- 
+ const handleSearch = () => {
+  if (!recognitionRef.current) return;
 
   try {
-    const result = await axios.post(serverUrl + '/api/course/search',{input:query},{withCredentials:true})
+    recognitionRef.current.start();
+  } catch (e) {
+    console.log("Mic already running");
+  }
+};
 
-    console.log(result.data.course
-);
-    setRecommendations(result.data.course)
-    setListening(false)
-   if(result.data.course.length >0){
-    speak('These are the top courses I found for you')
-    toast.info('these are the top courses I found for you')
-   }
-   else{
-    speak('No courses Found')
-    toast.error("no courses Found")
-   }
+  
 
 
+   
 
+const handleRecommendation = async (query) => {
+  if (loading) return;
+  setLoading(true);
+
+  try {
+    const result = await axios.post(
+      serverUrl + '/api/course/search',
+      { input: query },
+      { withCredentials: true }
+    );
+ 
     
+    const courses = result?.data?.course || [];
 
+    setRecommendations(courses);
+    setListening(false);
+
+    if (courses.length > 0) {
+      speak('These are the top courses I found for you');
+      toast.info('These are the top courses I found for you');
+    } else {
+      speak('No courses found');
+      toast.error('No courses found');
+    }
 
   } catch (error) {
-    setListening(false)
-
-    console.log(error);
-    toast.error(error.response.data.message)
-
-    
+    setListening(false);
+    toast.error(error?.response?.data?.message || "Server Error");
+  } finally {
+    setLoading(false);
   }
+};
 
 
 
-}
+
 
         
 
@@ -167,7 +183,7 @@ const handleRecommendation = async (query) =>{
           </div>
 
 
-          {recommendations.length > 0 ? (
+         {(recommendations?.length || 0) > 0 ? (
   <div className="w-full max-w-7xl mt-16 px-3 sm:px-6">
     
    
@@ -238,3 +254,4 @@ const handleRecommendation = async (query) =>{
 }
 
 export default SearchWithAi
+

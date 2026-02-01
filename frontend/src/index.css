@@ -120,15 +120,57 @@
 
           .trust-marquee {
             width: max-content;
-            animation: trustMarquee 60s linear infinite;
+            animation: trustMarquee 5s linear infinite;
           }
 
           .trust-marquee:hover {
             animation-play-state: paused;
-          }
+          } 
         
 
+        
           
+
+
+/* .marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.trust-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  animation: trustMarquee 35s linear infinite;
+}
+
+.trust-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes trustMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       /* SOCIAL COLORS */
       
           .social {

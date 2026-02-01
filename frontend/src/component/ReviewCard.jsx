@@ -4,7 +4,7 @@ import { FaRegStar,FaStar } from "react-icons/fa";
 function ReviewCard({comment,rating,avgRating,totalReviews,photoUrl,
   name,description,courseTitle,}) {
   return (
-    <div className="w-[380px] shrink-0 rounded-2xl
+    <div className="w-[380px] shrink-0 rounded-2xl  flex-none 
       bg-white/5 border border-white/10 backdrop-blur-xl
       p-6 transition hover:border-emerald-400/40">
 
@@ -17,6 +17,8 @@ function ReviewCard({comment,rating,avgRating,totalReviews,photoUrl,
         <div className="flex items-center gap-1 text-xs">
           <span className="text-white font-semibold">
             {avgRating.toFixed(1)}
+            {/* {Number(avgRating || 0).toFixed(1)} */}
+
           </span>
           <span className="text-amber-400">★</span>
           <span className="text-white/40">

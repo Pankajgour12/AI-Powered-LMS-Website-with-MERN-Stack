@@ -110,9 +110,9 @@ const EditCourses = () => {
 
     try {
         const result = await axios.post(serverUrl + `/api/course/editcourse/${courseId}`,formData, {withCredentials:true})
-        console.log(result.data);
+      
         const updatedData = result.data.course;
-        console.log(updatedData);
+        
         const existing = creatorCourseData?.courses ?? []
         if(updatedData.isPublished){
           const updatedCourse = existing.map(c => c._id === courseId ? updatedData : c)

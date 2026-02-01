@@ -31,7 +31,7 @@ const CreateLecture = () => {
    setLoading(true)
    try {
        const result = await axios.post(serverUrl + `/api/course/createlecture/${courseId}`,{lectureTitle},{withCredentials:true})
-        console.log(result.data);
+       
 
        
 

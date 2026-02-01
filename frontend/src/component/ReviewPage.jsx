@@ -42,7 +42,9 @@ function ReviewPage() {
         <div className="pointer-events-none absolute inset-0 z-10
           bg-[linear-gradient(to_right,rgba(0,0,0,1),rgba(0,0,0,0)_15%,rgba(0,0,0,0)_85%,rgba(0,0,0,1))]" />
 
-        <div className="flex gap-10 max-w-9xl trust-marquee">
+        <div className="flex gap-10  trust-marquee">
+      
+
           {[...reviewData, ...reviewData].map((review, index) => {
             const stats = courseStats[review.course?.title];
             const avg = stats ? stats.total / stats.count : review.rating;
@@ -59,9 +61,12 @@ function ReviewPage() {
                 description={review.user?.description}
                 name={review.user?.name}
               />
+              
             );
           })}
         </div>
+      
+
       </div>
 
      
